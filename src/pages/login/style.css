@@ -1,0 +1,23 @@
+.box_main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box{
+    width: 475px;
+    background-color: aquamarine;
+}
+.logo_holder img{
+    margin: 0 auto;
+    display: block;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+}
+.login_title{
+    text-align: center;
+}
