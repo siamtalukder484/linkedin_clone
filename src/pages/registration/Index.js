@@ -8,13 +8,102 @@ import Title from '../../components/Title'
 import Button from '../../components/Button'
 import Authentication from '../../components/Authentication'
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import Alert from '@mui/material/Alert';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification  } from "firebase/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import { Puff } from  'react-loader-spinner'
+import { useNavigate } from 'react-router-dom'
 import "../login/style.css"
 
 const Index = () => {
-  let [showPass, setShowPass] = useState(false);
-  let [showCPass, setShowCPass] = useState(false);
+
+    <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+    />
+
+    const auth = getAuth();
+    let navigate = useNavigate()
+    let [showPass, setShowPass] = useState(false);
+    let [showCPass, setShowCPass] = useState(false);
+    let [loader, setLoader] = useState(false);
+
+    let [FormData, setFormData] = useState({
+        email: "",
+        full_name: "",
+        password: "",
+        c_password: "",
+    })
+    let [error, setError] = useState({
+        email: "",
+        full_name: "",
+        password: "",
+        c_password: "",
+    })
+    let handleForm = (e) => {
+       let {name, value} = e.target
+       setFormData({...FormData, [name]:value})
+       setError({})
+    }
+    let handleSubmitClick = () => {
+        setLoader(true)
+        let expression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if(!FormData.email){
+            setError({...error, email: "Email ditea hobea"})
+            setLoader(false)
+        }
+        else if(!expression.test(FormData.email)){
+            setError({...error, email: "valid Email ditea hobea"})
+            setLoader(false)
+        }
+        else if(!FormData.full_name){
+            setError({...error, full_name: "Fullname ditea hobea"})
+            setLoader(false)
+        }
+        else if(!FormData.password){
+            setError({...error, password: "Password ditea hobea"})
+            setLoader(false)
+        }
+        else if(!FormData.c_password){
+            setError({...error, c_password: "Confirm Password ditea hobea"})
+            setLoader(false)
+        }
+        else if(FormData.password != FormData.c_password){
+            setError({...error, c_password: "Don't matched"})
+            setLoader(false)
+        }
+        else{
+            createUserWithEmailAndPassword(auth, FormData.email, FormData.password).then((user)=>{
+                sendEmailVerification(auth.currentUser).then(() => {
+                    setLoader(false)
+                    toast("Registration Successfully and send a vefication mail");
+                    setTimeout(()=>{
+                        navigate("/")
+                    },2000)
+                });
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                if(errorCode.includes("auth/email-already-in-use")){
+                    setError({...error, email: "Email already existed"})
+                    setLoader(false)
+                };
+                
+              });
+        }
+    }
+
   return (
     <Flex className="box_main">
+        <ToastContainer />
             <Box className='box'>
                 <Box className='logo_holder'>
                     <Images src="./assets/images/logo.png"/>
@@ -23,34 +112,68 @@ const Index = () => {
                     <Title className="auth_title" title="Registration"/>
                     <Peragraph className="auth_subtitle" title="First register and you can enjoy it"/>
                 </Box>
-                <form className='form' action='' method=''>
+                <Flex className='form'>
                     <Box className="input_group">
-                        <Input className="login_input" type="email" placeholder="Email Address"/>
+                        <Input name="email" onChange={handleForm} className="login_input" type="email" placeholder="Email Address"/>
+                        {error.email &&
+                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                                {error.email}
+                            </Alert>
+                        }
                     </Box>
                     <Box className="input_group">
-                        <Input className="login_input" type="text" placeholder="Full Name"/>
+                        <Input name="full_name" onChange={handleForm} className="login_input" type="text" placeholder="Full Name"/>
+                        {error.full_name &&
+                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                                {error.full_name}
+                            </Alert>
+                        }
                     </Box>
                     <Box className="input_group">
-                        <Input className="login_input" type={showPass ? "text" : "password"} placeholder="Password"/>
+                        <Input name="password"  onChange={handleForm} className="login_input" type={showPass ? "text" : "password"} placeholder="Password"/>
                         {showPass 
                         ?
                         <AiFillEye onClick={()=>setShowPass(false)} className='openeye'/>
                         :
                         <AiFillEyeInvisible onClick={()=>setShowPass(true)} className='openeye'/>
                         }
+                        {error.password &&
+                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                                {error.password}
+                            </Alert>
+                        }
                     </Box>
                     <Box className="input_group">
-                        <Input className="login_input" type={showCPass ? "text" : "password"} placeholder="Confirm Password"/>
+                        <Input name="c_password"  onChange={handleForm} className="login_input" type={showCPass ? "text" : "password"} placeholder="Confirm Password"/>
                         {showCPass 
                         ?
                         <AiFillEye onClick={()=>setShowCPass(false)} className='openeye'/>
                         :
                         <AiFillEyeInvisible onClick={()=>setShowCPass(true)} className='openeye'/>
                         }
+                        {error.c_password &&
+                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                                {error.c_password}
+                            </Alert>
+                        }
                     </Box>
-                    <Button className="login_btn" title="sign up"/>
-                </form>
+                    <Button onClick={handleSubmitClick} className="login_btn" title="sign up"/>
+                </Flex>
                 <Authentication className='reg_auth' title='Already have an account?' href='/' hreftitle='sign in'/>
+{loader &&
+<div className='reg_loader'>
+<Puff
+  height="100"
+  width="100"
+  radius={1}
+  color="#fff"
+  ariaLabel="puff-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={true}
+/>
+</div>
+}
             </Box>
         </Flex>
   )
