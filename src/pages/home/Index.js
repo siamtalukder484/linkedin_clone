@@ -13,18 +13,10 @@ const Index = () => {
 
   useEffect(()=>{
     if(!data.userData.userInfo){
-      console.log("ki ki")
       navigate("/")
     }
   },[])
 
-    onAuthStateChanged (auth,(user)=>{
-      if(user){
-        console.log(user);
-      }else{
-        navigate("/")
-      }
-    })
   let handleLogout = () => {
     signOut(auth).then(() => {
       localStorage.removeItem("userInfo")

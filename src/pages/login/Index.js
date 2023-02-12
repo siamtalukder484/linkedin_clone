@@ -13,7 +13,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -61,56 +61,83 @@ theme="dark"
     let [FormData, setFormData] = useState({
       email: "",
       password: "",
+      forgotpass: "",
   })
   let [error, setError] = useState({
       email: "",
       password: "",
+      forgotpass: "",
   })
   let handleForm = (e) => {
      let {name, value} = e.target
      setFormData({...FormData, [name]:value})
      setError({})
   }
-    let handleSubmitClick = () => {
-      setLoader(true)
-        let expression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        if(!FormData.email){
-            setError({...error, email: "Email ditea hobea"})
-            setLoader(false)
-        }
-        else if(!expression.test(FormData.email)){
-            setError({...error, email: "valid Email ditea hobea"})
-            setLoader(false)
-        }
-        else if(!FormData.password){
-          setError({...error, password: "Password ditea hobea"})
+  let handleSubmitClick = () => {
+    setLoader(true)
+      let expression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if(!FormData.email){
+          setError({...error, email: "Email ditea hobea"})
           setLoader(false)
-        }
-        else{
-          signInWithEmailAndPassword(auth, FormData.email, FormData.password)
-          .then((userCredential) => {
-              dispatch(activeUser(userCredential.user))
-              localStorage.setItem("userInfo",JSON.stringify(userCredential.user))
-              if(userCredential.user.emailVerified){
-                setTimeout(()=>{
-                  setLoader(false)
-                  navigate("/home")
-                },1000)
-              }else{
+      }
+      else if(!expression.test(FormData.email)){
+          setError({...error, email: "valid Email ditea hobea"})
+          setLoader(false)
+      }
+      else if(!FormData.password){
+        setError({...error, password: "Password ditea hobea"})
+        setLoader(false)
+      }
+      else{
+        signInWithEmailAndPassword(auth, FormData.email, FormData.password)
+        .then((userCredential) => {
+            dispatch(activeUser(userCredential.user))
+            localStorage.setItem("userInfo",JSON.stringify(userCredential.user))
+            if(userCredential.user.emailVerified){
+              setTimeout(()=>{
                 setLoader(false)
-                toast("Please verify your email first.");
-              }
-            })
-            .catch((error) => {
-            setLoader(false)
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            toast("Incorrect email or password");
-          });
-        }
-    }
-   
-    
+                navigate("/home")
+              },1000)
+            }else{
+              setLoader(false)
+              toast("Please verify your email first.");
+              signOut(auth).then(() => {
+                localStorage.removeItem("userInfo")
+                dispatch(activeUser(null))
+              })
+            }
+          })
+          .catch((error) => {
+          setLoader(false)
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          toast("Incorrect email or password");
+        });
+      }
+  }
+
+  let handleForgotpassword = () => {
+    let expression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if(!FormData.forgotpass){
+          setError({...error, forgotpass: "Email ditea hobea"})
+      }
+      else if(!expression.test(FormData.forgotpass)){
+          setError({...error, forgotpass: "valid Email ditea hobea"})
+      }
+      else{
+        sendPasswordResetEmail(auth,FormData.forgotpass)
+        .then(() => {
+          toast("Email send successfully");
+          setOpen(false)
+        }).catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          toast("Crediantial Not Found");
+          setOpen(false)
+        });
+      }
+  } 
+
   return (
     <>
         <Flex className="box_main">
@@ -178,8 +205,13 @@ theme="dark"
                           </Flex>
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          <Input className="login_input" type="email" placeholder="Email Address"/>
-                          <Button className="login_btn forgot_btn" title="Send Mail"/>
+                          <Input onChange={handleForm} name="forgotpass" className="login_input" type="email" placeholder="Email Address"/>
+                            {error.forgotpass &&
+                              <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                                  {error.forgotpass}
+                              </Alert>
+                            }
+                          <Button onClick={handleForgotpassword} className="login_btn forgot_btn" title="Send Mail"/>
                         </Typography>
                       </Box>
                     </Modal>
