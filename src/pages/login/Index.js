@@ -1,25 +1,39 @@
 import React, { useState } from 'react'
-// import Box from '../../components/Box'
 import Flex from '../../components/Flex'
 import Images from '../../components/Images'
 import Input from '../../components/Input'
 import Peragraph from '../../components/Peragraph'
 import Title from '../../components/Title'
 import Button from '../../components/Button'
+import Authentication from '../../components/Authentication'
+import { activeUser } from '../../slices/userSlices';
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
 import {RxCross2} from "react-icons/rx"
-import Authentication from '../../components/Authentication'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { Puff } from  'react-loader-spinner';
 import "./style.css"
 
 
 const Index = () => {
+  <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
   const style = {
     position: 'absolute',
     top: '50%',
@@ -34,10 +48,12 @@ const Index = () => {
 
     const auth = getAuth();
     let navigate = useNavigate()
+    let dispatch = useDispatch();
     let [showPass, setPass] = useState(false);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    let [loader, setLoader] = useState(false);
 
     let handleforgotexitbtn = () => {
       setOpen(false)
@@ -56,26 +72,40 @@ const Index = () => {
      setError({})
   }
     let handleSubmitClick = () => {
+      setLoader(true)
         let expression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if(!FormData.email){
             setError({...error, email: "Email ditea hobea"})
+            setLoader(false)
         }
         else if(!expression.test(FormData.email)){
             setError({...error, email: "valid Email ditea hobea"})
+            setLoader(false)
         }
         else if(!FormData.password){
           setError({...error, password: "Password ditea hobea"})
+          setLoader(false)
         }
         else{
-          signInWithEmailAndPassword(auth, FormData.email, FormData.password).then((userCredential) => {
-            navigate("/home")
-          })
-          .catch((error) => {
+          signInWithEmailAndPassword(auth, FormData.email, FormData.password)
+          .then((userCredential) => {
+              dispatch(activeUser(userCredential.user))
+              localStorage.setItem("userInfo",JSON.stringify(userCredential.user))
+              if(userCredential.user.emailVerified){
+                setTimeout(()=>{
+                  setLoader(false)
+                  navigate("/home")
+                },1000)
+              }else{
+                setLoader(false)
+                toast("Please verify your email first.");
+              }
+            })
+            .catch((error) => {
+            setLoader(false)
             const errorCode = error.code;
             const errorMessage = error.message;
-            if(errorCode.includes("auth/wrong-password")){
-              toast("Incorrect email or password");
-            }
+            toast("Incorrect email or password");
           });
         }
     }
@@ -84,6 +114,20 @@ const Index = () => {
   return (
     <>
         <Flex className="box_main">
+          {loader &&
+            <div className='reg_loader'>
+                <Puff
+                height="100"
+                width="100"
+                radius={1}
+                color="#fff"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
+            </div>
+          }
           <ToastContainer />
             <Flex className='box'>
                 <Flex className='logo_holder'>

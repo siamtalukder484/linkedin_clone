@@ -104,78 +104,78 @@ const Index = () => {
   return (
     <Flex className="box_main">
         <ToastContainer />
-            <Box className='box'>
-                <Box className='logo_holder'>
-                    <Images src="./assets/images/logo.png"/>
-                </Box>
-                <Box className='login_title'>
-                    <Title className="auth_title" title="Registration"/>
-                    <Peragraph className="auth_subtitle" title="First register and you can enjoy it"/>
-                </Box>
-                <Flex className='form'>
-                    <Box className="input_group">
-                        <Input name="email" onChange={handleForm} className="login_input" type="email" placeholder="Email Address"/>
-                        {error.email &&
-                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
-                                {error.email}
-                            </Alert>
-                        }
-                    </Box>
-                    <Box className="input_group">
-                        <Input name="full_name" onChange={handleForm} className="login_input" type="text" placeholder="Full Name"/>
-                        {error.full_name &&
-                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
-                                {error.full_name}
-                            </Alert>
-                        }
-                    </Box>
-                    <Box className="input_group">
-                        <Input name="password"  onChange={handleForm} className="login_input" type={showPass ? "text" : "password"} placeholder="Password"/>
-                        {showPass 
-                        ?
-                        <AiFillEye onClick={()=>setShowPass(false)} className='openeye'/>
-                        :
-                        <AiFillEyeInvisible onClick={()=>setShowPass(true)} className='openeye'/>
-                        }
-                        {error.password &&
-                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
-                                {error.password}
-                            </Alert>
-                        }
-                    </Box>
-                    <Box className="input_group">
-                        <Input name="c_password"  onChange={handleForm} className="login_input" type={showCPass ? "text" : "password"} placeholder="Confirm Password"/>
-                        {showCPass 
-                        ?
-                        <AiFillEye onClick={()=>setShowCPass(false)} className='openeye'/>
-                        :
-                        <AiFillEyeInvisible onClick={()=>setShowCPass(true)} className='openeye'/>
-                        }
-                        {error.c_password &&
-                            <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
-                                {error.c_password}
-                            </Alert>
-                        }
-                    </Box>
-                    <Button onClick={handleSubmitClick} className="login_btn" title="sign up"/>
-                </Flex>
-                <Authentication className='reg_auth' title='Already have an account?' href='/' hreftitle='sign in'/>
-{loader &&
-<div className='reg_loader'>
-<Puff
-  height="100"
-  width="100"
-  radius={1}
-  color="#fff"
-  ariaLabel="puff-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-/>
-</div>
-}
+        <Box className='box'>
+            <Box className='logo_holder'>
+                <Images src="./assets/images/logo.png"/>
             </Box>
-        </Flex>
+            <Box className='login_title'>
+                <Title className="auth_title" title="Registration"/>
+                <Peragraph className="auth_subtitle" title="First register and you can enjoy it"/>
+            </Box>
+            <Flex className='form'>
+                <Box className="input_group">
+                    <Input name="email" onChange={handleForm} className="login_input" type="email" placeholder="Email Address"/>
+                    {error.email &&
+                        <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                            {error.email}
+                        </Alert>
+                    }
+                </Box>
+                <Box className="input_group">
+                    <Input name="full_name" onChange={handleForm} className="login_input" type="text" placeholder="Full Name"/>
+                    {error.full_name &&
+                        <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                            {error.full_name}
+                        </Alert>
+                    }
+                </Box>
+                <Box className="input_group">
+                    <Input name="password"  onChange={handleForm} className="login_input" type={showPass ? "text" : "password"} placeholder="Password"/>
+                    {showPass 
+                    ?
+                    <AiFillEye onClick={()=>setShowPass(false)} className='openeye'/>
+                    :
+                    <AiFillEyeInvisible onClick={()=>setShowPass(true)} className='openeye'/>
+                    }
+                    {error.password &&
+                        <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                            {error.password}
+                        </Alert>
+                    }
+                </Box>
+                <Box className="input_group">
+                    <Input name="c_password"  onChange={handleForm} className="login_input" type={showCPass ? "text" : "password"} placeholder="Confirm Password"/>
+                    {showCPass 
+                    ?
+                    <AiFillEye onClick={()=>setShowCPass(false)} className='openeye'/>
+                    :
+                    <AiFillEyeInvisible onClick={()=>setShowCPass(true)} className='openeye'/>
+                    }
+                    {error.c_password &&
+                        <Alert style={{padding:"0 16px", marginTop:"10px"}} variant="filled" severity="error">
+                            {error.c_password}
+                        </Alert>
+                    }
+                </Box>
+                <Button onClick={handleSubmitClick} className="login_btn" title="sign up"/>
+            </Flex>
+            <Authentication className='reg_auth' title='Already have an account?' href='/' hreftitle='sign in'/>
+            {loader &&
+            <div className='reg_loader'>
+                <Puff
+                height="100"
+                width="100"
+                radius={1}
+                color="#fff"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
+            </div>
+            }
+        </Box>
+    </Flex>
   )
 }
 
