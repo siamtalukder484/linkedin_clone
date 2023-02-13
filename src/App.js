@@ -4,13 +4,23 @@ import Registration from './pages/registration/Index';
 import firebaseConfig from "./configuration/firebaseConfig"
 import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/home/Index"
+import RootLayout from "./pages/layouts/RootLayout";
+import Video from "./pages/video/Index";
+import Shop from "./pages/shop/Index";
+import Group from "./pages/group/Index";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route>
       <Route path="/" element={<Login/>}></Route>
       <Route path="/registration" element={<Registration/>}></Route>
-      <Route path="/home" element={<Home/>}></Route>
+      <Route element={<RootLayout/>}>
+          <Route path="home" element={<Home/>}></Route>
+          <Route path="video" element={<Video/>}></Route>
+          <Route path="shop" element={<Shop/>}></Route>
+          <Route path="group" element={<Group/>}></Route>
+      </Route>
+      {/* <Route path="/m" element={<RootLayout/>}></Route> */}
     </Route>
 ))
 

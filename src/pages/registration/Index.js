@@ -9,10 +9,11 @@ import Button from '../../components/Button'
 import Authentication from '../../components/Authentication'
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
 import Alert from '@mui/material/Alert';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { Puff } from  'react-loader-spinner'
 import { useNavigate } from 'react-router-dom'
+import { getDatabase, set, ref, push } from "firebase/database";
 import "../login/style.css"
 
 const Index = () => {
@@ -30,6 +31,7 @@ const Index = () => {
         theme="dark"
     />
 
+    const database = getDatabase();
     const auth = getAuth();
     let navigate = useNavigate()
     let [showPass, setShowPass] = useState(false);
@@ -83,11 +85,27 @@ const Index = () => {
         else{
             createUserWithEmailAndPassword(auth, FormData.email, FormData.password).then((user)=>{
                 sendEmailVerification(auth.currentUser).then(() => {
-                    setLoader(false)
-                    toast("Registration Successfully and send a vefication mail");
-                    setTimeout(()=>{
-                        navigate("/")
-                    },2000)
+                    updateProfile(auth.currentUser, {
+                        displayName: FormData.full_name,
+                    }).then(() => {
+                        set(ref(database, 'users/' + user.user.uid), {
+                          displayName: user.user.displayName,
+                          email: user.user.email,
+                        }).then(()=>{
+                            toast("Registration Successfully");
+                            setTimeout(()=>{
+                                setLoader(false)
+                                navigate("/")
+                            },2000)
+                        })
+                      }).catch((error) => {
+                        console.log(error)
+                      });
+                    // toast("Registration Successfully and send a vefication mail");
+                    // setTimeout(()=>{
+                    //     setLoader(false)
+                    //     navigate("/")
+                    // },3000)
                 });
             }).catch((error) => {
                 const errorCode = error.code;
