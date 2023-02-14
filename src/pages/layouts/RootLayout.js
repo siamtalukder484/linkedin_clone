@@ -10,9 +10,14 @@ import {GrGamepad} from "react-icons/gr"
 import {CgMenuGridR} from "react-icons/cg"
 import {BsMessenger} from "react-icons/bs"
 import {IoIosNotifications} from "react-icons/io"
+import { useNavigate } from 'react-router-dom'
 import "./layout.css"
 
 const RootLayout = () => {
+    let navigate = useNavigate();
+    let handleProfileClick = () =>{
+        navigate("profile")
+    }
   return (
     <>
         <Flex className="layout_main">
@@ -45,7 +50,7 @@ const RootLayout = () => {
                 <Flex className="nav_action_item">
                     <IoIosNotifications/>
                 </Flex>
-                <Flex className="nav_action_item">
+                <Flex onClick={handleProfileClick} className="nav_action_item">
                     <Images src="./assets/images/profile_avatar.png"/>
                 </Flex>
             </Flex>

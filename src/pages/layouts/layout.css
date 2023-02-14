@@ -60,6 +60,7 @@
     overflow: hidden;
     color: #fff;
     font-size: 25px;
+    cursor: pointer;
 }
 .nav_action_item img{
     object-fit: cover;

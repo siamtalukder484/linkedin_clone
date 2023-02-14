@@ -8,6 +8,7 @@ import RootLayout from "./pages/layouts/RootLayout";
 import Video from "./pages/video/Index";
 import Shop from "./pages/shop/Index";
 import Group from "./pages/group/Index";
+import Profile from "./pages/profile/Index";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route path="video" element={<Video/>}></Route>
           <Route path="shop" element={<Shop/>}></Route>
           <Route path="group" element={<Group/>}></Route>
+          <Route path="profile" element={<Profile/>}></Route>
       </Route>
       {/* <Route path="/m" element={<RootLayout/>}></Route> */}
     </Route>
