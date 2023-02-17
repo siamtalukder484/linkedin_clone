@@ -12,11 +12,11 @@ const Index = () => {
   let navigate = useNavigate()
   const auth = getAuth();
 
-  useEffect(()=>{
-    if(!data.userData.userInfo){
-      navigate("/")
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(!data.userData.userInfo){
+  //     navigate("/")
+  //   }
+  // },[])
 
   let handleLogout = () => {
     signOut(auth).then(() => {

@@ -22,7 +22,7 @@ const Profile = () => {
                     </Flex>
                 </Flex>
                 <Flex className="profile_owner_name">
-                    <h2>{data.userData.userInfo.displayName}</h2>
+                    <h2>{data.userData.userInfo?data.userData.userInfo.displayName:""}</h2>
                     <h4>100 Friends</h4>
                 </Flex>
             </Flex>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import Flex from '../../components/Flex'
 import Images from '../../components/Images'
@@ -10,11 +10,19 @@ import {GrGamepad} from "react-icons/gr"
 import {CgMenuGridR} from "react-icons/cg"
 import {BsMessenger} from "react-icons/bs"
 import {IoIosNotifications} from "react-icons/io"
+import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import "./layout.css"
 
 const RootLayout = () => {
     let navigate = useNavigate();
+    let data= useSelector(state => state)
+
+    useEffect(()=>{
+        if(!data.userData.userInfo){
+          navigate("/")
+        }
+      },[])
     let handleProfileClick = () =>{
         navigate("profile")
     }
