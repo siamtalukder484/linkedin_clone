@@ -6,6 +6,10 @@ import { activeUser } from '../../slices/userSlices';
 import "./layout.css"
 import Flex from '../../components/Flex'
 import { Outlet } from 'react-router-dom'
+import Images from '../../components/Images';
+import {MdSettingsSuggest} from 'react-icons/md'
+import {FaUserPlus} from 'react-icons/fa'
+import {HiUsers} from 'react-icons/hi'
 
 const HomeLayout = () => {
   let data= useSelector(state => state)
@@ -29,9 +33,49 @@ const HomeLayout = () => {
         <Flex className="homelayout_main">
             <Flex className="left_sidebar_holder">
                 <Flex className="left_sidebar">
-                  <Flex className="let_sidebar_nav">
+                  <Flex className="left_sidebar_nav">
+                      <NavLink to="profile">
+                        <div className='left_sidebar_nav_wrapper'>
+                          <div className='left_sidebar_navimg'>
+                            {data.userData.userInfo
+                            ?
+                              data.userData.userInfo.photoURL
+                              ?
+                              <Images src={data.userData.userInfo.photoURL}/>
+                              :
+                              <Images src="assets/images/profile_avatar.png"/>    
+                            :
+                            <Images src="assets/images/profile_avatar.png"/>
+                            }
+                          </div>
+                          <h4>
+                            {
+                              data.userData.userInfo
+                              ?
+                              data.userData.userInfo.displayName
+                              :
+                              ""
+                            }
+                          </h4>
+                        </div>
+                      </NavLink>
                       <NavLink to="suggestuser">
-                        Suggestions User
+                        <div className='left_sidebar_nav_wrapper'>
+                            <MdSettingsSuggest/>
+                            <span>Suggestions User</span>
+                        </div>
+                      </NavLink>
+                      <NavLink to="friendrequest">
+                        <div className='left_sidebar_nav_wrapper'>
+                            <FaUserPlus/>
+                            <span>Friends Request</span>
+                        </div>
+                      </NavLink>
+                      <NavLink to="friends">
+                        <div className='left_sidebar_nav_wrapper'>
+                            <HiUsers/>
+                            <span>Friends</span>
+                        </div>
                       </NavLink>
                   </Flex>
                   <Flex className="logout_btn">

@@ -11,6 +11,8 @@ import Group from "./pages/group/Index";
 import Profile from "./pages/profile/Index";
 import HomeLayout from "./pages/layouts/HomeLayout";
 import SuggestUser from "./pages/user/SuggestUser";
+import FriendRequest from "./pages/user/FriendRequest";
+import Friends from "./pages/user/Friends";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -24,6 +26,8 @@ const router = createBrowserRouter(createRoutesFromElements(
               <Route path="shop" element={<Shop/>}></Route>
               <Route path="group" element={<Group/>}></Route>
               <Route path="suggestuser" element={<SuggestUser/>}></Route>
+              <Route path="friendrequest" element={<FriendRequest/>}></Route>
+              <Route path="friends" element={<Friends/>}></Route>
           </Route>
               <Route path="profile" element={<Profile/>}></Route>
       </Route>

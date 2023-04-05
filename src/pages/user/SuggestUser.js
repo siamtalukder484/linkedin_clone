@@ -5,9 +5,12 @@ import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 import Images from '../../components/Images';
 
 const SuggestUser = () => {
-    let data= useSelector(state => state)
+    let data = useSelector(state => state)
     let [userlist,setUserlist] = useState([])
     let db = getDatabase()
+
+    let [load,setLoad] = useState(false)
+    let [frequest,setfreqest] = useState([])
 
 
     useEffect(()=>{
@@ -26,21 +29,61 @@ const SuggestUser = () => {
         });
     },[])
 
+    let handleFriendRequest = (info) =>{
+        set(ref(db, 'friendrequest/'+info.id), {
+            sendername: data.userData.userInfo.displayName,
+            senderid: data.userData.userInfo.uid,
+            receivername: info.displayName,
+            receiverid: info.id,
+          }).then(()=>{
+            setLoad(!load)
+          })
+    }
+    useEffect(()=>{
+        const usersRef = ref(db, 'friendrequest');
+        onValue(usersRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                if(item.val().senderid == data.userData.userInfo.uid){
+                    arr.push(item.val().receiverid + item.val().senderid)
+                }
+            })
+            setfreqest(arr)
+        });
+    },[])
+    let handleCancelRequest = (cancel_info) =>{
+        remove(ref(db, 'friendrequest/'+ cancel_info.id)).then(()=>{
+            console.log("happy")
+        });
+        
+    }
+
   return (
     <>
         <div className='suggestuser_wrapper'>
-            <div className='suggest_user'>
-                <div className='img_holder'>
-                    <Images/>
-                </div>
-            </div>
+            {
+                userlist.map(item=>(
+                    <div className='suggest_user_item'>
+                        <div className='suggest_user'>
+                            <div className='img_holder'>
+                                <Images/>
+                            </div>
+                            <div className='suggest_user_info'>
+                                <h2>{item.displayName}</h2>
+                                <p>{item.email}</p>
+                            </div>
+                        </div>
+                        {
+                            frequest.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
+                            ?
+                            <button onClick={()=> handleCancelRequest(item)} className='add_btn'>Cancel</button>
+                            :
+                            <button onClick={()=> handleFriendRequest(item)} className='add_btn'>Add</button>
+                        }
+                    </div>
+                ))
+            }
         </div>
-        {/* {
-        userlist.map(item=>(
-            <div>{item.displayName}</div>
-        ))
-
-        } */}
     </>
   )
 }
