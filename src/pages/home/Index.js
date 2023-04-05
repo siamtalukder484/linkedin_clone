@@ -12,23 +12,13 @@ const Index = () => {
   let navigate = useNavigate()
   const auth = getAuth();
 
-  // useEffect(()=>{
-  //   if(!data.userData.userInfo){
-  //     navigate("/")
-  //   }
-  // },[])
-
-  let handleLogout = () => {
-    signOut(auth).then(() => {
-      localStorage.removeItem("userInfo")
-      dispatch(activeUser(null))
+  useEffect(()=>{
+    if(!data.userData.userInfo){
       navigate("/")
-    }).catch((error) => {
-      // An error happened.
-    });
-    
-  }
-  console.log(data.userData.userInfo)
+    }
+  },[])
+
+
   return (
     <>
       {data.userData.userInfo &&
@@ -42,7 +32,7 @@ const Index = () => {
         </>
       
       }
-      <button onClick={handleLogout}>Logout</button>
+      
       
     </>
   )

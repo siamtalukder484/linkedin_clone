@@ -13,10 +13,13 @@ import {IoIosNotifications} from "react-icons/io"
 import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import "./layout.css"
+import Input from '../../components/Input'
 
 const RootLayout = () => {
     let navigate = useNavigate();
     let data= useSelector(state => state)
+    let [topstate, setTopState] = useState(false)
+    // console.log(top)
 
     useEffect(()=>{
         if(!data.userData.userInfo){
@@ -26,13 +29,26 @@ const RootLayout = () => {
     let handleProfileClick = () =>{
         navigate("profile")
     }
+    useEffect(()=>{
+        window.addEventListener("scroll",function(){
+            const istop = window.scrollY < 200
+            if(istop != true){
+                setTopState(true)
+            }else{
+                setTopState(false)
+            }
+        })
+    })
   return (
     <>
-        <Flex className="layout_main">
+        <Flex className={topstate ? "layout_main fixed":"layout_main"}>
             <Flex className="nav_logo">
                 <Link to="home">
                     <Images src="./assets/images/logo.png"/>
                 </Link>
+                <Flex className="root_search_holder">
+                    <Input type="text" placeholder="Search Here..." className="root_search"/>
+                </Flex>
             </Flex>
             <Flex className="nav_menu">
                 <NavLink to="home">
@@ -59,7 +75,16 @@ const RootLayout = () => {
                     <IoIosNotifications/>
                 </Flex>
                 <Flex onClick={handleProfileClick} className="nav_action_item">
-                    <Images src="./assets/images/profile_avatar.png"/>
+                {data.userData.userInfo
+                    ?
+                        data.userData.userInfo.photoURL
+                        ?
+                        <Images src={data.userData.userInfo.photoURL}/>
+                        :
+                        <Images src="assets/images/profile_avatar.png"/>    
+                    :
+                    <Images src="assets/images/profile_avatar.png"/>
+                    }
                 </Flex>
             </Flex>
         </Flex>

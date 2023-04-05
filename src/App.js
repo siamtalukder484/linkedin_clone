@@ -9,6 +9,8 @@ import Video from "./pages/video/Index";
 import Shop from "./pages/shop/Index";
 import Group from "./pages/group/Index";
 import Profile from "./pages/profile/Index";
+import HomeLayout from "./pages/layouts/HomeLayout";
+import SuggestUser from "./pages/user/SuggestUser";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -16,13 +18,15 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="/" element={<Login/>}></Route>
       <Route path="/registration" element={<Registration/>}></Route>
       <Route element={<RootLayout/>}>
-          <Route path="home" element={<Home/>}></Route>
-          <Route path="video" element={<Video/>}></Route>
-          <Route path="shop" element={<Shop/>}></Route>
-          <Route path="group" element={<Group/>}></Route>
-          <Route path="profile" element={<Profile/>}></Route>
+          <Route element={<HomeLayout/>}>
+              <Route path="home" element={<Home/>}></Route>
+              <Route path="video" element={<Video/>}></Route>
+              <Route path="shop" element={<Shop/>}></Route>
+              <Route path="group" element={<Group/>}></Route>
+              <Route path="suggestuser" element={<SuggestUser/>}></Route>
+          </Route>
+              <Route path="profile" element={<Profile/>}></Route>
       </Route>
-      {/* <Route path="/m" element={<RootLayout/>}></Route> */}
     </Route>
 ))
 
