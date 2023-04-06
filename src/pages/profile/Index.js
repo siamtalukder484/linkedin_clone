@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useEffect,useState } from 'react'
 import Flex from '../../components/Flex'
 import Images from '../../components/Images'
 import {BsFillCameraFill} from "react-icons/bs"
@@ -7,6 +7,7 @@ import "./style.css"
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
+import { getDatabase,ref as dbref, onValue,remove,set, push} from "firebase/database";
 import { getAuth, updateProfile } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { activeUser } from '../../slices/userSlices';
@@ -20,6 +21,22 @@ const Profile = () => {
     const auth = getAuth();
     let dispatch = useDispatch()
     let data= useSelector(state => state)
+    let [friends, setfriends] = useState([])
+    const db = getDatabase();
+
+    useEffect(()=>{
+      const starCountRef = dbref(db, 'friends');
+      onValue(starCountRef, (snapshot) => {
+          let arr = []
+          snapshot.forEach(item=>{
+              if(data.userData.userInfo.uid == item.val().receiverid || data.userData.userInfo.uid == item.val().senderid){
+                  arr.push({...item.val(),id:item.key})
+              } 
+          })
+          setfriends(arr)
+      });
+    },[])
+    console.log(friends.length)
        // ===== Crop Image Start =====
     const [image, setImage] = useState();
     const [profile, setProfile] = useState("");
@@ -108,7 +125,7 @@ const Profile = () => {
                 </Flex>
                 <Flex className="profile_owner_name">
                     <h2>{data.userData.userInfo?data.userData.userInfo.displayName:""}</h2>
-                    <h4>100 Friends</h4>
+                    <h4>{friends.length} Friends</h4>
                 </Flex>
             </Flex>
             <Modal

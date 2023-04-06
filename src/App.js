@@ -13,6 +13,7 @@ import HomeLayout from "./pages/layouts/HomeLayout";
 import SuggestUser from "./pages/user/SuggestUser";
 import FriendRequest from "./pages/user/FriendRequest";
 import Friends from "./pages/user/Friends";
+import BlockUser from "./pages/user/BlockUser";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(createRoutesFromElements(
               <Route path="suggestuser" element={<SuggestUser/>}></Route>
               <Route path="friendrequest" element={<FriendRequest/>}></Route>
               <Route path="friends" element={<Friends/>}></Route>
+              <Route path="block" element={<BlockUser/>}></Route>
           </Route>
               <Route path="profile" element={<Profile/>}></Route>
       </Route>

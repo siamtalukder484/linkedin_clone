@@ -3,6 +3,8 @@ import "./user.css"
 import { useSelector,useDispatch } from 'react-redux';
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 import Images from '../../components/Images';
+import { ToastContainer, toast } from 'react-toastify';
+import Title from '../../components/Title';
 
 const SuggestUser = () => {
     let data = useSelector(state => state)
@@ -36,7 +38,7 @@ const SuggestUser = () => {
             receivername: info.displayName,
             receiverid: info.id,
           }).then(()=>{
-            setLoad(!load)
+            toast("Request Sent Successfully..");
           })
     }
     useEffect(()=>{
@@ -53,13 +55,27 @@ const SuggestUser = () => {
     },[])
     let handleCancelRequest = (cancel_info) =>{
         remove(ref(db, 'friendrequest/'+ cancel_info.id)).then(()=>{
-            console.log("happy")
-        });
-        
+            console.log("cancel done")
+        }).then(()=>{
+            toast("Request Cancel..")
+        });  
     }
 
   return (
     <>
+        <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+        />
+        <Title className="suggest_user_title" title="Suggestions User"/>
         <div className='suggestuser_wrapper'>
             {
                 userlist.map(item=>(

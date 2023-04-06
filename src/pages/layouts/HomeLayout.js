@@ -10,6 +10,7 @@ import Images from '../../components/Images';
 import {MdSettingsSuggest} from 'react-icons/md'
 import {FaUserPlus} from 'react-icons/fa'
 import {HiUsers} from 'react-icons/hi'
+import {FaUserSlash} from 'react-icons/fa'
 
 const HomeLayout = () => {
   let data= useSelector(state => state)
@@ -75,6 +76,12 @@ const HomeLayout = () => {
                         <div className='left_sidebar_nav_wrapper'>
                             <HiUsers/>
                             <span>Friends</span>
+                        </div>
+                      </NavLink>
+                      <NavLink to="block">
+                        <div className='left_sidebar_nav_wrapper'>
+                            <FaUserSlash/>
+                            <span>Block User</span>
                         </div>
                       </NavLink>
                   </Flex>

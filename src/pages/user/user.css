@@ -6,7 +6,7 @@
 .suggest_user_item{
     display: flex;
     align-items: center;
-    background-color: #ebe8e391;
+    background-color: #ebe8e3db;
     padding: 15px;
     border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -61,4 +61,8 @@
 }
 .add_btn.delete{
     background-color: rgb(245, 47, 47);
+}
+.suggest_user_title{
+    padding: 30px 0;
+    font-size: 30px;
 }
