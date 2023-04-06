@@ -5,6 +5,7 @@ import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 import Images from '../../components/Images';
 import { ToastContainer, toast } from 'react-toastify';
 import Title from '../../components/Title';
+import Alert from '@mui/material/Alert';
 
 const SuggestUser = () => {
     let data = useSelector(state => state)
@@ -77,7 +78,9 @@ const SuggestUser = () => {
         />
         <Title className="suggest_user_title" title="Suggestions User"/>
         <div className='suggestuser_wrapper'>
-            {
+            {   
+            userlist.length > 0
+                ?
                 userlist.map(item=>(
                     <div className='suggest_user_item'>
                         <div className='suggest_user'>
@@ -98,6 +101,10 @@ const SuggestUser = () => {
                         }
                     </div>
                 ))
+                :
+                <Alert variant="filled" severity="error">
+                    No Suggest User available..
+                </Alert>
             }
         </div>
     </>

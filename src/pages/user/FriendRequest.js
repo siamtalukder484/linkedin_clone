@@ -5,6 +5,7 @@ import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import { useSelector,useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import Title from '../../components/Title';
+import Alert from '@mui/material/Alert';
 
 const FriendRequest = () => {
     const db = getDatabase();
@@ -39,6 +40,7 @@ const FriendRequest = () => {
             });
           });
     }
+
 
 
   return (
@@ -78,7 +80,9 @@ const FriendRequest = () => {
                 </div>
             ))
             :
-            <h3>No request Found</h3>
+            <Alert variant="filled" severity="error">
+               No friend request available..
+            </Alert>
         }
     </div>
     </>
