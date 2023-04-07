@@ -214,7 +214,7 @@ theme="dark"
                           <Button onClick={handleForgotpassword} className="login_btn forgot_btn" title="Send Mail"/>
                         </Typography>
                       </Box>
-                    </Modal>
+                </Modal>
             </Flex>
         </Flex>
     </>

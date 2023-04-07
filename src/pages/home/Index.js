@@ -1,8 +1,10 @@
 import React, { useEffect,useState } from 'react'
+import "./style.css"
 import {signOut, onAuthStateChanged, getAuth, updateProfile} from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux'
 import { activeUser } from '../../slices/userSlices';
+import CreatePost from './CreatePost';
 
 
 const Index = () => {
@@ -21,7 +23,10 @@ const Index = () => {
 
   return (
     <>
-      {data.userData.userInfo &&
+      <div className='home_wrapper'>
+          <CreatePost/>
+      </div>
+      {/* {data.userData.userInfo &&
         <>
         <center>
           <h1>This is Home Page</h1>
@@ -32,7 +37,7 @@ const Index = () => {
         </>
       
       }
-      
+       */}
       
     </>
   )
