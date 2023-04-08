@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import "./createpost.css"
 import Images from '../../components/Images'
 import { useDispatch,useSelector } from 'react-redux'
@@ -22,9 +22,18 @@ const CreatePost = () => {
     const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let [post, setPost] = useState([])
 
   let handleforgotexitbtn = () => {
     setOpen(false)
+  }
+  let handlePost = () =>{
+      console.log(post)
+  }
+  let handleKeyPressPost = (e) => {
+    if(e.key == "Enter"){
+        console.log(post)
+    }
   }
 
     const style = {
@@ -77,7 +86,7 @@ const CreatePost = () => {
                     aria-describedby="modal-modal-description"
                 >
                     
-                      <Box sx={style}>
+                    <Box sx={style}>
                         <div className='create_post_head'>
                             <Title className="create_post_title" title="Create Post"/>
                             <Flex onClick={handleforgotexitbtn} className="forgot_exit_btn post_exit_btn">
@@ -95,12 +104,19 @@ const CreatePost = () => {
                                     <h3>{data.userData.userInfo.displayName}</h3>
                                 </div>
                             </div>
-                            <textarea placeholder="What's on your mind, UserName Here..?" className="post_input_text">
+                            <textarea onKeyUp={handleKeyPressPost} onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind, UserName Here..?" className="post_input_text">
 
                             </textarea>
-                            <Button className="post_btn" title="Post"/>
+                            {
+                                post != ""
+                                ?
+                                <Button onClick={handlePost} className="post_btn" title="Post"/>
+                                :
+                                <Button className="post_btn hide_post_btn" title="Post"/>
+                                
+                            }
                         </div>
-                      </Box>
+                    </Box>
                 </Modal>
         </div>
     </>
