@@ -30,7 +30,6 @@ const FriendRequest = () => {
         });  
     }
     let handleConfirmRequest = (friendrequest) => {
-        console.log(friendrequest)
         set(push(ref(db, 'friends')), {
             ...friendrequest,
             date:`${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`

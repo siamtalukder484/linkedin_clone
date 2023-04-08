@@ -14,7 +14,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
-import { useDispatch } from 'react-redux'
+import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Puff } from  'react-loader-spinner';
@@ -54,6 +55,8 @@ theme="dark"
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     let [loader, setLoader] = useState(false);
+    let data= useSelector(state => state)
+    let db = getDatabase()
 
     let handleforgotexitbtn = () => {
       setOpen(false)
@@ -94,10 +97,17 @@ theme="dark"
             dispatch(activeUser(userCredential.user))
             localStorage.setItem("userInfo",JSON.stringify(userCredential.user))
             if(userCredential.user.emailVerified){
-              setTimeout(()=>{
-                setLoader(false)
-                navigate("/home")
-              },1000)
+             
+              // console.log(data.userData.userInfo.displayName)
+              set(push(ref(db, 'useractivity')), {
+                activestatus: "active",
+                activeuseremail: FormData.email,
+              }).then(()=>{
+                setTimeout(()=>{
+                  setLoader(false)
+                  navigate("/home")
+                },1000)
+              })
             }else{
               setLoader(false)
               toast("Please verify your email first.");

@@ -124,18 +124,40 @@
 .profile_body{
     display: flex;
     justify-content: space-between;
+    margin: 0 55px;
 }
 .profile_intro{
     width: 37%;
-    height: 100px;
-    background-color: red;
+    background-color: rgba(238, 234, 234, 0.862);
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
+    padding: 20px;
 }
-.post_xyz{
+.bio_box{
+    text-align: center;
+    padding: 15px 0;
+}
+.bio_btn{
+    width: 100%;
+    padding: 10px;
+    background-color: #e2dede;
+    border: 0;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    margin-top: 25px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.bio_btn:hover{
+    background-color: #cfcccc;
+}
+.post_main{
     width: 60%;
 }
 .profile_post_wrapper{

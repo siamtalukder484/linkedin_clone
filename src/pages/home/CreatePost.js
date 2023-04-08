@@ -18,6 +18,8 @@ import Flex from '../../components/Flex'
 import Input from '../../components/Input'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import { Puff } from  'react-loader-spinner';
+import {BsEmojiSmile} from 'react-icons/bs'
+import EmojiPicker from 'emoji-picker-react';
 
 const CreatePost = () => {
     const db = getDatabase();
@@ -27,9 +29,11 @@ const CreatePost = () => {
   const handleClose = () => setOpen(false);
   let [post, setPost] = useState([])
   let [loader, setLoader] = useState(false);
+  let [showemoji, setShowemoji] = useState(false);
 
   let handleforgotexitbtn = () => {
     setOpen(false)
+    setShowemoji(false)
   }
   let handlePost = () =>{
         setLoader(true)
@@ -43,6 +47,7 @@ const CreatePost = () => {
       })
       setOpen(false)
       setLoader(false)
+      setShowemoji(false)
   }
   let handleKeyPressPost = (e) => {
     if(e.key == "Enter"){
@@ -62,6 +67,10 @@ const CreatePost = () => {
         p: 0,
         borderRadius: 2,
       };
+
+      let handleEmoji = (e) => {
+        setPost(post + e.emoji)
+      }
 
 
   return (
@@ -132,9 +141,17 @@ const CreatePost = () => {
                                     <h3>{data.userData.userInfo.displayName}</h3>
                                 </div>
                             </div>
-                            <textarea onKeyUp={handleKeyPressPost} onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind, UserName Here..?" className="post_input_text">
+                            <div className='textarea_main'>
+                                <textarea onKeyUp={handleKeyPressPost} onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind, UserName Here..?" className="post_input_text">
 
-                            </textarea>
+                                </textarea>
+                                <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
+                                {showemoji &&
+                                    <div className='emoji_box'>
+                                        <EmojiPicker onEmojiClick={(e)=>handleEmoji(e)}/>
+                                    </div>
+                                }
+                            </div>
                             {
                                 post != ""
                                 ?

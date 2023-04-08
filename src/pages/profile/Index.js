@@ -18,6 +18,7 @@ import { Puff } from  'react-loader-spinner';
 import { NavLink } from 'react-router-dom'
 import CreatePost from '../home/CreatePost'
 import PostCard from './PostCard'
+import Button from '../../components/Button'
 
 const Profile = () => {
     let [loader, setLoader] = useState(false);
@@ -122,7 +123,7 @@ const Profile = () => {
   // ======= Modal Part End ========
 
   // ================ Post query===========
-
+// console.log(post)
 
 
     return (
@@ -169,16 +170,20 @@ const Profile = () => {
             </Flex>
             <Flex className="profile_body">
                 <Flex className="profile_intro">
-
+                    <h2>Intro</h2>
+                    <Flex className="bio_box">
+                        <p>All is Well</p>
+                        <Button className="bio_btn" title="Edit Bio"/>
+                    </Flex>
                 </Flex>
-                <div className='post_xyz'>
+                <div className='post_main'>
                   <CreatePost/>
                   <Flex className="profile_post_wrapper">
                     {
                     post.length > 0 
                     ?
                     post.map(item=>(
-                      <PostCard postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
+                      <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
                     ))
                     :
                     <h3>No Post Available</h3>

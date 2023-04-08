@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import "./style.css"
 import Flex from '../../components/Flex'
 import Images from '../../components/Images'
@@ -7,10 +7,38 @@ import { useDispatch,useSelector } from 'react-redux'
 import {AiOutlineLike} from "react-icons/ai"
 import {RiShareForwardLine} from 'react-icons/ri'
 import {VscComment} from 'react-icons/vsc'
+import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 
-const PostCard = ({posttext,creatorname,postdate}) => {
+const PostCard = ({posttext,creatorname,postdate,postid}) => {
 
     let data= useSelector(state => state)
+    let db = getDatabase()
+    let [like,setLike] = useState([])
+    // console.log(like);
+
+    let handleLike = () => {
+        set(push(ref(db, 'like')), {
+            wholikeid: data.userData.userInfo.uid,
+            wholikename: data.userData.userInfo.displayName,
+            postid: postid,
+          }).then(()=>{
+            console.log("like done")
+          })
+    }
+
+    useEffect(()=>{
+        const starCountRef = ref(db, 'like');
+        onValue(starCountRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                if(item.val().wholikeid == data.userData.userInfo.uid){
+                    arr.push({...item.val(),likeid:item.key})
+                }
+            })
+            setLike(arr)
+        });
+    },[])
+    console.log(like.postid) 
 
   return (
     <>
@@ -38,10 +66,12 @@ const PostCard = ({posttext,creatorname,postdate}) => {
                 </Flex>
             </Flex>
             <Flex className="post_actions_btn">
-                <div className='like_btn'>
-                    <AiOutlineLike/>
-                    <span>Like</span>
-                </div>
+               
+                    <div onClick={handleLike} className='like_btn'>
+                        <AiOutlineLike/>
+                        <span>Like</span>
+                    </div>
+             
                 <div className='like_btn'>
                     <VscComment/>
                     <span>Comment</span>
