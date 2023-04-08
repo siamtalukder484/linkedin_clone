@@ -1,10 +1,12 @@
 import React, { useEffect,useState } from 'react'
 import "./style.css"
 import {signOut, onAuthStateChanged, getAuth, updateProfile} from "firebase/auth";
+import { getDatabase,ref as dbref, onValue,remove,set, push} from "firebase/database";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux'
 import { activeUser } from '../../slices/userSlices';
 import CreatePost from './CreatePost';
+import PostCard from '../profile/PostCard';
 
 
 const Index = () => {
@@ -13,32 +15,45 @@ const Index = () => {
   let dispatch = useDispatch()
   let navigate = useNavigate()
   const auth = getAuth();
+  let [post, setPost] = useState([])
+  const db = getDatabase();
 
   useEffect(()=>{
     if(!data.userData.userInfo){
       navigate("/")
     }
   },[])
+      //====== post operation
+      useEffect(()=>{
+        const starCountRef = dbref(db, 'post');
+        onValue(starCountRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+              if(item.val().whopostid != data.userData.userInfo.uid){
+                arr.push({...item.val(),id:item.key})
+              }
+            })
+            setPost(arr)
+        });
+      },[])
 
 
   return (
     <>
       <div className='home_wrapper'>
           <CreatePost/>
-      </div>
-      {/* {data.userData.userInfo &&
-        <>
-        <center>
-          <h1>This is Home Page</h1>
-        </center>
-        <h1>Name: {data.userData.userInfo.displayName}</h1>
-        <h1>Email: {data.userData.userInfo.email}</h1>
-        <h1>Photo: {data.userData.userInfo.photoURL}</h1>
-        </>
-      
-      }
-       */}
-      
+          <div className='home_post_main'> 
+            {
+              post.length > 0
+              ?
+              post.map(item=>(
+                <PostCard postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
+              ))
+              :
+              <h3>No Post Available..</h3>
+            }
+          </div>
+      </div>      
     </>
   )
 }

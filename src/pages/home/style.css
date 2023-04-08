@@ -1,3 +1,9 @@
 .home_wrapper{
     margin: 25px 150px;
 }
+.home_post_main{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 15px;
+}

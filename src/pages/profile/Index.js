@@ -17,6 +17,7 @@ import { Box } from '@mui/system';
 import { Puff } from  'react-loader-spinner';
 import { NavLink } from 'react-router-dom'
 import CreatePost from '../home/CreatePost'
+import PostCard from './PostCard'
 
 const Profile = () => {
     let [loader, setLoader] = useState(false);
@@ -48,7 +49,7 @@ const Profile = () => {
       onValue(starCountRef, (snapshot) => {
           let arr = []
           snapshot.forEach(item=>{
-            if(item.val() == data.userData.userInfo.uid){
+            if(item.val().whopostid == data.userData.userInfo.uid){
               arr.push({...item.val(),id:item.key})
             }
           })
@@ -170,26 +171,20 @@ const Profile = () => {
                 <Flex className="profile_intro">
 
                 </Flex>
-                <Flex className="profile_post_wrapper">
+                <div className='post_xyz'>
                   <CreatePost/>
-                  {
-                  post.map(item=>(
-                    <Flex className="profile_post_item">
-                      <Flex className="post_head">
-                        <NavLink to="/profile">
-                          <div className='post_owner_img'>
-                              <Images src={data.userData.userInfo.photoURL}/>
-                          </div>
-                        </NavLink>
-                        <NavLink to="/profile">
-                          <h4>{data.userData.userInfo.displayName}</h4>
-                        </NavLink>
-                      </Flex>
-                      <p>{item.posttext}</p>
-                    </Flex>
-                  ))
-                  }
-                </Flex>
+                  <Flex className="profile_post_wrapper">
+                    {
+                    post.length > 0 
+                    ?
+                    post.map(item=>(
+                      <PostCard postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
+                    ))
+                    :
+                    <h3>No Post Available</h3>
+                    }
+                  </Flex>
+                </div>
             </Flex>
             <Modal
                   open={open}
