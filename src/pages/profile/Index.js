@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
 import { Puff } from  'react-loader-spinner';
+import { NavLink } from 'react-router-dom'
+import CreatePost from '../home/CreatePost'
 
 const Profile = () => {
     let [loader, setLoader] = useState(false);
@@ -22,8 +24,11 @@ const Profile = () => {
     let dispatch = useDispatch()
     let data= useSelector(state => state)
     let [friends, setfriends] = useState([])
+    let [post, setPost] = useState([])
     const db = getDatabase();
 
+
+     //====== friends count operation
     useEffect(()=>{
       const starCountRef = dbref(db, 'friends');
       onValue(starCountRef, (snapshot) => {
@@ -36,7 +41,21 @@ const Profile = () => {
           setfriends(arr)
       });
     },[])
-    console.log(friends.length)
+
+    //====== post operation
+    useEffect(()=>{
+      const starCountRef = dbref(db, 'post');
+      onValue(starCountRef, (snapshot) => {
+          let arr = []
+          snapshot.forEach(item=>{
+            if(item.val() == data.userData.userInfo.uid){
+              arr.push({...item.val(),id:item.key})
+            }
+          })
+          setPost(arr)
+      });
+    },[])
+
        // ===== Crop Image Start =====
     const [image, setImage] = useState();
     const [profile, setProfile] = useState("");
@@ -100,8 +119,27 @@ const Profile = () => {
     p: 4,
   };
   // ======= Modal Part End ========
+
+  // ================ Post query===========
+
+
+
     return (
     <>
+        {loader &&
+            <div className='reg_loader'>
+                <Puff
+                height="100"
+                width="100"
+                radius={1}
+                color="#fff"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
+            </div>
+          }
         <Flex className="container">
             <Flex className="cover_photo">
                 <Images src="assets/images/profile_cover.jpg"/>
@@ -126,6 +164,31 @@ const Profile = () => {
                 <Flex className="profile_owner_name">
                     <h2>{data.userData.userInfo?data.userData.userInfo.displayName:""}</h2>
                     <h4>{friends.length} Friends</h4>
+                </Flex>
+            </Flex>
+            <Flex className="profile_body">
+                <Flex className="profile_intro">
+
+                </Flex>
+                <Flex className="profile_post_wrapper">
+                  <CreatePost/>
+                  {
+                  post.map(item=>(
+                    <Flex className="profile_post_item">
+                      <Flex className="post_head">
+                        <NavLink to="/profile">
+                          <div className='post_owner_img'>
+                              <Images src={data.userData.userInfo.photoURL}/>
+                          </div>
+                        </NavLink>
+                        <NavLink to="/profile">
+                          <h4>{data.userData.userInfo.displayName}</h4>
+                        </NavLink>
+                      </Flex>
+                      <p>{item.posttext}</p>
+                    </Flex>
+                  ))
+                  }
                 </Flex>
             </Flex>
             <Modal
@@ -182,7 +245,7 @@ const Profile = () => {
                       }
                     </Typography>
                   </Box>
-                </Modal>
+              </Modal>
         </Flex>
     </>
   )
