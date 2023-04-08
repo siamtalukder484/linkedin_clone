@@ -16,19 +16,33 @@ import Title from '../../components/Title'
 import Button from '../../components/Button'
 import Flex from '../../components/Flex'
 import Input from '../../components/Input'
+import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
+import { Puff } from  'react-loader-spinner';
 
 const CreatePost = () => {
+    const db = getDatabase();
     let data= useSelector(state => state)
     const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   let [post, setPost] = useState([])
+  let [loader, setLoader] = useState(false);
 
   let handleforgotexitbtn = () => {
     setOpen(false)
   }
   let handlePost = () =>{
-      console.log(post)
+        setLoader(true)
+      set(push(ref(db, 'post')), {
+        whopostid: data.userData.userInfo.uid,
+        whopostname: data.userData.userInfo.displayName,
+        posttext: post,
+        date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+      }).then(()=>{
+        setPost("")
+      })
+      setOpen(false)
+      setLoader(false)
   }
   let handleKeyPressPost = (e) => {
     if(e.key == "Enter"){
@@ -52,6 +66,20 @@ const CreatePost = () => {
 
   return (
     <>
+        {loader &&
+            <div className='reg_loader'>
+                <Puff
+                height="100"
+                width="100"
+                radius={1}
+                color="#fff"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
+            </div>
+          }
         <div className='post_wrapper'>
             <div className='post_input_group'>
                 <NavLink to="/profile">
