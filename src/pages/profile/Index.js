@@ -28,6 +28,7 @@ const Profile = () => {
     let [friends, setfriends] = useState([])
     let [post, setPost] = useState([])
     const db = getDatabase();
+    let [like,setLike] = useState([])
 
 
      //====== friends count operation
@@ -58,7 +59,22 @@ const Profile = () => {
       });
     },[])
 
-       // ===== Crop Image Start =====
+    // =====Like Operation Start =====
+  //   useEffect(()=>{
+  //     const starCountRef = dbref(db, 'like');
+  //     onValue(starCountRef, (snapshot) => {
+  //         let arr = []
+  //         snapshot.forEach(item=>{
+  //             if(item.val().wholikeid == data.userData.userInfo.uid){
+  //                 arr.push({...item.val(),likeid:item.key})
+  //             }
+  //         })
+  //         setLike(arr)
+  //     });
+  // },[])
+  // console.log(like)
+
+    // ===== Crop Image Start =====
     const [image, setImage] = useState();
     const [profile, setProfile] = useState("");
     const [cropData, setCropData] = useState("#");

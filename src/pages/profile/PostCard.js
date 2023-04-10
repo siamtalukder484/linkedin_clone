@@ -14,7 +14,7 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
     let data= useSelector(state => state)
     let db = getDatabase()
     let [like,setLike] = useState([])
-    // console.log(like);
+
 
     let handleLike = () => {
         set(push(ref(db, 'like')), {
@@ -31,14 +31,16 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
         onValue(starCountRef, (snapshot) => {
             let arr = []
             snapshot.forEach(item=>{
-                if(item.val().wholikeid == data.userData.userInfo.uid){
-                    arr.push({...item.val(),likeid:item.key})
+                if(item.val().wholikeid == data.userData.userInfo.uid || item.val().wholikeid != data.userData.userInfo.uid){
+                    if(postid == item.val().postid){
+                        arr.push({...item.val(),likeid:item.key})
+                    }
                 }
             })
             setLike(arr)
         });
     },[])
-    console.log(like.postid) 
+    console.log(like.length);
 
   return (
     <>
@@ -59,19 +61,17 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
             <p>{posttext}</p>
             <Flex className="post_actions_count">
                 <Flex className="likes_count">
-                    <span>100 Likes</span>
+                    <span>{like.length} Likes</span>
                 </Flex>
                 <Flex className="comments_count">
                     <span>22 Comment</span>
                 </Flex>
             </Flex>
             <Flex className="post_actions_btn">
-               
-                    <div onClick={handleLike} className='like_btn'>
-                        <AiOutlineLike/>
-                        <span>Like</span>
-                    </div>
-             
+                <div onClick={handleLike} className='like_btn'>
+                    <AiOutlineLike/>
+                    <span>Like</span>
+                </div>
                 <div className='like_btn'>
                     <VscComment/>
                     <span>Comment</span>
