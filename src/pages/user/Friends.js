@@ -4,6 +4,8 @@ import Images from '../../components/Images';
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import { useSelector, useDispatch } from 'react-redux';
 import Title from '../../components/Title';
+import { ToastContainer, toast } from 'react-toastify';
+import Alert from '@mui/material/Alert';
 
 const Friends = () => {
   let data = useSelector(state => state)
@@ -23,12 +25,39 @@ const Friends = () => {
         setfriends(arr)
     });
   },[])
+  let hundleBlock = (item) =>{
+    data.userData.userInfo.uid == item.senderid 
+    ?
+        set(push(ref(db, 'block')), {
+            block: item.receivername,
+            blockid: item.receiverid,
+            blockby: item.sendername,
+            blockbyid: item.senderid,
+        }).then(()=>{
+            remove(ref(db, 'friends/'+ item.id)).then(()=>{
+                toast("Block Done..");
+            });
+        })
+    :
+        set(push(ref(db, 'block')), {
+            block: item.sendername,
+            blockid: item.senderid,
+            blockby: item.receivername,
+            blockbyid: item.receiverid,
+        }).then(()=>{
+            remove(ref(db, 'friends/'+ item.id)).then(()=>{
+                toast("Block Done..");
+            });
+        })
+}
 
   return (
     <>
       <Title className="suggest_user_title" title="Friends"/>
       <div className='suggestuser_wrapper'>
         {
+          friends.length > 0
+          ?
           friends.map(item=>(
           <div className='suggest_user_item'>
               <div className='suggest_user'>
@@ -47,10 +76,14 @@ const Friends = () => {
               </div>
               <div className='f_req_btn_wrapper'>
                   <button className='add_btn'>Message</button>
-                  <button className='add_btn delete'>Block</button>
+                  <button onClick={()=>hundleBlock(item)} className='add_btn delete'>Block</button>
               </div>
           </div>
           ))
+          :
+          <Alert variant="filled" severity="error">
+            No Friend available..
+          </Alert>
         }
       </div>
     </>

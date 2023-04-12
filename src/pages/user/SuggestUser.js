@@ -46,6 +46,7 @@ const SuggestUser = () => {
             setUserlist(arr)
         });
     },[])
+    console.log(data);
 
     let handleFriendRequest = (info) =>{
         set(ref(db, 'friendrequest/'+info.id), {
@@ -53,6 +54,7 @@ const SuggestUser = () => {
             senderid: data.userData.userInfo.uid,
             receivername: info.displayName,
             receiverid: info.id,
+            senderemail: data.userData.userInfo.email,
           }).then(()=>{
             toast("Request Sent Successfully..");
           })
@@ -69,12 +71,13 @@ const SuggestUser = () => {
             setfreqest(arr)
         });
     },[])
+    
     let handleCancelRequest = (cancel_info) =>{
         remove(ref(db, 'friendrequest/'+ cancel_info.id)).then(()=>{
             console.log("cancel done")
         }).then(()=>{
             toast("Request Cancel..")
-        });  
+        });
     }
 
   return (
@@ -108,11 +111,12 @@ const SuggestUser = () => {
                             </div>
                         </div>
                         {
-                            friends.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
+                            friends.includes(data.userData.userInfo.uid + item.id) || friends.includes(item.id + data.userData.userInfo.uid)
                             ?
                                 <button className='add_btn friend'>Friend</button>
                             :
-                                frequest.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
+                                frequest.includes(item.id + data.userData.userInfo.uid) || frequest.includes(data.userData.userInfo.uid + item.id)
+                                // frequest.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
                                 ?
                                 <button onClick={()=> handleCancelRequest(item)} className='add_btn'>Cancel</button>
                                 :

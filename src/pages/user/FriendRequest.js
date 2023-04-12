@@ -69,7 +69,7 @@ const FriendRequest = () => {
                         </div>
                         <div className='suggest_user_info'>
                             <h2>{item.sendername}</h2>
-                            <p>{item.receiveremail}</p>
+                            <p>{item.senderemail}</p>
                         </div>
                     </div>
                     <div className='f_req_btn_wrapper'>
