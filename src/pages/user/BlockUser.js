@@ -24,13 +24,6 @@ const BlockUser = () => {
                 blockid: item.val().blockid,
               });
             } 
-            // else {
-            //   arr.push({
-            //     id: item.key,
-            //     blockby: item.val().blockby,
-            //     blockbyid: item.val().blockbyid,
-            //   });
-            // }
           });
           setblocklist(arr);
         });
@@ -55,7 +48,7 @@ const BlockUser = () => {
                     </div>
                 </div>
                 <div className='f_req_btn_wrapper'>
-                    <button className='add_btn'>Delete</button>
+                    <button className='add_btn delete'>Delete</button>
                     <button className='add_btn'>Unblock</button>
                 </div>
             </div>

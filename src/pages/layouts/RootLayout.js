@@ -31,7 +31,7 @@ const RootLayout = () => {
     }
     useEffect(()=>{
         window.addEventListener("scroll",function(){
-            const istop = window.scrollY < 200
+            const istop = window.scrollY < 150
             if(istop != true){
                 setTopState(true)
             }else{
@@ -39,8 +39,25 @@ const RootLayout = () => {
             }
         })
     })
+    let handlesidebar = () => {
+
+    }
   return (
-    <>
+    <>  
+        <div className='layout_sidebar'>
+            <div className='nn'>
+                <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+            </div>
+            <div className='mm'>
+            <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+                <p>kdfjdksjfksdlf</p>
+            </div>
+        </div>
         <Flex className={topstate ? "layout_main fixed":"layout_main"}>
             <Flex className="nav_logo">
                 <Link to="home">
@@ -71,7 +88,7 @@ const RootLayout = () => {
                 <Flex className="nav_action_item">
                     <BsMessenger/>
                 </Flex>
-                <Flex className="nav_action_item">
+                <Flex onClick={handlesidebar} className="nav_action_item">
                     <IoIosNotifications/>
                 </Flex>
                 <Flex onClick={handleProfileClick} className="nav_action_item">

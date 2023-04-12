@@ -37,6 +37,10 @@
     height: 100%;
     object-fit: cover;
 }
+.suggest_user_info h2{
+    font-size: 18px;
+    color: #000;
+}
 .suggest_user_info p{
     margin-top: 5px;
 }
