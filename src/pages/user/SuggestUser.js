@@ -14,7 +14,22 @@ const SuggestUser = () => {
 
     let [load,setLoad] = useState(false)
     let [frequest,setfreqest] = useState([])
+    let [friends,setFriends] = useState([])
 
+
+    useEffect(()=>{
+        const usersRef = ref(db, 'friends');
+        onValue(usersRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                // if(item.val().receiverid == data.userData.userInfo.uid || item.val().senderid == data.userData.userInfo.uid){
+                    arr.push(item.val().receiverid + item.val().senderid)  
+                // }
+            })
+            setFriends(arr)
+        });
+    },[])
+    console.log(friends);
 
     useEffect(()=>{
         const usersRef = ref(db, 'users');
@@ -93,11 +108,15 @@ const SuggestUser = () => {
                             </div>
                         </div>
                         {
-                            frequest.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
+                            friends.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
                             ?
-                            <button onClick={()=> handleCancelRequest(item)} className='add_btn'>Cancel</button>
+                                <button className='add_btn friend'>Friend</button>
                             :
-                            <button onClick={()=> handleFriendRequest(item)} className='add_btn'>Add</button>
+                                frequest.includes(item.id + data.userData.userInfo.uid || data.userData.userInfo.uid + item.id)
+                                ?
+                                <button onClick={()=> handleCancelRequest(item)} className='add_btn'>Cancel</button>
+                                :
+                                <button onClick={()=> handleFriendRequest(item)} className='add_btn'>Add</button>
                         }
                     </div>
                 ))

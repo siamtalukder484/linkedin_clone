@@ -4,7 +4,7 @@ import Flex from '../../components/Flex'
 import Images from '../../components/Images'
 import { NavLink } from 'react-router-dom'
 import { useDispatch,useSelector } from 'react-redux'
-import {AiOutlineLike} from "react-icons/ai"
+import {AiOutlineLike,AiFillLike} from "react-icons/ai"
 import {RiShareForwardLine} from 'react-icons/ri'
 import {VscComment} from 'react-icons/vsc'
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
@@ -14,10 +14,14 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
     let data= useSelector(state => state)
     let db = getDatabase()
     let [like,setLike] = useState([])
+    let [likearr,setLikeArr] = useState([])
+
+
+console.log(data.userData.userInfo.uid)
 
 
     let handleLike = () => {
-        set(push(ref(db, 'like')), {
+        set(ref(db, 'like/'+(data.userData.userInfo.uid+postid)), {
             wholikeid: data.userData.userInfo.uid,
             wholikename: data.userData.userInfo.displayName,
             postid: postid,
@@ -26,18 +30,28 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
           })
     }
 
+    let handleDisLike = (id)=>{
+        console.log(id)
+        remove(ref(db, 'like/'+id)).then(()=>{
+            console.log("Delete Hoise")
+        })
+    }
+
     useEffect(()=>{
         const starCountRef = ref(db, 'like');
         onValue(starCountRef, (snapshot) => {
             let arr = []
-            snapshot.forEach(item=>{
-                if(item.val().wholikeid == data.userData.userInfo.uid || item.val().wholikeid != data.userData.userInfo.uid){
-                    if(postid == item.val().postid){
-                        arr.push({...item.val(),likeid:item.key})
-                    }
+            let likearr = []
+            snapshot.forEach(item=>{               
+                if(postid == item.val().postid){
+                    arr.push({...item.val(),likeid:item.key})
+                    likearr.push(item.val().wholikeid+postid)
                 }
+                
             })
             setLike(arr)
+            setLikeArr(likearr)
+            console.log(likearr)
         });
     },[])
     console.log(like.length);
@@ -53,6 +67,7 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                 </NavLink>
                 <div>
                 <NavLink to="/profile">
+                    {/* <h4>{data.userData.userInfo.uid } -- {postid}</h4> */}
                     <h4>{creatorname}</h4>
                 </NavLink>
                 <span className='post_date'>{postdate}</span>
@@ -68,10 +83,22 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                 </Flex>
             </Flex>
             <Flex className="post_actions_btn">
+                
+                {  likearr.includes(data.userData.userInfo.uid+postid)
+                ?
+                <>
+                    <div onClick={()=>handleDisLike(data.userData.userInfo.uid+postid)} className='like_btn liked'>
+                        <AiFillLike/>
+                        <span>Liked</span>
+                    </div>
+                </>
+                :
                 <div onClick={handleLike} className='like_btn'>
                     <AiOutlineLike/>
                     <span>Like</span>
                 </div>
+                }
+                
                 <div className='like_btn'>
                     <VscComment/>
                     <span>Comment</span>

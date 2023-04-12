@@ -54,6 +54,9 @@
     font-size: 14px;
     font-weight: 500;
 }
+.add_btn.friend{
+    background-color: #09c1d3;
+}
 .f_req_btn_wrapper{
     display: flex;
     gap: 3px;

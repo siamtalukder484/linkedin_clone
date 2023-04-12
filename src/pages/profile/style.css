@@ -55,6 +55,7 @@
 .profile_photo_wrapper{
     display: flex;
     align-items: center;
+    margin-bottom: 30px;
 }
 .profile_photo_holder{
     width: 200px;
@@ -138,6 +139,8 @@
     z-index: 111;
 }
 .profile_body{
+    padding-top: 30px;
+    border-top: 1px solid #cec2c2;
     display: flex;
     justify-content: space-between;
     margin: 0 55px;
@@ -270,4 +273,7 @@
 }
 .like_btn svg{
     font-size: 22px;
+}
+.like_btn.liked{
+    color: #086FA4;
 }
