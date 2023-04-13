@@ -142,7 +142,7 @@ const CreatePost = () => {
                                 </div>
                             </div>
                             <div className='textarea_main'>
-                                <textarea onKeyUp={handleKeyPressPost} onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind, UserName Here..?" className="post_input_text">
+                                <textarea onKeyUp={handleKeyPressPost} onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind ?" className="post_input_text">
 
                                 </textarea>
                                 <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>

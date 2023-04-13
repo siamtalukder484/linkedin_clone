@@ -176,6 +176,50 @@
 .bio_btn:hover{
     background-color: #cfcccc;
 }
+.bio_box p{
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
+.intro_input{
+    width: 100%;
+    height: 80px;
+    outline: 1px solid #086FA4;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    padding: 10px;
+}
+.intro_cancel_btn{
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: #e2dede;
+    cursor: pointer;
+}
+.intro_cancel_btn:hover{
+    background-color: #cfcccc;
+}
+.intro_footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.intro_btn_wrapper{
+    display: flex;
+    gap: 8px;
+}
 .post_main{
     width: 60%;
 }

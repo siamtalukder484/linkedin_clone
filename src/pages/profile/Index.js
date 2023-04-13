@@ -29,6 +29,9 @@ const Profile = () => {
     let [post, setPost] = useState([])
     const db = getDatabase();
     let [like,setLike] = useState([])
+    let [introbox,setIntrobox] = useState(false)
+    let [intro, setIntro] = useState([])
+    console.log(intro)
 
 
      //====== friends count operation
@@ -58,21 +61,6 @@ const Profile = () => {
           setPost(arr)
       });
     },[])
-
-    // =====Like Operation Start =====
-  //   useEffect(()=>{
-  //     const starCountRef = dbref(db, 'like');
-  //     onValue(starCountRef, (snapshot) => {
-  //         let arr = []
-  //         snapshot.forEach(item=>{
-  //             if(item.val().wholikeid == data.userData.userInfo.uid){
-  //                 arr.push({...item.val(),likeid:item.key})
-  //             }
-  //         })
-  //         setLike(arr)
-  //     });
-  // },[])
-  // console.log(like)
 
     // ===== Crop Image Start =====
     const [image, setImage] = useState();
@@ -188,8 +176,26 @@ const Profile = () => {
                 <Flex className="profile_intro">
                     <h2>Intro</h2>
                     <Flex className="bio_box">
-                        <p>All is Well</p>
-                        <Button className="bio_btn" title="Edit Bio"/>
+                        
+                        {introbox ?
+                          <>
+                            <textarea onChange={(e)=>setIntro(e.target.value)} value={intro} className='intro_input' placeholder='hello'></textarea>
+                            <div className='intro_footer'>
+                              <div className=''>
+                                <span>Public</span>
+                              </div>
+                              <div className="intro_btn_wrapper">
+                                <Button className="intro_cancel_btn" onClick={()=>setIntrobox(false)} title="Cancel"></Button>
+                                <Button className="intro_cancel_btn" title="Save"></Button>
+                              </div>
+                            </div>
+                          </>
+                          :
+                          <>
+                            <p>{intro}</p>
+                            <Button onClick={()=>setIntrobox(true)} className="bio_btn" title="Edit Bio"/>
+                          </>
+                        }
                     </Flex>
                 </Flex>
                 <div className='post_main'>

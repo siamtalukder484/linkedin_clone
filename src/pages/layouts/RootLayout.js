@@ -9,16 +9,25 @@ import {HiUserGroup} from "react-icons/hi"
 import {GrGamepad} from "react-icons/gr"
 import {CgMenuGridR} from "react-icons/cg"
 import {BsMessenger} from "react-icons/bs"
+import {RxCross2} from "react-icons/rx"
 import {IoIosNotifications} from "react-icons/io"
 import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import "./layout.css"
 import Input from '../../components/Input'
+import { motion } from "framer-motion";
+
+const variants = {
+    open: { width: 400,opacity:1 },
+    close: { width:0,opacity:0 }
+  };
+  
 
 const RootLayout = () => {
     let navigate = useNavigate();
     let data= useSelector(state => state)
     let [topstate, setTopState] = useState(false)
+    let [sidebarclick, setSidebarclick] = useState(false)
     // console.log(top)
 
     useEffect(()=>{
@@ -39,25 +48,34 @@ const RootLayout = () => {
             }
         })
     })
-    let handlesidebar = () => {
-
-    }
   return (
-    <>  
-        <div className='layout_sidebar'>
-            <div className='nn'>
-                <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
+    <>   
+        <motion.div className='layout_sidebar' 
+            variants={variants}
+            animate={sidebarclick ? 'open' : 'close'}
+            transition={{duration:0.5}}
+        >
+            <div className='sidebar_head'>
+                <h2>Notification</h2>
+                <div onClick={()=>setSidebarclick(false)} className='exit_btn'>
+                    <RxCross2/>
+                </div>
             </div>
-            <div className='mm'>
-            <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
-                <p>kdfjdksjfksdlf</p>
+            <div className='sidebar_body'>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
+                <div className='sidebar_item'></div>
             </div>
-        </div>
+        </motion.div>
         <Flex className={topstate ? "layout_main fixed":"layout_main"}>
             <Flex className="nav_logo">
                 <Link to="home">
@@ -85,10 +103,10 @@ const RootLayout = () => {
                 <Flex className="nav_action_item">
                     <CgMenuGridR/>
                 </Flex>
-                <Flex className="nav_action_item">
+                <Flex onClick={()=>setSidebarclick(!sidebarclick)} className="nav_action_item">
                     <BsMessenger/>
                 </Flex>
-                <Flex onClick={handlesidebar} className="nav_action_item">
+                <Flex onClick={()=>setSidebarclick(!sidebarclick)} className="nav_action_item">
                     <IoIosNotifications/>
                 </Flex>
                 <Flex onClick={handleProfileClick} className="nav_action_item">

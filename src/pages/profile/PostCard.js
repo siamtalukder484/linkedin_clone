@@ -16,10 +16,6 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
     let [like,setLike] = useState([])
     let [likearr,setLikeArr] = useState([])
 
-
-console.log(data.userData.userInfo.uid)
-
-
     let handleLike = () => {
         set(ref(db, 'like/'+(data.userData.userInfo.uid+postid)), {
             wholikeid: data.userData.userInfo.uid,
@@ -51,10 +47,8 @@ console.log(data.userData.userInfo.uid)
             })
             setLike(arr)
             setLikeArr(likearr)
-            console.log(likearr)
         });
     },[])
-    console.log(like.length);
 
   return (
     <>
