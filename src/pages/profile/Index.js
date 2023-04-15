@@ -30,10 +30,42 @@ const Profile = () => {
     const db = getDatabase();
     let [like,setLike] = useState([])
     let [introbox,setIntrobox] = useState(false)
-    let [intro, setIntro] = useState([])
-    console.log(intro)
+    let [bio, setBio] = useState([])
+    let [biodata, setBioData] = useState({})
+    let [biotext, setBiotext] = useState([])
 
 
+
+    let handleIntrosave =()=>{
+      set(dbref(db, 'bio/'+data.userData.userInfo.uid), {
+        whobioid: data.userData.userInfo.uid,
+        whobioname: data.userData.userInfo.displayName,
+        biotext: bio,
+        date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+      }).then(()=>{
+        setBio("")
+        setIntrobox(false)
+      })
+    }
+    useEffect(()=>{
+      const starCountRef = dbref(db, 'bio');
+      onValue(starCountRef, (snapshot) => {
+          let arr = []
+          snapshot.forEach(item=>{
+            if(item.val().whobioid == data.userData.userInfo.uid){
+              arr.push({...item.val(),id:item.key})  
+              setBioData(item.val())
+            }
+          })
+          setBiotext(arr)
+      });
+    },[])
+    console.log(bio.length);
+    let handleBioEdit = ()=>{
+      setIntrobox(true)
+      setBio(biodata.biotext)
+    }
+  
      //====== friends count operation
     useEffect(()=>{
       const starCountRef = dbref(db, 'friends');
@@ -127,8 +159,9 @@ const Profile = () => {
   // ======= Modal Part End ========
 
   // ================ Post query===========
-// console.log(post)
 
+
+ 
 
     return (
     <>
@@ -179,21 +212,31 @@ const Profile = () => {
                         
                         {introbox ?
                           <>
-                            <textarea onChange={(e)=>setIntro(e.target.value)} value={intro} className='intro_input' placeholder='hello'></textarea>
+                            <textarea onChange={(e)=>setBio(e.target.value)} value={bio ? bio.length > -1 ? bio :  biodata.biotext : ""} className='intro_input'></textarea>
+                            <h6 className='character_count'>{90-bio.length} characters remaining</h6>
                             <div className='intro_footer'>
                               <div className=''>
                                 <span>Public</span>
                               </div>
                               <div className="intro_btn_wrapper">
                                 <Button className="intro_cancel_btn" onClick={()=>setIntrobox(false)} title="Cancel"></Button>
-                                <Button className="intro_cancel_btn" title="Save"></Button>
+                                {bio.length > 90 
+                                ?
+                                <Button className="intro_cancel_btn save" title="Save"></Button>
+                                :
+                                <Button className="intro_cancel_btn save_visible" onClick={handleIntrosave} title="Save"></Button>
+                                }
                               </div>
                             </div>
                           </>
                           :
                           <>
-                            <p>{intro}</p>
-                            <Button onClick={()=>setIntrobox(true)} className="bio_btn" title="Edit Bio"/>
+                            {
+                              biotext.map(item=>(
+                                <p value={item.biotext}>{item.biotext}</p>
+                              ))
+                            }
+                            <Button onClick={handleBioEdit} className="bio_btn" title="Edit Bio"/>
                           </>
                         }
                     </Flex>

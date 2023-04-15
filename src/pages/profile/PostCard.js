@@ -43,7 +43,6 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                     arr.push({...item.val(),likeid:item.key})
                     likearr.push(item.val().wholikeid+postid)
                 }
-                
             })
             setLike(arr)
             setLikeArr(likearr)
@@ -61,7 +60,6 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                 </NavLink>
                 <div>
                 <NavLink to="/profile">
-                    {/* <h4>{data.userData.userInfo.uid } -- {postid}</h4> */}
                     <h4>{creatorname}</h4>
                 </NavLink>
                 <span className='post_date'>{postdate}</span>

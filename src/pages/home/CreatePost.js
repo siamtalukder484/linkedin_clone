@@ -71,8 +71,7 @@ const CreatePost = () => {
       let handleEmoji = (e) => {
         setPost(post + e.emoji)
       }
-
-
+      
   return (
     <>
         {loader &&

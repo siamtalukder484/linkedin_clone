@@ -169,7 +169,7 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-    margin-top: 25px;
+    margin-top: 15px;
     font-size: 18px;
     cursor: pointer;
 }
@@ -178,6 +178,7 @@
 }
 .bio_box p{
     font-size: 18px;
+    line-height: 24px;
     font-weight: 500;
     color: #000;
 }
@@ -209,6 +210,23 @@
 }
 .intro_cancel_btn:hover{
     background-color: #cfcccc;
+}
+.intro_cancel_btn.save{
+    background-color: #086FA4;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.intro_cancel_btn.save_visible{
+    opacity: 1;
+    background-color: #086FA4;
+    color: #fff;
+}
+.character_count{
+    text-align: right;
+    font-size: 15px !important;
+    margin: 5px 0;
+    font-weight: 400;
 }
 .intro_footer{
     display: flex;
