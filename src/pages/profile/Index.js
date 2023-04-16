@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import Flex from '../../components/Flex'
 import Images from '../../components/Images'
-import {BsFillCameraFill} from "react-icons/bs"
+import {BsFillCameraFill,BsGlobeAmericas} from "react-icons/bs"
 import { useDispatch,useSelector } from 'react-redux'
 import "./style.css"
 import Cropper, { ReactCropperElement } from "react-cropper";
@@ -19,6 +19,7 @@ import { NavLink } from 'react-router-dom'
 import CreatePost from '../home/CreatePost'
 import PostCard from './PostCard'
 import Button from '../../components/Button'
+import {FaGlobeAmericas} from 'react-icons/fa'
 
 const Profile = () => {
     let [loader, setLoader] = useState(false);
@@ -65,6 +66,7 @@ const Profile = () => {
       setIntrobox(true)
       setBio(biodata.biotext)
     }
+  
   
      //====== friends count operation
     useEffect(()=>{
@@ -215,7 +217,8 @@ const Profile = () => {
                             <textarea onChange={(e)=>setBio(e.target.value)} value={bio ? bio.length > -1 ? bio :  biodata.biotext : ""} className='intro_input'></textarea>
                             <h6 className='character_count'>{90-bio.length} characters remaining</h6>
                             <div className='intro_footer'>
-                              <div className=''>
+                              <div className='bio_public'>
+                                <FaGlobeAmericas/>
                                 <span>Public</span>
                               </div>
                               <div className="intro_btn_wrapper">
@@ -224,6 +227,7 @@ const Profile = () => {
                                 ?
                                 <Button className="intro_cancel_btn save" title="Save"></Button>
                                 :
+                                
                                 <Button className="intro_cancel_btn save_visible" onClick={handleIntrosave} title="Save"></Button>
                                 }
                               </div>

@@ -225,7 +225,7 @@
 .character_count{
     text-align: right;
     font-size: 15px !important;
-    margin: 5px 0;
+    margin-bottom: 5px;
     font-weight: 400;
 }
 .intro_footer{
@@ -233,6 +233,11 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
+}
+.bio_public{
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
 }
 .intro_btn_wrapper{
     display: flex;
