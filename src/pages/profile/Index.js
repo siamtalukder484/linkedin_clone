@@ -20,6 +20,7 @@ import CreatePost from '../home/CreatePost'
 import PostCard from './PostCard'
 import Button from '../../components/Button'
 import {FaGlobeAmericas} from 'react-icons/fa'
+import MyModal from '../../components/MyModal'
 
 const Profile = () => {
     let [loader, setLoader] = useState(false);
@@ -137,16 +138,18 @@ const Profile = () => {
                   localStorage.setItem("userInfo",JSON.stringify(auth.currentUser))
                 })
               });
+        }).then(()=>{
+          setLoader(false)
         });       
       }
-      setLoader(false)
     };
     // ===== Crop Image End =====
 
      // ======= Modal Part Start ========
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -161,10 +164,10 @@ const Profile = () => {
   // ======= Modal Part End ========
 
   // ================ Post query===========
-
-
+let handlecoveropen = () =>{
+  console.log("cover popup open");
+}
  
-
     return (
     <>
         {loader &&
@@ -184,7 +187,7 @@ const Profile = () => {
         <Flex className="container">
             <Flex className="cover_photo">
                 <Images src="assets/images/profile_cover.jpg"/>
-                <button><BsFillCameraFill/><span>Edit Cover Photo</span></button>
+                <button onClick={handlecoveropen}><BsFillCameraFill/><span>Edit Cover Photo</span></button>
             </Flex>
             <Flex className="profile_photo_wrapper">
                 <Flex className="profile_photo_holder">
@@ -260,6 +263,7 @@ const Profile = () => {
                   </Flex>
                 </div>
             </Flex>
+            
             <Modal
                   open={open}
                   onClose={handleClose}

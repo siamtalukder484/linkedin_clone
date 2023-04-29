@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { useDispatch,useSelector } from 'react-redux'
 import {AiOutlineLike,AiFillLike} from "react-icons/ai"
 import {RiShareForwardLine} from 'react-icons/ri'
+import {BsThreeDotsVertical} from 'react-icons/bs'
 import {VscComment} from 'react-icons/vsc'
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 
@@ -54,15 +55,18 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
         <Flex className="profile_post_item">
             <Flex className="post_head">
                 <NavLink to="/profile">
-                <div className='post_owner_img'>
-                    <Images src={data.userData.userInfo.photoURL}/>
-                </div>
+                    <div className='post_owner_img'>
+                        <Images src={data.userData.userInfo.photoURL}/>
+                    </div>
                 </NavLink>
                 <div>
-                <NavLink to="/profile">
-                    <h4>{creatorname}</h4>
-                </NavLink>
-                <span className='post_date'>{postdate}</span>
+                    <NavLink to="/profile">
+                        <h4>{creatorname}</h4>
+                    </NavLink>
+                    <span className='post_date'>{postdate}</span>
+                </div>
+                <div className='profile_post_actions'>
+                    <BsThreeDotsVertical/>
                 </div>
             </Flex>
             <p>{posttext}</p>

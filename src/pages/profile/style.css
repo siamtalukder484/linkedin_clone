@@ -136,7 +136,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 111;
+    z-index: 9999;
 }
 .profile_body{
     padding-top: 30px;
@@ -300,6 +300,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    position: relative;
 }
 .post_date{
     font-size: 14px;
@@ -343,4 +344,24 @@
 }
 .like_btn.liked{
     color: #086FA4;
+}
+.profile_post_actions{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(209, 206, 206);
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.profile_post_actions svg{
+    color: rgb(92, 90, 90);
 }
