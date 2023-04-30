@@ -9,6 +9,9 @@ import {RiShareForwardLine} from 'react-icons/ri'
 import {BsThreeDotsVertical} from 'react-icons/bs'
 import {VscComment} from 'react-icons/vsc'
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const PostCard = ({posttext,creatorname,postdate,postid}) => {
 
@@ -50,6 +53,16 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
         });
     },[])
 
+
+//     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+//   const open = Boolean(anchorEl);
+//   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+//     setAnchorEl(event.currentTarget);
+//   };
+//   const handleClose = () => {
+//     setAnchorEl(null);
+//   };
+
   return (
     <>
         <Flex className="profile_post_item">
@@ -65,9 +78,13 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                     </NavLink>
                     <span className='post_date'>{postdate}</span>
                 </div>
-                <div className='profile_post_actions'>
+                <div 
+                    className='profile_post_actions' 
+                    
+                >
                     <BsThreeDotsVertical/>
                 </div>
+             
             </Flex>
             <p>{posttext}</p>
             <Flex className="post_actions_count">
