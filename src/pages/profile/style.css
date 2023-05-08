@@ -365,3 +365,9 @@
 .profile_post_actions svg{
     color: rgb(92, 90, 90);
 }
+.post_action_item{
+    padding: 7px 10px;
+}
+.post_action_item:hover{
+    background-color: #e6e3e3;
+}

@@ -62,7 +62,6 @@ const Profile = () => {
           setBiotext(arr)
       });
     },[])
-    console.log(bio.length);
     let handleBioEdit = ()=>{
       setIntrobox(true)
       setBio(biodata.biotext)

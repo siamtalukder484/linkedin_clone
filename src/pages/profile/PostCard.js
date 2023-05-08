@@ -9,11 +9,17 @@ import {RiShareForwardLine} from 'react-icons/ri'
 import {BsThreeDotsVertical} from 'react-icons/bs'
 import {VscComment} from 'react-icons/vsc'
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { ToastContainer, toast } from 'react-toastify';
 
 const PostCard = ({posttext,creatorname,postdate,postid}) => {
+    let [showMore, setShowMore] = useState(false);
+    let MAX_LENGTH = 200;
+
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
 
     let data= useSelector(state => state)
     let db = getDatabase()
@@ -54,17 +60,40 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
     },[])
 
 
-//     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-//   const open = Boolean(anchorEl);
-//   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
+const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  //post Delete Part
+  let handlePostDelete = () => {
+    remove(ref(db, 'post/'+ postid)).then(()=>{
+        toast("Pose Deleted..");
+    });
+    setAnchorEl(null);
+  }
+  //Post Edit Part
+  let handlePostEdit = () => {
+    console.log("post edit")
+  }
 
   return (
     <>
+        <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+        />
         <Flex className="profile_post_item">
             <Flex className="post_head">
                 <NavLink to="/profile">
@@ -80,13 +109,45 @@ const PostCard = ({posttext,creatorname,postdate,postid}) => {
                 </div>
                 <div 
                     className='profile_post_actions' 
-                    
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
                 >
                     <BsThreeDotsVertical/>
                 </div>
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <p className='post_action_item' onClick={handlePostEdit}>Edid</p>
+                    <p className='post_action_item' onClick={handlePostDelete}>Delete</p>
+                </Menu>
              
             </Flex>
+             {posttext.length>MAX_LENGTH
+             ?
+             showMore ? (
+                <>
+                    <p>{posttext}</p>
+                    <button onClick={toggleShowMore}>See Less</button>
+                </>
+            ) : (
+                <p>
+                    {posttext.substr(0, MAX_LENGTH)}
+                    {posttext.length > MAX_LENGTH && "..."}
+                    <button onClick={toggleShowMore}>See more</button>
+                </p>
+            )
+            :
             <p>{posttext}</p>
+        }
             <Flex className="post_actions_count">
                 <Flex className="likes_count">
                     <span>{like.length} Likes</span>
