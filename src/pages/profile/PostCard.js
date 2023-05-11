@@ -10,10 +10,24 @@ import {BsThreeDotsVertical} from 'react-icons/bs'
 import {VscComment} from 'react-icons/vsc'
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from 'react-toastify';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Title from '../../components/Title';
+import {RxCross2} from "react-icons/rx";
+import Button from '../../components/Button'
+import {BsEmojiSmile} from 'react-icons/bs'
+import EmojiPicker from 'emoji-picker-react';
 
-const PostCard = ({posttext,creatorname,postdate,postid}) => {
+const PostCard = ({posttext,creatorname, creatorid,postdate,postid}) => {
+
+    let [showemoji, setShowemoji] = useState(false);
+    let [post, setPost] = useState([])
+
+    const [open2, setOpen2] = React.useState(false);
+    const handleOpen2 = () => setOpen2(true);
+    const handleClose2 = () => setOpen2(false);
+    
     let [showMore, setShowMore] = useState(false);
     let MAX_LENGTH = 200;
 
@@ -77,8 +91,33 @@ const [anchorEl, setAnchorEl] = useState(null);
   }
   //Post Edit Part
   let handlePostEdit = () => {
-    console.log("post edit")
+    setOpen2(true)
+    setAnchorEl(null);
   }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 580,
+    bgcolor: 'background.paper',
+    border: '0',
+    boxShadow: 24,
+    p: 0,
+    borderRadius: 2,
+  };
+  let handleforgotexitbtn = () => {
+    setOpen2(false)
+    setShowemoji(false)
+  }
+  let handleEmoji = (e) => {
+    setPost(post + e.emoji)
+  }
+  let handleUpdatePost = () =>{
+    console.log("post update");
+  }
+  
 
   return (
     <>
@@ -117,6 +156,8 @@ const [anchorEl, setAnchorEl] = useState(null);
                 >
                     <BsThreeDotsVertical/>
                 </div>
+                {creatorid == data.userData.userInfo.uid
+                ?
                 <Menu
                     id="basic-menu"
                     anchorEl={anchorEl}
@@ -129,6 +170,20 @@ const [anchorEl, setAnchorEl] = useState(null);
                     <p className='post_action_item' onClick={handlePostEdit}>Edid</p>
                     <p className='post_action_item' onClick={handlePostDelete}>Delete</p>
                 </Menu>
+                :
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <p className='post_action_item'>Close</p>
+                    <p className='post_action_item'>Report</p>
+                </Menu>
+                }
              
             </Flex>
              {posttext.length>MAX_LENGTH
@@ -183,6 +238,52 @@ const [anchorEl, setAnchorEl] = useState(null);
                 </div>
             </Flex>
         </Flex>
+                <Modal
+                    open={open2}
+                    onClose={handleClose2}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                > 
+                    <Box sx={style}>
+                        <div className='create_post_head'>
+                            <Title className="create_post_title" title="Update Post"/>
+                            <Flex onClick={handleforgotexitbtn} className="forgot_exit_btn post_exit_btn">
+                                <RxCross2/>
+                            </Flex>
+                        </div>
+                        <div className='create_post_body'>
+                            <div className='post_creator'>
+                                <NavLink to="/profile">
+                                    <div className='post_owner_img'>
+                                        <Images src={data.userData.userInfo.photoURL}/>
+                                    </div>
+                                </NavLink>
+                                <div className='creator_name'>
+                                    <h3>{data.userData.userInfo.displayName}</h3>
+                                </div>
+                            </div>
+                            <div className='textarea_main'>
+                                <textarea onChange={(e)=>setPost(e.target.value)} value={posttext} placeholder="What's on your mind ?" className="post_input_text">
+                                </textarea>
+                                <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
+                                {showemoji &&
+                                    <div className='emoji_box'>
+                                        <EmojiPicker onEmojiClick={(e)=>handleEmoji(e)}/>
+                                    </div>
+                                }
+                            </div>
+                            {
+                                post != ""
+                                ?
+                                <Button onClick={handleUpdatePost} className="post_btn" title="Update Post"/>
+                                :
+                                <Button className="post_btn hide_post_btn" title="Update Post"/>
+                                
+                            }
+                           
+                        </div>
+                    </Box>
+                </Modal>
     </>
   )
 }

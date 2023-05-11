@@ -254,7 +254,7 @@ let handlecoveropen = () =>{
                     post.length > 0 
                     ?
                     post.map(item=>(
-                      <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
+                      <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} creatorid={item.whopostid} posttext={item.posttext}/>
                     ))
                     :
                     <h3>No Post Available</h3>

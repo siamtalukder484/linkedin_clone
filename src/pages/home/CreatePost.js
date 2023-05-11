@@ -24,9 +24,11 @@ import EmojiPicker from 'emoji-picker-react';
 const CreatePost = () => {
     const db = getDatabase();
     let data= useSelector(state => state)
+    
     const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   let [post, setPost] = useState([])
   let [loader, setLoader] = useState(false);
   let [showemoji, setShowemoji] = useState(false);
