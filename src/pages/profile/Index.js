@@ -37,7 +37,7 @@ const Profile = () => {
     let [biotext, setBiotext] = useState([])
 
 
-
+//Bio Operation Start Here
     let handleIntrosave =()=>{
       set(dbref(db, 'bio/'+data.userData.userInfo.uid), {
         whobioid: data.userData.userInfo.uid,
@@ -214,10 +214,11 @@ let handlecoveropen = () =>{
                     <h2>Intro</h2>
                     <Flex className="bio_box">
                         
-                        {introbox ?
+                        {introbox 
+                        ?
                           <>
                             <textarea onChange={(e)=>setBio(e.target.value)} value={bio ? bio.length > -1 ? bio :  biodata.biotext : ""} className='intro_input'></textarea>
-                            <h6 className='character_count'>{90-bio.length} characters remaining</h6>
+                            <h6 className='character_count'>{90- bio.length} characters remaining</h6>
                             <div className='intro_footer'>
                               <div className='bio_public'>
                                 <FaGlobeAmericas/>
@@ -225,7 +226,7 @@ let handlecoveropen = () =>{
                               </div>
                               <div className="intro_btn_wrapper">
                                 <Button className="intro_cancel_btn" onClick={()=>setIntrobox(false)} title="Cancel"></Button>
-                                {bio.length > 90 
+                                {bio && bio.length > 90 
                                 ?
                                 <Button className="intro_cancel_btn save" title="Save"></Button>
                                 :
@@ -242,7 +243,7 @@ let handlecoveropen = () =>{
                                 <p value={item.biotext}>{item.biotext}</p>
                               ))
                             }
-                            <Button onClick={handleBioEdit} className="bio_btn" title="Edit Bio"/>
+                            <Button onClick={handleBioEdit} className="bio_btn" title="Add Bio"/>
                           </>
                         }
                     </Flex>
@@ -254,7 +255,7 @@ let handlecoveropen = () =>{
                     post.length > 0 
                     ?
                     post.map(item=>(
-                      <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} creatorid={item.whopostid} posttext={item.posttext}/>
+                      <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} creatorid={item.whopostid} posttext={item.posttext} item={item}/>
                     ))
                     :
                     <h3>No Post Available</h3>

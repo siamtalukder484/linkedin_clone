@@ -8,7 +8,7 @@ import {AiOutlineLike,AiFillLike} from "react-icons/ai"
 import {RiShareForwardLine} from 'react-icons/ri'
 import {BsThreeDotsVertical} from 'react-icons/bs'
 import {VscComment} from 'react-icons/vsc'
-import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
+import { getDatabase, ref, onValue, set, push,remove, update} from "firebase/database";
 import Menu from '@mui/material/Menu';
 import { ToastContainer, toast } from 'react-toastify';
 import Modal from '@mui/material/Modal';
@@ -19,10 +19,10 @@ import Button from '../../components/Button'
 import {BsEmojiSmile} from 'react-icons/bs'
 import EmojiPicker from 'emoji-picker-react';
 
-const PostCard = ({posttext,creatorname, creatorid,postdate,postid}) => {
+const PostCard = ({posttext,creatorname, creatorid,postdate,postid,item}) => {
 
     let [showemoji, setShowemoji] = useState(false);
-    let [post, setPost] = useState([])
+    let [post, setPost] = useState(posttext)
 
     const [open2, setOpen2] = React.useState(false);
     const handleOpen2 = () => setOpen2(true);
@@ -51,7 +51,6 @@ const PostCard = ({posttext,creatorname, creatorid,postdate,postid}) => {
     }
 
     let handleDisLike = (id)=>{
-        console.log(id)
         remove(ref(db, 'like/'+id)).then(()=>{
             console.log("Delete Hoise")
         })
@@ -85,12 +84,12 @@ const [anchorEl, setAnchorEl] = useState(null);
   //post Delete Part
   let handlePostDelete = () => {
     remove(ref(db, 'post/'+ postid)).then(()=>{
-        toast("Pose Deleted..");
+        toast("Post Deleted..");
     });
     setAnchorEl(null);
   }
   //Post Edit Part
-  let handlePostEdit = () => {
+  let handlePostEditBtn = () => {
     setOpen2(true)
     setAnchorEl(null);
   }
@@ -110,12 +109,18 @@ const [anchorEl, setAnchorEl] = useState(null);
   let handleforgotexitbtn = () => {
     setOpen2(false)
     setShowemoji(false)
+    setPost(posttext)
   }
   let handleEmoji = (e) => {
     setPost(post + e.emoji)
   }
   let handleUpdatePost = () =>{
-    console.log("post update");
+    update(ref(db, 'post/'+ postid),{
+        ...item,
+        posttext: post
+    }).then(()=>{
+        setOpen2(false)
+    });
   }
   
 
@@ -167,7 +172,7 @@ const [anchorEl, setAnchorEl] = useState(null);
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <p className='post_action_item' onClick={handlePostEdit}>Edid</p>
+                    <p className='post_action_item' onClick={handlePostEditBtn}>Edid</p>
                     <p className='post_action_item' onClick={handlePostDelete}>Delete</p>
                 </Menu>
                 :
@@ -263,7 +268,7 @@ const [anchorEl, setAnchorEl] = useState(null);
                                 </div>
                             </div>
                             <div className='textarea_main'>
-                                <textarea onChange={(e)=>setPost(e.target.value)} value={posttext} placeholder="What's on your mind ?" className="post_input_text">
+                                <textarea onChange={(e)=>setPost(e.target.value)} value={post} placeholder="What's on your mind ?" className="post_input_text">
                                 </textarea>
                                 <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
                                 {showemoji &&

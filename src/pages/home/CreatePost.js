@@ -36,6 +36,7 @@ const CreatePost = () => {
   let handleforgotexitbtn = () => {
     setOpen(false)
     setShowemoji(false)
+    setPost("")
   }
   let handlePost = () =>{
         setLoader(true)
