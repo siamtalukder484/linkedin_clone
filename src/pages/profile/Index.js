@@ -166,7 +166,7 @@ const Profile = () => {
 let handlecoveropen = () =>{
   console.log("cover popup open");
 }
- 
+
     return (
     <>
         {loader &&
@@ -189,25 +189,30 @@ let handlecoveropen = () =>{
                 <button onClick={handlecoveropen}><BsFillCameraFill/><span>Edit Cover Photo</span></button>
             </Flex>
             <Flex className="profile_photo_wrapper">
-                <Flex className="profile_photo_holder">
-                    {data.userData.userInfo
-                    ?
-                        data.userData.userInfo.photoURL
-                        ?
-                        <Images src={data.userData.userInfo.photoURL}/>
-                        :
-                        <Images src="assets/images/profile_avatar.png"/>    
-                    :
-                    <Images src="assets/images/profile_avatar.png"/>
-                    }
-                    <Flex onClick={handleOpen} className="profile_img_icon">
-                        <BsFillCameraFill/>
-                    </Flex>
-                </Flex>
-                <Flex className="profile_owner_name">
-                    <h2>{data.userData.userInfo?data.userData.userInfo.displayName:""}</h2>
-                    <h4>{friends.length} Friends</h4>
-                </Flex>
+                <div className='photo_and_name_wrapper'>
+                  <Flex className="profile_photo_holder">
+                      {data.userData.userInfo
+                      ?
+                          data.userData.userInfo.photoURL
+                          ?
+                          <Images src={data.userData.userInfo.photoURL}/>
+                          :
+                          <Images src="assets/images/profile_avatar.png"/>    
+                      :
+                      <Images src="assets/images/profile_avatar.png"/>
+                      }
+                      <Flex onClick={handleOpen} className="profile_img_icon">
+                          <BsFillCameraFill/>
+                      </Flex>
+                  </Flex>
+                  <Flex className="profile_owner_name">
+                      <h2>{data.userData.userInfo?data.userData.userInfo.displayName:""}</h2>
+                      <h4>{friends.length} Friends</h4>
+                  </Flex>
+                </div>
+                <div>
+                  <a href='#' className='profile_dashboard'>Dashboard</a>
+                </div>
             </Flex>
             <Flex className="profile_body">
                 <Flex className="profile_intro">
@@ -217,8 +222,8 @@ let handlecoveropen = () =>{
                         {introbox 
                         ?
                           <>
-                            <textarea onChange={(e)=>setBio(e.target.value)} value={bio ? bio.length > -1 ? bio :  biodata.biotext : ""} className='intro_input'></textarea>
-                            <h6 className='character_count'>{90- bio.length} characters remaining</h6>
+                            <textarea onChange={(e)=>setBio(e.target.value)} value={bio ? bio.length > -1 ? bio :  biodata.biotext : ""} className='intro_input' placeholder='Write Bio...'></textarea>
+                            <h6 className='character_count'>{bio && 90 - bio.length} characters remaining</h6>
                             <div className='intro_footer'>
                               <div className='bio_public'>
                                 <FaGlobeAmericas/>
@@ -230,8 +235,11 @@ let handlecoveropen = () =>{
                                 ?
                                 <Button className="intro_cancel_btn save" title="Save"></Button>
                                 :
-                                
-                                <Button className="intro_cancel_btn save_visible" onClick={handleIntrosave} title="Save"></Button>
+                                  bio && bio.length > 0
+                                  ?
+                                  <Button className="intro_cancel_btn save_visible" onClick={handleIntrosave} title="Save"></Button>
+                                  :
+                                  <Button className="intro_cancel_btn save" title="Save"></Button>
                                 }
                               </div>
                             </div>
@@ -243,7 +251,12 @@ let handlecoveropen = () =>{
                                 <p value={item.biotext}>{item.biotext}</p>
                               ))
                             }
+                            {biotext.length > 0
+                            ?
+                            <Button onClick={handleBioEdit} className="bio_btn" title="Edit Bio"/>
+                            :
                             <Button onClick={handleBioEdit} className="bio_btn" title="Add Bio"/>
+                            }
                           </>
                         }
                     </Flex>

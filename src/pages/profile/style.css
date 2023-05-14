@@ -55,7 +55,23 @@
 .profile_photo_wrapper{
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    margin: 0 55px 30px 55px;
+    justify-content: space-between;
+}
+.profile_dashboard{
+    background-color: rgba(8, 112, 164, 0.9);
+    text-transform: capitalize;
+    color: #fff;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.profile_dashboard:hover{
+    background-color: #086FA4;
 }
 .profile_photo_holder{
     width: 200px;
@@ -66,7 +82,6 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     border: 4px solid rgba(82, 61, 61, 0.668);
-    margin-left: 50px;
     overflow: hidden;
     margin-top: -30px;
     position: relative;
@@ -76,6 +91,10 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+}
+.photo_and_name_wrapper{
+    display: flex;
+    align-items: center;
 }
 .profile_img_icon{
     position: absolute;
@@ -371,4 +390,21 @@
 }
 .post_action_item:hover{
     background-color: #e6e3e3;
+}
+.see_more_btn{
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    color: #086FA4;
+    transition: all linear 0.3s;
+    -webkit-transition: all linear 0.3s;
+    -moz-transition: all linear 0.3s;
+    -ms-transition: all linear 0.3s;
+    -o-transition: all linear 0.3s;
+    padding: 0;
+    font-weight: 500;
+    cursor: pointer;
+}
+.see_more_btn:hover{
+    border-bottom: 1px solid #086FA4;
 }

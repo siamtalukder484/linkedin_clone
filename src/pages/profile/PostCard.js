@@ -21,6 +21,8 @@ import EmojiPicker from 'emoji-picker-react';
 
 const PostCard = ({posttext,creatorname, creatorid,postdate,postid,item}) => {
 
+   
+
     let [showemoji, setShowemoji] = useState(false);
     let [post, setPost] = useState(posttext)
 
@@ -196,13 +198,13 @@ const [anchorEl, setAnchorEl] = useState(null);
              showMore ? (
                 <>
                     <p>{posttext}</p>
-                    <button onClick={toggleShowMore}>See Less</button>
+                    <button onClick={toggleShowMore} className='see_more_btn'>See Less</button>
                 </>
             ) : (
                 <p>
                     {posttext.substr(0, MAX_LENGTH)}
                     {posttext.length > MAX_LENGTH && "..."}
-                    <button onClick={toggleShowMore}>See more</button>
+                    <button onClick={toggleShowMore} className='see_more_btn'>See more</button>
                 </p>
             )
             :
@@ -280,7 +282,11 @@ const [anchorEl, setAnchorEl] = useState(null);
                             {
                                 post != ""
                                 ?
-                                <Button onClick={handleUpdatePost} className="post_btn" title="Update Post"/>
+                                    post == posttext
+                                    ?
+                                    <Button className="post_btn hide_post_btn" title="Update Post"/>
+                                    :
+                                    <Button onClick={handleUpdatePost} className="post_btn" title="Update Post"/>
                                 :
                                 <Button className="post_btn hide_post_btn" title="Update Post"/>
                                 
