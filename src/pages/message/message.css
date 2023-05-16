@@ -26,6 +26,7 @@
     align-items: center;
     padding: 7px 10px;
     border-bottom: 1px solid #086FA4;
+    height: 50px;
 }
 .user_img_box{
     width: 35px;
@@ -86,4 +87,110 @@
 }
 .main_box.exit{
     display: none;
+}
+.box_body{
+    height: 360px;
+    width: 100%;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.send_mag{
+    margin-left: 40px;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 8px;
+    flex-basis: 10%;
+}
+.send_mag p{
+    text-align: right;
+    background-color: #086FA4;
+    color: #fff;
+    display: inline-block;
+    width: auto;
+    padding: 5px 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+   
+    line-height: 1.2;
+    text-align: justify;
+}
+.send_mag_action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: transparent;
+    /* opacity: 0; */
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    cursor: pointer;
+}
+.send_mag_action:hover{
+    background-color: #e4e1e1;
+}
+.send_mag:hover .send_mag_action{
+    opacity: 1;
+}
+.receive_mag{
+    text-align: left;
+    margin-right: 40px;
+    margin-top: 14px;
+}
+.receive_mag p{
+    text-align: left;
+    background-color: #e9e6e6;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    
+    line-height: 1.2;
+    text-align: justify;
+}
+
+.box_footer{
+    height: 50px;
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+}
+.media_box{
+    width: 80%;
+}
+.box_footer .input_box{
+    height: 100%;
+    border-radius: 5px;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    font-size: 16px;
+    background-color: #bbcbda;
+}
+.voice_box{
+    width: 10%;
+    height: 100%;
+    background-color: red;
+}
+.send_btn{
+    width: 10%;
+    height: 100%;
+    background-color: yellow;
 }

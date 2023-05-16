@@ -2,6 +2,7 @@ import React from 'react'
 import "./message.css"
 import {RxCross2} from "react-icons/rx"
 import {BiMinus} from "react-icons/bi"
+import {BsThreeDotsVertical} from "react-icons/bs"
 import { useState } from 'react'
 
 const Message = () => {
@@ -42,6 +43,55 @@ let handleExit = () => {
                     <div onClick={handleExit} className='msg_exit_btn'>
                         <RxCross2/>
                     </div>
+                </div>
+            </div>
+            <div className='box_body'>
+                <div className='send_mag'>
+                    <span className='send_mag_action'>
+                        <BsThreeDotsVertical/>
+                    </span>
+                    <p>send msg</p>
+                </div>
+                <div className='receive_mag'>
+                    <p>receive msg send msg send msg send msg send msg send msg send msg</p>
+                </div>
+                <div className='send_mag'>
+                    <span className='send_mag_action'>
+                        <BsThreeDotsVertical/>
+                    </span>
+                    <p>send msg send msg send msg send msg send msg send msg send msg</p>
+                </div>
+                <div className='receive_mag'>
+                    <p>receive send msg</p>
+                </div>
+                <div className='send_mag'>
+                    <span className='send_mag_action'>
+                        <BsThreeDotsVertical/>
+                    </span>
+                    <p>send msg</p>
+                </div>
+                <div className='receive_mag'>
+                    <p>receive msg send msg send msg send msg send msg send msg send msg</p>
+                </div>
+                <div className='send_mag'>
+                    <span className='send_mag_action'>
+                        <BsThreeDotsVertical/>
+                    </span>
+                    <p>send msg send msg send msg send msg send msg send msg send msg</p>
+                </div>
+                <div className='receive_mag'>
+                    <p>receive send msg</p>
+                </div>
+            </div>
+            <div className='box_footer'>
+                <div className='voice_box'>
+
+                </div>
+                <div className='media_box'>
+                    <input className='input_box'/>
+                </div>
+                <div className='send_btn'>
+                    <button>Send</button>
                 </div>
             </div>
         </div>
