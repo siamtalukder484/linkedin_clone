@@ -15,6 +15,7 @@ import FriendRequest from "./pages/user/FriendRequest";
 import Friends from "./pages/user/Friends";
 import BlockUser from "./pages/user/BlockUser";
 import MyModal from "./components/MyModal";
+import Message from "./pages/message/Message";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(createRoutesFromElements(
               <Route path="modal" element={<MyModal/>}></Route>
           </Route>
               <Route path="profile" element={<Profile/>}></Route>
+              <Route path="message" element={<Message/>}></Route>
       </Route>
     </Route>
 ))

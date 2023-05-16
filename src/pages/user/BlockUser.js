@@ -5,6 +5,7 @@ import Title from '../../components/Title'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import { useSelector, useDispatch } from 'react-redux';
 import Alert from '@mui/material/Alert';
+import { ToastContainer, toast } from 'react-toastify';
 
 const BlockUser = () => {
     let data = useSelector(state => state)
@@ -29,6 +30,22 @@ const BlockUser = () => {
         });
       }, []);
 
+    let handleUnblock = (item) =>{
+      set(push(ref(db, "friends")), {
+        sendername: item.block,
+        senderid: item.blockid,
+        receivername: data.userData.userInfo.displayName,
+        receiverid: data.userData.userInfo.uid,
+        date: `${new Date().getDate()}-${
+          new Date().getMonth() + 1
+        }-${new Date().getFullYear()}`,
+      }).then(() => {
+        remove(ref(db, "block/" + item.id)).then(() => {
+          toast("Unblock Done..");
+        });
+      });
+    }
+
   return (
     <>
     <Title className="suggest_user_title" title="Block User"/>
@@ -49,7 +66,7 @@ const BlockUser = () => {
                 </div>
                 <div className='f_req_btn_wrapper'>
                     <button className='add_btn delete'>Delete</button>
-                    <button className='add_btn'>Unblock</button>
+                    <button onClick={() => handleUnblock(item)} className='add_btn'>Unblock</button>
                 </div>
             </div>
         ))

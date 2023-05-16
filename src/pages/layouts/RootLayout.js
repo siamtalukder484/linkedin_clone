@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import "./layout.css"
 import Input from '../../components/Input'
 import { motion } from "framer-motion";
+import Message from '../message/Message'
 
 const variants = {
     open: { width: 400,opacity:1 },
@@ -50,6 +51,7 @@ const RootLayout = () => {
     })
   return (
     <>   
+        <Message/>
         <motion.div className='layout_sidebar' 
             variants={variants}
             animate={sidebarclick ? 'open' : 'close'}

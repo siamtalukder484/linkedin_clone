@@ -51,6 +51,10 @@ const Friends = () => {
         })
 }
 
+let handleMessage = () => {
+  
+}
+
   return (
     <>
       <Title className="suggest_user_title" title="Friends"/>
@@ -75,7 +79,7 @@ const Friends = () => {
                   </div>
               </div>
               <div className='f_req_btn_wrapper'>
-                  <button className='add_btn'>Message</button>
+                  <button onClick={handleMessage} className='add_btn'>Message</button>
                   <button onClick={()=>hundleBlock(item)} className='add_btn delete'>Block</button>
               </div>
           </div>
