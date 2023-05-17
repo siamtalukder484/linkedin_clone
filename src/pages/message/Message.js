@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./message.css"
 import {RxCross2} from "react-icons/rx"
 import {BiMinus} from "react-icons/bi"
 import {BsThreeDotsVertical} from "react-icons/bs"
 import { useState } from 'react'
+import { useSelector,useDispatch } from 'react-redux'
+import { activeUser } from '../../slices/activeChatSlice'
 
 const Message = () => {
+    let data = useSelector((state)=>state.activeChatUser.activeUser)
+    let dispatch = useDispatch();
 let [minimize, setMinimize] = useState(false)
 let [boxexit, setBoxexit] = useState(false)
 
@@ -16,7 +20,9 @@ let handleMinimize = () => {
         setMinimize(false)
     }
 }
+
 let handleExit = () => {
+    dispatch(activeUser(null))  
     if(boxexit == false){
         setBoxexit(true)
     }else{
@@ -32,7 +38,7 @@ let handleExit = () => {
                         <img/>
                     </div>
                     <div className='user_name'>
-                        <h3>Siam Talukder</h3>
+                        <h3>{data?data.sendername:""}</h3>
                         <p>Active now</p>
                     </div>
                 </div>
@@ -46,46 +52,73 @@ let handleExit = () => {
                 </div>
             </div>
             <div className='box_body'>
-                <div className='send_mag'>
-                    <span className='send_mag_action'>
-                        <BsThreeDotsVertical/>
-                    </span>
-                    <p>send msg</p>
+                <div className='send_msg'>
+                    <div className='send_text_box'>
+                        <span className='send_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg</p>
+                    </div>
                 </div>
-                <div className='receive_mag'>
-                    <p>receive msg send msg send msg send msg send msg send msg send msg</p>
+                <div className='receive_msg'>
+                    <div className='receive_text_box'>
+                        <span className='receive_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg</p>
+                    </div>
                 </div>
-                <div className='send_mag'>
-                    <span className='send_mag_action'>
-                        <BsThreeDotsVertical/>
-                    </span>
-                    <p>send msg send msg send msg send msg send msg send msg send msg</p>
+                <div className='send_msg'>
+                    <div className='send_text_box'>
+                        <span className='send_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>send msg</p>
+                    </div>
                 </div>
-                <div className='receive_mag'>
-                    <p>receive send msg</p>
+                <div className='receive_msg'>
+                    <div className='receive_text_box'>
+                        <span className='receive_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>receive msg</p>
+                    </div>
+                </div> 
+                <div className='send_msg'>
+                    <div className='send_text_box'>
+                        <span className='send_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg</p>
+                    </div>
                 </div>
-                <div className='send_mag'>
-                    <span className='send_mag_action'>
-                        <BsThreeDotsVertical/>
-                    </span>
-                    <p>send msg</p>
+                <div className='receive_msg'>
+                    <div className='receive_text_box'>
+                        <span className='receive_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg</p>
+                    </div>
                 </div>
-                <div className='receive_mag'>
-                    <p>receive msg send msg send msg send msg send msg send msg send msg</p>
+                <div className='send_msg'>
+                    <div className='send_text_box'>
+                        <span className='send_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>send msg</p>
+                    </div>
                 </div>
-                <div className='send_mag'>
-                    <span className='send_mag_action'>
-                        <BsThreeDotsVertical/>
-                    </span>
-                    <p>send msg send msg send msg send msg send msg send msg send msg</p>
-                </div>
-                <div className='receive_mag'>
-                    <p>receive send msg</p>
-                </div>
+                <div className='receive_msg'>
+                    <div className='receive_text_box'>
+                        <span className='receive_msg_action'>
+                            <BsThreeDotsVertical/>
+                        </span>
+                        <p>receive msg</p>
+                    </div>
+                </div> 
             </div>
             <div className='box_footer'>
                 <div className='voice_box'>
-
                 </div>
                 <div className='media_box'>
                     <input className='input_box'/>

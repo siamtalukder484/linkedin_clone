@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Title from '../../components/Title';
 import { ToastContainer, toast } from 'react-toastify';
 import Alert from '@mui/material/Alert';
+import { activeUser } from '../../slices/activeChatSlice';
+
 
 const Friends = () => {
   let data = useSelector(state => state)
@@ -51,8 +53,8 @@ const Friends = () => {
         })
 }
 
-let handleMessageBox = () => {
-  
+let handleMessageBox = (item) => {
+    dispatch(activeUser(item))  
 }
 
   return (
@@ -79,7 +81,7 @@ let handleMessageBox = () => {
                   </div>
               </div>
               <div className='f_req_btn_wrapper'>
-                  <button onClick={handleMessageBox} className='add_btn'>Message</button>
+                  <button onClick={()=>handleMessageBox(item)} className='add_btn'>Message</button>
                   <button onClick={()=>hundleBlock(item)} className='add_btn delete'>Block</button>
               </div>
           </div>

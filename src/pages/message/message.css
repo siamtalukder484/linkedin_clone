@@ -94,17 +94,34 @@
     padding: 10px;
     overflow-y: scroll;
 }
-
-.send_mag{
-    margin-left: 40px;
+.box_body::-webkit-scrollbar{
+    width: 8px;
+}
+.box_body::-webkit-scrollbar-thumb{
+    width: 8px;
+    height: 5px;
+    background-color: #086FA4;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.box_body::-webkit-scrollbar:horizontal{
+    height: 8px;
+}
+.send_msg{
     margin-top: 14px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     column-gap: 8px;
-    flex-basis: 10%;
 }
-.send_mag p{
+.send_text_box{
+    position: relative;
+    margin-left: 40px;
+}
+.send_msg p{
     text-align: right;
     background-color: #086FA4;
     color: #fff;
@@ -116,11 +133,10 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-   
     line-height: 1.2;
     text-align: justify;
 }
-.send_mag_action{
+.send_msg_action{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,38 +144,84 @@
     height: 24px;
     border-radius: 50%;
     background-color: transparent;
-    /* opacity: 0; */
+    opacity: 0;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     cursor: pointer;
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translate(-100%,-50%);
+    -webkit-transform: translate(-100%,-50%);
+    -moz-transform: translate(-100%,-50%);
+    -ms-transform: translate(-100%,-50%);
+    -o-transform: translate(-100%,-50%);
 }
-.send_mag_action:hover{
+.send_msg_action:hover{
     background-color: #e4e1e1;
 }
-.send_mag:hover .send_mag_action{
+.send_msg:hover .send_msg_action{
     opacity: 1;
 }
-.receive_mag{
-    text-align: left;
-    margin-right: 40px;
+.receive_msg{
     margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 8px;
 }
-.receive_mag p{
+.receive_text_box{
+    position: relative;
+    margin-right: 40px;
+}
+
+.receive_msg p{
     text-align: left;
-    background-color: #e9e6e6;
+    background-color: #e4e1e1;
     display: inline-block;
+    width: auto;
     padding: 5px 10px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-    
     line-height: 1.2;
     text-align: justify;
 }
+.receive_msg_action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: transparent;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translate(100%,-50%);
+    -webkit-transform: translate(100%,-50%);
+    -moz-transform: translate(100%,-50%);
+    -ms-transform: translate(100%,-50%);
+    -o-transform: translate(100%,-50%);
+    opacity: 0;
+}
+.receive_msg_action:hover{
+    background-color: #e4e1e1;
+}
+.receive_msg:hover .receive_msg_action{
+    opacity: 1;
+}
+
+
 
 .box_footer{
     height: 50px;
