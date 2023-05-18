@@ -3,15 +3,23 @@ import "./message.css"
 import {RxCross2} from "react-icons/rx"
 import {BiMinus} from "react-icons/bi"
 import {BsThreeDotsVertical} from "react-icons/bs"
+import {AiFillLike} from "react-icons/ai"
+import {RiSendPlane2Fill} from "react-icons/ri"
 import { useState } from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { activeUser } from '../../slices/activeChatSlice'
+import Images from '../../components/Images'
+import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 
 const Message = () => {
     let data = useSelector((state)=>state.activeChatUser.activeUser)
     let dispatch = useDispatch();
-let [minimize, setMinimize] = useState(false)
-let [boxexit, setBoxexit] = useState(false)
+    const db = getDatabase();
+    let [minimize, setMinimize] = useState(false)
+    let [boxexit, setBoxexit] = useState(false)
+    let [msg,setMsg] = useState([])
+    let [activeChat, setActiveChat] = useState([])
+    // console.log(msg)
 
 let handleMinimize = () => {
     if(minimize == false){
@@ -20,7 +28,6 @@ let handleMinimize = () => {
         setMinimize(false)
     }
 }
-
 let handleExit = () => {
     dispatch(activeUser(null))  
     if(boxexit == false){
@@ -29,6 +36,40 @@ let handleExit = () => {
         setBoxexit(false)
     }
 }
+
+let handleActiveChat = () =>{
+    setActiveChat({data, msgstatus: "singlemsg"});  
+}
+
+//one by one msg operation
+let handleSendMsg = () => {
+    console.log(activeChat);
+    // if(msg.length > 0){
+    //   if(activeChat.msgstatus == "singlemsg"){
+    //     set(push(ref(db, 'onebyonemsg')), {
+    //       whosendid: data.userData.userInfo.uid,
+    //       whosendname: data.userData.userInfo.displayName,
+    //       whoreceivedid: data.userData.userInfo.uid == activeChat.senderid 
+    //         ?
+    //         activeChat.receiverid 
+    //         :
+    //         activeChat.senderid
+    //       ,
+    //       whoreceivedname: data.userData.userInfo.uid == activeChat.senderid 
+    //         ?
+    //         activeChat.receivername 
+    //         :
+    //         activeChat.sendername
+    //       , 
+    //       message: msg,
+    //       date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+    //     }).then(()=>{
+    //       setMsg("")
+    //     })
+    //   }
+    // }
+  }
+
   return (
     <>
         <div className={boxexit ? "main_box exit" : minimize ? "main_box close" : "main_box"}>
@@ -73,7 +114,7 @@ let handleExit = () => {
                         <span className='send_msg_action'>
                             <BsThreeDotsVertical/>
                         </span>
-                        <p>send msg</p>
+                        <Images className="send_msg_img" src="assets/images/profile_avatar.png"/>
                     </div>
                 </div>
                 <div className='receive_msg'>
@@ -121,10 +162,19 @@ let handleExit = () => {
                 <div className='voice_box'>
                 </div>
                 <div className='media_box'>
-                    <input className='input_box'/>
+                    <input onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
                 </div>
                 <div className='send_btn'>
-                    <button>Send</button>
+                    {msg != "" 
+                      ?
+                      <div onClick={handleSendMsg} className='send_icon'>
+                          <RiSendPlane2Fill/>
+                      </div>
+                      :
+                      <div className='like_icon'>
+                          <AiFillLike/>
+                      </div>
+                    }
                 </div>
             </div>
         </div>

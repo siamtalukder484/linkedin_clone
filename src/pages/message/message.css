@@ -244,7 +244,7 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     font-size: 16px;
-    background-color: #bbcbda;
+    background-color: #e4e1e1;
 }
 .voice_box{
     width: 10%;
@@ -252,7 +252,28 @@
     background-color: red;
 }
 .send_btn{
-    width: 10%;
-    height: 100%;
-    background-color: yellow;
+    margin-left: 5px;
+}
+.send_icon, .like_icon{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    cursor: pointer;
+}
+.send_icon:hover, .like_icon:hover{
+    background-color: #e4e1e1;
+}
+.send_icon svg, .like_icon svg{
+    color: #086FA4;
+    font-size: 22px;
+}
+.send_msg_img{
+    width: 200px;
 }
