@@ -10,6 +10,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { activeUser } from '../../slices/activeChatSlice'
 import Images from '../../components/Images'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const Message = () => {
     
@@ -77,7 +78,7 @@ let handleSendMsg = () => {
         })
         setMsgList(arr)
     });
-},[msgList])
+},[data.activeChatUser.activeUser])
  
 
   return (
@@ -107,7 +108,7 @@ let handleSendMsg = () => {
                     </div>
                 </div>
             </div>
-            <div className='box_body'>
+            <ScrollToBottom className='box_body'>
                 {msgList.map((item)=>(
                      item.whosendid == data.userData.userInfo.uid
                      ?
@@ -140,7 +141,7 @@ let handleSendMsg = () => {
                         <Images className="send_msg_img" src="assets/images/profile_avatar.png"/>
                     </div>
                 </div> */}
-            </div>
+            </ScrollToBottom>
             <div className='box_footer'>
                 <div className='voice_box'>
                 </div>
