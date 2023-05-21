@@ -65,6 +65,36 @@ let handleSendMsg = () => {
         })
       }
   }
+
+  //Enter key press msg send
+    let handleKeyPress = (e) => {
+        if(e.key == "Enter"){
+            if(data.activeChatUser.activeUser.status == "singlemsg"){
+                set(push(ref(db, 'onebyonemsg')), {
+                  whosendid: data.userData.userInfo.uid,
+                  whosendname: data.userData.userInfo.displayName,
+                  whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+                    ?
+                    data.activeChatUser.activeUser.receiverid 
+                    :
+                    data.activeChatUser.activeUser.senderid
+                  ,
+                  whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+                    ?
+                    data.activeChatUser.activeUser.receivername 
+                    :
+                    data.activeChatUser.activeUser.sendername
+                  , 
+                  message: msg,
+                  date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+                }).then(()=>{
+                  setMsg("")
+                })
+              }
+        }
+    }
+
+
   useEffect(()=>{
     const starCountRef = ref(db, 'onebyonemsg');
     onValue(starCountRef, (snapshot) => {
@@ -129,9 +159,6 @@ let handleSendMsg = () => {
                                 <p>{item.message}</p>
                             </div>
                         </div>
-               
-                
-
                 ))}
                  {/* <div className='send_msg'>
                     <div className='send_text_box'>
@@ -146,7 +173,7 @@ let handleSendMsg = () => {
                 <div className='voice_box'>
                 </div>
                 <div className='media_box'>
-                    <input onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
+                    <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
                 </div>
                 <div className='send_btn'>
                     {msg != "" 
