@@ -54,7 +54,7 @@ const Friends = () => {
 }
 
 let handleMessageBox = (item) => {
-    dispatch(activeUser(item))  
+    dispatch(activeUser({...item, status:"singlemsg"}))
 }
 
   return (

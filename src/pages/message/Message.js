@@ -12,14 +12,15 @@ import Images from '../../components/Images'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 
 const Message = () => {
-    let data = useSelector((state)=>state.activeChatUser.activeUser)
+    
     let dispatch = useDispatch();
     const db = getDatabase();
+    let data = useSelector((state)=>state)
     let [minimize, setMinimize] = useState(false)
     let [boxexit, setBoxexit] = useState(false)
-    let [msg,setMsg] = useState([])
-    let [activeChat, setActiveChat] = useState([])
-    // console.log(msg)
+    let [msg,setMsg] = useState("")
+    let [msgList, setMsgList] = useState([])
+
 
 let handleMinimize = () => {
     if(minimize == false){
@@ -37,38 +38,47 @@ let handleExit = () => {
     }
 }
 
-let handleActiveChat = () =>{
-    setActiveChat({data, msgstatus: "singlemsg"});  
-}
 
 //one by one msg operation
 let handleSendMsg = () => {
-    console.log(activeChat);
-    // if(msg.length > 0){
-    //   if(activeChat.msgstatus == "singlemsg"){
-    //     set(push(ref(db, 'onebyonemsg')), {
-    //       whosendid: data.userData.userInfo.uid,
-    //       whosendname: data.userData.userInfo.displayName,
-    //       whoreceivedid: data.userData.userInfo.uid == activeChat.senderid 
-    //         ?
-    //         activeChat.receiverid 
-    //         :
-    //         activeChat.senderid
-    //       ,
-    //       whoreceivedname: data.userData.userInfo.uid == activeChat.senderid 
-    //         ?
-    //         activeChat.receivername 
-    //         :
-    //         activeChat.sendername
-    //       , 
-    //       message: msg,
-    //       date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
-    //     }).then(()=>{
-    //       setMsg("")
-    //     })
-    //   }
-    // }
+      if(data.activeChatUser.activeUser.status == "singlemsg"){
+        set(push(ref(db, 'onebyonemsg')), {
+          whosendid: data.userData.userInfo.uid,
+          whosendname: data.userData.userInfo.displayName,
+          whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+            ?
+            data.activeChatUser.activeUser.receiverid 
+            :
+            data.activeChatUser.activeUser.senderid
+          ,
+          whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+            ?
+            data.activeChatUser.activeUser.receivername 
+            :
+            data.activeChatUser.activeUser.sendername
+          , 
+          message: msg,
+          date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+        }).then(()=>{
+          setMsg("")
+        })
+      }
   }
+  useEffect(()=>{
+    const starCountRef = ref(db, 'onebyonemsg');
+    onValue(starCountRef, (snapshot) => {
+        let arr = []
+        let id = data.activeChatUser.activeUser.receiverid == data.userData.userInfo.uid ?
+            data.activeChatUser.activeUser.senderid : data.activeChatUser.activeUser.receiverid;
+        snapshot.forEach(item=>{
+          if((item.val().whosendid == data.userData.userInfo.uid && item.val().whoreceivedid == id) || (item.val().whosendid == id && item.val().whoreceivedid == data.userData.userInfo.uid)){
+            arr.push(item.val())  
+          }
+        })
+        setMsgList(arr)
+    });
+},[msgList])
+ 
 
   return (
     <>
@@ -79,7 +89,12 @@ let handleSendMsg = () => {
                         <img/>
                     </div>
                     <div className='user_name'>
-                        <h3>{data?data.sendername:""}</h3>
+                        {data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid
+                        ?
+                        <h3>{data.activeChatUser.activeUser.receivername}</h3>
+                        :
+                        <h3>{data.activeChatUser.activeUser.sendername}</h3>
+                        }
                         <p>Active now</p>
                     </div>
                 </div>
@@ -93,70 +108,38 @@ let handleSendMsg = () => {
                 </div>
             </div>
             <div className='box_body'>
-                <div className='send_msg'>
-                    <div className='send_text_box'>
-                        <span className='send_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg</p>
-                    </div>
-                </div>
-                <div className='receive_msg'>
-                    <div className='receive_text_box'>
-                        <span className='receive_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg</p>
-                    </div>
-                </div>
-                <div className='send_msg'>
+                {msgList.map((item)=>(
+                     item.whosendid == data.userData.userInfo.uid
+                     ?
+                        <div className='send_msg'>
+                            <div className='send_text_box'>
+                                <span className='send_msg_action'>
+                                    <BsThreeDotsVertical/>
+                                </span>
+                                <p>{item.message}</p>
+                            </div>
+                        </div>
+                     :
+                        <div className='receive_msg'>
+                            <div className='receive_text_box'>
+                                <span className='receive_msg_action'>
+                                    <BsThreeDotsVertical/>
+                                </span>
+                                <p>{item.message}</p>
+                            </div>
+                        </div>
+               
+                
+
+                ))}
+                 {/* <div className='send_msg'>
                     <div className='send_text_box'>
                         <span className='send_msg_action'>
                             <BsThreeDotsVertical/>
                         </span>
                         <Images className="send_msg_img" src="assets/images/profile_avatar.png"/>
                     </div>
-                </div>
-                <div className='receive_msg'>
-                    <div className='receive_text_box'>
-                        <span className='receive_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>receive msg</p>
-                    </div>
-                </div> 
-                <div className='send_msg'>
-                    <div className='send_text_box'>
-                        <span className='send_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg send msg</p>
-                    </div>
-                </div>
-                <div className='receive_msg'>
-                    <div className='receive_text_box'>
-                        <span className='receive_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg receive msg</p>
-                    </div>
-                </div>
-                <div className='send_msg'>
-                    <div className='send_text_box'>
-                        <span className='send_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>send msg</p>
-                    </div>
-                </div>
-                <div className='receive_msg'>
-                    <div className='receive_text_box'>
-                        <span className='receive_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <p>receive msg</p>
-                    </div>
-                </div> 
+                </div> */}
             </div>
             <div className='box_footer'>
                 <div className='voice_box'>

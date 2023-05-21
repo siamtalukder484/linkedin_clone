@@ -28,10 +28,8 @@ const RootLayout = () => {
     let navigate = useNavigate();
     let data= useSelector(state => state)
     let clickedUser = useSelector((state)=>state.activeChatUser.activeUser)
-    console.log(clickedUser);
     let [topstate, setTopState] = useState(false)
     let [sidebarclick, setSidebarclick] = useState(false)
-    // console.log(top)
 
     useEffect(()=>{
         if(!data.userData.userInfo){
