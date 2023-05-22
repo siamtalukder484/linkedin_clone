@@ -11,6 +11,8 @@ import { activeUser } from '../../slices/activeChatSlice'
 import Images from '../../components/Images'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import ScrollToBottom from 'react-scroll-to-bottom';
+import {BsEmojiSmile} from 'react-icons/bs'
+import EmojiPicker from 'emoji-picker-react';
 
 const Message = () => {
     
@@ -21,6 +23,7 @@ const Message = () => {
     let [boxexit, setBoxexit] = useState(false)
     let [msg,setMsg] = useState("")
     let [msgList, setMsgList] = useState([])
+    let [showemoji, setShowemoji] = useState(false);
 
 
 let handleMinimize = () => {
@@ -62,6 +65,7 @@ let handleSendMsg = () => {
           date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
         }).then(()=>{
           setMsg("")
+          setShowemoji(false)
         })
       }
   }
@@ -89,11 +93,37 @@ let handleSendMsg = () => {
                   date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
                 }).then(()=>{
                   setMsg("")
+                  setShowemoji(false)
                 })
               }
         }
     }
 
+    let handleSendLike = () => {
+        
+        if(data.activeChatUser.activeUser.status == "singlemsg"){
+            set(push(ref(db, 'onebyonemsg')), {
+              whosendid: data.userData.userInfo.uid,
+              whosendname: data.userData.userInfo.displayName,
+              whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+                ?
+                data.activeChatUser.activeUser.receiverid 
+                :
+                data.activeChatUser.activeUser.senderid
+              ,
+              whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+                ?
+                data.activeChatUser.activeUser.receivername 
+                :
+                data.activeChatUser.activeUser.sendername
+              , 
+              like: "&#128077;",
+              date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+            }).then(()=>{
+              setMsg("")
+            })
+          }
+    }
 
   useEffect(()=>{
     const starCountRef = ref(db, 'onebyonemsg');
@@ -110,6 +140,9 @@ let handleSendMsg = () => {
     });
 },[data.activeChatUser.activeUser])
  
+let handleEmoji = (e) => {
+    setMsg(msg + e.emoji)
+  }
 
   return (
     <>
@@ -147,7 +180,16 @@ let handleSendMsg = () => {
                                 <span className='send_msg_action'>
                                     <BsThreeDotsVertical/>
                                 </span>
+                                {item.message
+                                ?
                                 <p>{item.message}</p>
+                                :
+                                <p
+                                    dangerouslySetInnerHTML={{
+                                    __html: item.like,
+                                    }} className='msg_like_emoji'></p>
+                                }
+                                
                             </div>
                         </div>
                      :
@@ -174,6 +216,14 @@ let handleSendMsg = () => {
                 </div>
                 <div className='media_box'>
                     <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
+                    <div className='msg_emoji'>
+                        <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
+                        {showemoji &&
+                            <div className='msg_emoji_box'>
+                                <EmojiPicker onEmojiClick={(e)=>handleEmoji(e)}/>
+                            </div>
+                        }
+                    </div>
                 </div>
                 <div className='send_btn'>
                     {msg != "" 
@@ -182,7 +232,7 @@ let handleSendMsg = () => {
                           <RiSendPlane2Fill/>
                       </div>
                       :
-                      <div className='like_icon'>
+                      <div onClick={handleSendLike} className='like_icon'>
                           <AiFillLike/>
                       </div>
                     }
