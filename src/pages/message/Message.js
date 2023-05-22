@@ -12,7 +12,10 @@ import Images from '../../components/Images'
 import { getDatabase, ref, onValue,remove,set, push} from "firebase/database";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {BsEmojiSmile} from 'react-icons/bs'
+import {IoIosCall} from 'react-icons/io'
 import EmojiPicker from 'emoji-picker-react';
+
+
 
 const Message = () => {
     
@@ -144,6 +147,7 @@ let handleEmoji = (e) => {
     setMsg(msg + e.emoji)
   }
 
+  
   return (
     <>
         <div className={boxexit ? "main_box exit" : minimize ? "main_box close" : "main_box"}>
@@ -163,6 +167,9 @@ let handleEmoji = (e) => {
                     </div>
                 </div>
                 <div className='user_action'>
+                    <div className='audio_call'>
+                        <IoIosCall/>
+                    </div>
                     <div onClick={handleMinimize} className="msg_minimize_btn">
                         <BiMinus/>
                     </div>
@@ -223,8 +230,8 @@ let handleEmoji = (e) => {
                 <div className='voice_box'>
                     <div className='voice_plus_icon'>
                         <BsPlusCircleFill/>
-
                     </div>
+                
                 </div>
                 <div className='media_box'>
                     <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
