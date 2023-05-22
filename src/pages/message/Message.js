@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "./message.css"
 import {RxCross2} from "react-icons/rx"
 import {BiMinus} from "react-icons/bi"
-import {BsThreeDotsVertical} from "react-icons/bs"
+import {BsThreeDotsVertical,BsPlusCircleFill} from "react-icons/bs"
 import {AiFillLike} from "react-icons/ai"
 import {RiSendPlane2Fill} from "react-icons/ri"
 import { useState } from 'react'
@@ -221,6 +221,10 @@ let handleEmoji = (e) => {
             </ScrollToBottom>
             <div className='box_footer'>
                 <div className='voice_box'>
+                    <div className='voice_plus_icon'>
+                        <BsPlusCircleFill/>
+
+                    </div>
                 </div>
                 <div className='media_box'>
                     <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>

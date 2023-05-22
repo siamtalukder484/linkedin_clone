@@ -92,13 +92,12 @@
     height: 360px;
     width: 100%;
     padding: 10px;
-    overflow-y: scroll;
 }
-.box_body::-webkit-scrollbar{
-    width: 8px;
+.react-scroll-to-bottom--css-onmox-1n7m0yu::-webkit-scrollbar{
+    width: 5px;
 }
-.box_body::-webkit-scrollbar-thumb{
-    width: 8px;
+.react-scroll-to-bottom--css-onmox-1n7m0yu::-webkit-scrollbar-thumb{
+    width: 5px;
     height: 5px;
     background-color: #086FA4;
     border-radius: 5px;
@@ -248,16 +247,36 @@
     background-color: #e4e1e1;
 }
 .voice_box{
-    width: 10%;
     height: 100%;
-    background-color: red;
+    margin-right: 5px;
+    
+}
+.voice_plus_icon{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.voice_plus_icon svg{
+    color: #086FA4;
+    font-size: 20px;
+}
+.voice_plus_icon:hover{
+    background-color: #e4e1e1;
 }
 .send_btn{
     margin-left: 5px;
 }
 .send_icon, .like_icon{
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
