@@ -198,7 +198,15 @@ let handleEmoji = (e) => {
                                 <span className='receive_msg_action'>
                                     <BsThreeDotsVertical/>
                                 </span>
+                                {item.message
+                                ?
                                 <p>{item.message}</p>
+                                :
+                                <p
+                                    dangerouslySetInnerHTML={{
+                                    __html: item.like,
+                                    }} className='msg_like_emoji'></p>
+                                }
                             </div>
                         </div>
                 ))}
