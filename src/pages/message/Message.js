@@ -173,7 +173,7 @@ let handleEmoji = (e) => {
             </div>
             <ScrollToBottom className='box_body'>
                 {msgList.map((item)=>(
-                     item.whosendid == data.userData.userInfo.uid
+                    item.whosendid == data.userData.userInfo.uid
                      ?
                         <div className='send_msg'>
                             <div className='send_text_box'>
@@ -209,6 +209,7 @@ let handleEmoji = (e) => {
                                 }
                             </div>
                         </div>
+
                 ))}
                  {/* <div className='send_msg'>
                     <div className='send_text_box'>
