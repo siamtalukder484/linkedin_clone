@@ -15,6 +15,7 @@ const SuggestUser = () => {
     let [load,setLoad] = useState(false)
     let [frequest,setfreqest] = useState([])
     let [friends,setFriends] = useState([])
+    let [blocklist,setBlocklist] = useState([])
 
 
     useEffect(()=>{
@@ -22,14 +23,23 @@ const SuggestUser = () => {
         onValue(usersRef, (snapshot) => {
             let arr = []
             snapshot.forEach(item=>{
-                // if(item.val().receiverid == data.userData.userInfo.uid || item.val().senderid == data.userData.userInfo.uid){
-                    arr.push(item.val().receiverid + item.val().senderid)  
-                // }
+                arr.push(item.val().receiverid + item.val().senderid)  
             })
             setFriends(arr)
         });
     },[])
-    console.log(friends);
+
+    useEffect(()=>{
+        const usersRef = ref(db, 'block');
+        onValue(usersRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                arr.push(item.val().receiverid + item.val().senderid)  
+            })
+            setBlocklist(arr)
+        });
+    },[])
+    
 
     useEffect(()=>{
         const usersRef = ref(db, 'users');
@@ -46,7 +56,6 @@ const SuggestUser = () => {
             setUserlist(arr)
         });
     },[])
-    console.log(data);
 
     let handleFriendRequest = (info) =>{
         set(ref(db, 'friendrequest/'+info.id), {

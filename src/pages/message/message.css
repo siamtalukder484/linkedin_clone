@@ -62,7 +62,7 @@
     justify-content: flex-end;
     column-gap: 0;
 }
-.msg_exit_btn, .msg_minimize_btn{
+.msg_exit_btn, .msg_minimize_btn,.audio_call{
     cursor: pointer;
     background-color: transparent;
     width: 30px;
@@ -76,10 +76,10 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
 }
-.msg_exit_btn:hover,.msg_minimize_btn:hover{
+.msg_exit_btn:hover,.msg_minimize_btn:hover,.audio_call:hover{
     background-color: #cfcaca;
 }
-.msg_exit_btn svg, .msg_minimize_btn svg{
+.msg_exit_btn svg, .msg_minimize_btn svg, .audio_call svg{
     font-size: 20px;
 }
 .main_box.close{
@@ -227,8 +227,10 @@
     width: 100%;
     padding: 5px 10px;
     display: flex;
+    align-items: center;
 }
 .media_box{
+    height: 40px;
     width: 80%;
     position: relative;
 }
@@ -238,7 +240,7 @@
     width: 100%;
     outline: none;
     border: none;
-    padding: 0 25px 0 10px;
+    padding: 0 32px 0 10px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
@@ -249,7 +251,7 @@
 .voice_box{
     height: 100%;
     margin-right: 5px;
-    
+    height: 35px;
 }
 .voice_plus_icon{
     width: 35px;
@@ -300,7 +302,7 @@
 
 .media_box svg{
     position: absolute;
-    right: 4px;
+    right: 7px;
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
