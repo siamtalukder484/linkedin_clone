@@ -14,16 +14,22 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import {BsEmojiSmile} from 'react-icons/bs'
 import {IoIosCall} from 'react-icons/io'
 import EmojiPicker from 'emoji-picker-react';
+import { AudioRecorder } from 'react-audio-voice-recorder';
+import { getStorage, ref as sref, uploadBytes,getDownloadURL,uploadString  } from "firebase/storage";
+import { ToastContainer, toast } from 'react-toastify';
+// import Menu from '@mui/material/Menu';
 
 
 
 const Message = () => {
     
+    const storage = getStorage();
     let dispatch = useDispatch();
     const db = getDatabase();
     let data = useSelector((state)=>state)
     let [minimize, setMinimize] = useState(false)
     let [boxexit, setBoxexit] = useState(false)
+    let [mediabox,setMediobox] = useState(false)
     let [msg,setMsg] = useState("")
     let [msgList, setMsgList] = useState([])
     let [showemoji, setShowemoji] = useState(false);
@@ -147,6 +153,57 @@ let handleEmoji = (e) => {
     setMsg(msg + e.emoji)
   }
 
+  let handlemediabox = () => {
+      if(mediabox == true){
+        setMediobox(false)
+    }else{
+        setMediobox(true)
+    }
+  }
+  
+  //voice send operation
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    const audio = document.createElement("audio");
+    audio.src = url;
+    audio.controls = true;
+    document.body.appendChild(audio);
+    console.log(blob);
+  };
+
+  //Chat image send operation
+  let handleChatImg = (e) =>{
+    const storageRef = sref(storage, "singlechatimg/"+e.target.files[0].name);
+    uploadBytes(storageRef, e.target.files[0]).then((snapshot) => {
+      getDownloadURL(storageRef).then((downloadURL) => {
+
+        if(data.activeChatUser.activeUser.status == "singlemsg"){
+          set(push(ref(db, 'onebyonemsg')), {
+            whosendid: data.userData.userInfo.uid,
+            whosendname: data.userData.userInfo.displayName,
+            whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid
+              ?
+              data.activeChatUser.activeUser.receiverid
+              :
+              data.activeChatUser.activeUser.senderid
+            ,
+            whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid
+              ?
+              data.activeChatUser.activeUser.receivername 
+              :
+              data.activeChatUser.activeUser.sendername
+            , 
+            onebyoneimg: downloadURL,
+            date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+          }).then(()=>{
+            setMsg("")
+          })
+        }
+      }).then(()=>{
+        toast("Image Sent Successfully..");
+      })
+    });
+  }
   
   return (
     <>
@@ -191,10 +248,14 @@ let handleEmoji = (e) => {
                                 ?
                                 <p>{item.message}</p>
                                 :
-                                <p
-                                    dangerouslySetInnerHTML={{
-                                    __html: item.like,
-                                    }} className='msg_like_emoji'></p>
+                                    item.onebyoneimg
+                                    ?
+                                    <img src={item.onebyoneimg}/>
+                                    :
+                                    <p
+                                        dangerouslySetInnerHTML={{
+                                        __html: item.like,
+                                        }} className='msg_like_emoji'></p>
                                 }
                                 
                             </div>
@@ -229,11 +290,35 @@ let handleEmoji = (e) => {
             </ScrollToBottom>
             <div className='box_footer'>
                 <div className='voice_box'>
-                    <div className='voice_plus_icon'>
+                    <div 
+                        className='voice_plus_icon'
+                        onClick={handlemediabox}
+                    >
                         <BsPlusCircleFill/>
                     </div>
-                
+                        {mediabox &&
+                        <div className='voice_modal'>
+                            <ul>
+                                <li>Voice</li>
+                                <li>Camera</li>
+                                <li>
+                                    File
+                                    <input onChange={handleChatImg} type='file' className='msg_send_file'/>
+                                </li>
+                            </ul>   
+                        </div>
+                        }
+                    
                 </div>
+                <AudioRecorder 
+                        onRecordingComplete={addAudioElement}
+                        audioTrackConstraints={{
+                            noiseSuppression: true,
+                            echoCancellation: true,
+                        }} 
+                        downloadOnSavePress={false}
+                        downloadFileExtension="mp3"
+                    />
                 <div className='media_box'>
                     <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
                     <div className='msg_emoji'>

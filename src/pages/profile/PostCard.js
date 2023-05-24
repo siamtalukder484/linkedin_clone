@@ -187,8 +187,8 @@ const [anchorEl, setAnchorEl] = useState(null);
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <p className='post_action_item'>Close</p>
-                    <p className='post_action_item'>Report</p>
+                    <p onClick={handleClose} className='post_action_item'>Close</p>
+                    <p onClick={handleClose} className='post_action_item'>Report</p>
                 </Menu>
                 }
              
