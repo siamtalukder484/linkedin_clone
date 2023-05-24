@@ -17,6 +17,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 import { getStorage, ref as sref, uploadBytes,getDownloadURL,uploadString  } from "firebase/storage";
 import { ToastContainer, toast } from 'react-toastify';
+import Camera from 'react-html5-camera-photo';
 // import Menu from '@mui/material/Menu';
 
 
@@ -33,6 +34,9 @@ const Message = () => {
     let [msg,setMsg] = useState("")
     let [msgList, setMsgList] = useState([])
     let [showemoji, setShowemoji] = useState(false);
+    let [isCamera, setisCamera] = useState(false)
+    let [imgviewmodal, setImgviewmodal] = useState(false)
+    let [chatimgfullview, setChatimgfullview] = useState()
 
 
 let handleMinimize = () => {
@@ -75,6 +79,7 @@ let handleSendMsg = () => {
         }).then(()=>{
           setMsg("")
           setShowemoji(false)
+          setMediobox(false)
         })
       }
   }
@@ -103,13 +108,13 @@ let handleSendMsg = () => {
                 }).then(()=>{
                   setMsg("")
                   setShowemoji(false)
+                  setMediobox(false)
                 })
               }
         }
     }
 
     let handleSendLike = () => {
-        
         if(data.activeChatUser.activeUser.status == "singlemsg"){
             set(push(ref(db, 'onebyonemsg')), {
               whosendid: data.userData.userInfo.uid,
@@ -129,7 +134,7 @@ let handleSendMsg = () => {
               like: "&#128077;",
               date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
             }).then(()=>{
-              setMsg("")
+              setMediobox(false)
             })
           }
     }
@@ -176,7 +181,6 @@ let handleEmoji = (e) => {
     const storageRef = sref(storage, "singlechatimg/"+e.target.files[0].name);
     uploadBytes(storageRef, e.target.files[0]).then((snapshot) => {
       getDownloadURL(storageRef).then((downloadURL) => {
-
         if(data.activeChatUser.activeUser.status == "singlemsg"){
           set(push(ref(db, 'onebyonemsg')), {
             whosendid: data.userData.userInfo.uid,
@@ -197,16 +201,68 @@ let handleEmoji = (e) => {
             date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
           }).then(()=>{
             setMsg("")
+            setMediobox(false)
           })
         }
       }).then(()=>{
-        toast("Image Sent Successfully..");
+        setMediobox(false)
       })
     });
   }
   
+  //Camera open and capture img send
+  let handleCameraClick = () => {
+    setisCamera(true)
+  }
+  function handleTakePhoto (dataUri) {
+    const storageRef = sref(storage, 'singlechatimg/'+ Date.now());
+    const message4 = dataUri;
+    uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+      getDownloadURL(storageRef).then((downloadURL) => {
+        if(data.activeChatUser.activeUser.status == "singlemsg"){
+          set(push(ref(db, 'onebyonemsg')), {
+            whosendid: data.userData.userInfo.uid,
+            whosendname: data.userData.userInfo.displayName,
+            whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+              ?
+              data.activeChatUser.activeUser.receiverid 
+              :
+              data.activeChatUser.activeUser.senderid
+            ,
+            whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+              ?
+              data.activeChatUser.activeUser.receivername 
+              :
+              data.activeChatUser.activeUser.sendername
+            , 
+            onebyoneimg: downloadURL,
+            date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
+          }).then(()=>{
+            setisCamera(false)
+          })
+        }
+      })
+    });
+  }
+  let handleimgfullview = (item) =>{
+    setChatimgfullview(item);
+    setImgviewmodal(true)
+  } 
+  let handlecancelimgmodal = () => {
+    setImgviewmodal(false)
+  }
+
   return (
     <>
+      {/* ==== chat img full view start ==== */}
+      {
+        imgviewmodal &&
+        <div className='chatimg_fullview'>
+            <img src={chatimgfullview}/>
+            <button onClick={handlecancelimgmodal}>Cancel</button>
+        </div>
+      }
+      {/* ==== chat img full view end ==== */}
         <div className={boxexit ? "main_box exit" : minimize ? "main_box close" : "main_box"}>
             <div className='box_head'>
                 <div className='user_info'>
@@ -250,7 +306,9 @@ let handleEmoji = (e) => {
                                 :
                                     item.onebyoneimg
                                     ?
-                                    <img src={item.onebyoneimg}/>
+                                    <div onClick={()=>handleimgfullview(item.onebyoneimg)} className='onebyoneimg'>
+                                      <img src={item.onebyoneimg}/>
+                                    </div>
                                     :
                                     <p
                                         dangerouslySetInnerHTML={{
@@ -270,7 +328,13 @@ let handleEmoji = (e) => {
                                 ?
                                 <p>{item.message}</p>
                                 :
-                                <p
+                                  item.onebyoneimg
+                                  ?
+                                  <div onClick={()=>handleimgfullview(item.onebyoneimg)} className='onebyoneimg'>
+                                    <img src={item.onebyoneimg}/>
+                                  </div>
+                                  :
+                                  <p
                                     dangerouslySetInnerHTML={{
                                     __html: item.like,
                                     }} className='msg_like_emoji'></p>
@@ -279,36 +343,40 @@ let handleEmoji = (e) => {
                         </div>
 
                 ))}
-                 {/* <div className='send_msg'>
-                    <div className='send_text_box'>
-                        <span className='send_msg_action'>
-                            <BsThreeDotsVertical/>
-                        </span>
-                        <Images className="send_msg_img" src="assets/images/profile_avatar.png"/>
-                    </div>
-                </div> */}
             </ScrollToBottom>
             <div className='box_footer'>
                 <div className='voice_box'>
-                    <div 
-                        className='voice_plus_icon'
-                        onClick={handlemediabox}
-                    >
+                    <div className='voice_plus_icon'onClick={handlemediabox}>
                         <BsPlusCircleFill/>
                     </div>
                         {mediabox &&
                         <div className='voice_modal'>
                             <ul>
                                 <li>Voice</li>
-                                <li>Camera</li>
+                                <li onClick={handleCameraClick}>Camera</li>
                                 <li>
                                     File
-                                    <input onChange={handleChatImg} type='file' className='msg_send_file'/>
+                                    <input multiple onChange={handleChatImg} type='file' className='msg_send_file'/>
                                 </li>
                             </ul>   
                         </div>
                         }
-                    
+                        {isCamera &&
+                          <div className='camera_main' style={{position:"absolute",left:0,top:0,}}>
+                            <button onClick={()=>setisCamera(false)} className='close_btn'>Close</button>
+                            <Camera
+                              onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+                              idealResolution = {{width: "90%", height: "100%"}}
+                              imageCompression = {0.97}
+                              isMaxResolution = {true}
+                              isImageMirror = {false}
+                              isSilentMode = {false}
+                              isDisplayStartCameraError = {false}
+                              isFullscreen = {true}
+                              sizeFactor = {1}
+                            />
+                          </div>
+                        }
                 </div>
                 <AudioRecorder 
                         onRecordingComplete={addAudioElement}
