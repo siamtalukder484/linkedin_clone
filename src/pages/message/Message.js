@@ -216,6 +216,8 @@ let handleEmoji = (e) => {
     setisCamera(true)
   }
   function handleTakePhoto (dataUri) {
+    setisCamera(false)
+            setMediobox(false)
     const storageRef = sref(storage, 'singlechatimg/'+ Date.now());
     const message4 = dataUri;
     uploadString(storageRef, message4, 'data_url').then((snapshot) => {
@@ -239,8 +241,8 @@ let handleEmoji = (e) => {
             onebyoneimg: downloadURL,
             date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
           }).then(()=>{
-            setisCamera(false)
-            setMediobox(false)
+            // setisCamera(false)
+            // setMediobox(false)
           })
         }
       })
