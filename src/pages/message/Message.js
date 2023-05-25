@@ -254,6 +254,22 @@ let handleEmoji = (e) => {
 
   return (
     <>
+         {isCamera &&
+            <div className='camera_main' style={{position:"absolute",left:0,top:0,}}>
+              <button onClick={()=>setisCamera(false)} className='close_btn'>Close</button>
+              <Camera
+                onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+                idealResolution = {{width: "90%", height: "100%"}}
+                imageCompression = {0.97}
+                isMaxResolution = {true}
+                isImageMirror = {false}
+                isSilentMode = {false}
+                isDisplayStartCameraError = {false}
+                isFullscreen = {true}
+                sizeFactor = {1}
+              />
+            </div>
+          }
       {/* ==== chat img full view start ==== */}
       {
         imgviewmodal &&
@@ -360,22 +376,6 @@ let handleEmoji = (e) => {
                                 </li>
                             </ul>   
                         </div>
-                        }
-                        {isCamera &&
-                          <div className='camera_main' style={{position:"absolute",left:0,top:0,}}>
-                            <button onClick={()=>setisCamera(false)} className='close_btn'>Close</button>
-                            <Camera
-                              onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
-                              idealResolution = {{width: "90%", height: "100%"}}
-                              imageCompression = {0.97}
-                              isMaxResolution = {true}
-                              isImageMirror = {false}
-                              isSilentMode = {false}
-                              isDisplayStartCameraError = {false}
-                              isFullscreen = {true}
-                              sizeFactor = {1}
-                            />
-                          </div>
                         }
                 </div>
                 <AudioRecorder 

@@ -355,11 +355,20 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
     top: 0;
     opacity: 0;
 }
-
+.camera_main{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5555;
+    background-color: black;
+}
 .camera_main video{
-    /* width: 100% !important; */
+    width: 100% !important;
     height: 90vh !important;
     box-shadow: 0px 0px 11px 0px rgb(0 0 0 / 25%);
+    z-index: 5555;
 }
 .camera_main .close_btn{
     background-color: #086FA4;
