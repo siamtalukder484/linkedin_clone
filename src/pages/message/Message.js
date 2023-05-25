@@ -18,6 +18,7 @@ import { AudioRecorder } from 'react-audio-voice-recorder';
 import { getStorage, ref as sref, uploadBytes,getDownloadURL,uploadString  } from "firebase/storage";
 import { ToastContainer, toast } from 'react-toastify';
 import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 // import Menu from '@mui/material/Menu';
 
 
@@ -239,6 +240,7 @@ let handleEmoji = (e) => {
             date: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getMilliseconds()}`,
           }).then(()=>{
             setisCamera(false)
+            setMediobox(false)
           })
         }
       })
@@ -323,7 +325,7 @@ let handleEmoji = (e) => {
                                     item.onebyoneimg
                                     ?
                                     <div onClick={()=>handleimgfullview(item.onebyoneimg)} className='onebyoneimg'>
-                                      <img src={item.onebyoneimg}/>
+                                      <img src={item.onebyoneimg} alt='img'/>
                                     </div>
                                     :
                                     <p
@@ -347,7 +349,7 @@ let handleEmoji = (e) => {
                                   item.onebyoneimg
                                   ?
                                   <div onClick={()=>handleimgfullview(item.onebyoneimg)} className='onebyoneimg'>
-                                    <img src={item.onebyoneimg}/>
+                                    <img src={item.onebyoneimg} alt='img'/>
                                   </div>
                                   :
                                   <p
