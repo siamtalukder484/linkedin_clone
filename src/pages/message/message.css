@@ -4,7 +4,7 @@
     height: 460px;
     position: fixed;
     right: 20px;
-    bottom: 0;
+    bottom: 20px;
     z-index: 1200;
     border-radius: 8px 8px 0 0;
     -webkit-border-radius: 8px 8px 0 0;
@@ -295,6 +295,13 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
     height: 35px;
     position: relative;
 }
+.box_footer .audio-recorder{
+    /* width: 35px;
+    height: 35px; */
+    margin-right: 5px;
+    justify-content: center;
+    align-items: center;
+}
 .voice_plus_icon{
     width: 35px;
     height: 35px;
@@ -308,6 +315,50 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
     justify-content: center;
     cursor: pointer;
     
+}
+
+.receive_msg audio::-webkit-media-controls-panel {
+     background-color: #e4e1e1 !important;
+     color: #fff; 
+}
+.receive_msg audio{
+    height: 45px;
+    width: 260px;
+}
+.send_msg audio::-webkit-media-controls-panel {
+     background-color: #086FA4 !important;
+     color: #fff !important;
+}
+.send_msg audio{
+    height: 45px;
+    color: #fff !important;
+    width: 260px;
+}
+.voice_send_wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 5px;
+    position: absolute;
+    bottom: 10px;
+}
+.voice_send_wrapper audio::-webkit-media-controls-panel{
+    background-color: #086FA4;
+}
+.voice_send_wrapper audio{
+    height: 45px;
+    margin: 0 auto;
+}
+.voice_send_wrapper button{
+    color: #fff;
+    background-color: #086FA4;
+    padding: 5px 8px;
+    border: none;
+}
+.voice_btn_wrapper{
+    display: flex;
+    justify-content: center;
+    column-gap: 8px;
 }
 .voice_plus_icon svg{
     color: #086FA4;

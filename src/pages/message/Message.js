@@ -37,6 +37,9 @@ const Message = () => {
     let [showemoji, setShowemoji] = useState(false);
     let [isCamera, setisCamera] = useState(false)
     let [imgviewmodal, setImgviewmodal] = useState(false)
+    let [voicebox, setVoicebox] = useState(true)
+    let [audiourl, setAudioUrl] = useState("");
+  let [blob, setBlob] = useState("");
     let [chatimgfullview, setChatimgfullview] = useState()
 
 
@@ -167,14 +170,44 @@ let handleEmoji = (e) => {
     }
   }
   
-  //voice send operation
+
   const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
     const audio = document.createElement("audio");
     audio.src = url;
     audio.controls = true;
-    document.body.appendChild(audio);
-    console.log(blob);
+    // document.body.appendChild(audio);
+    setAudioUrl(url);
+    setBlob(blob);
+  };
+  let handleAudioUpload = () => {
+    const audioStorageRef = sref(storage, 'voice/'+Date.now());
+    uploadBytes(audioStorageRef, blob).then((snapshot) => {
+      getDownloadURL(audioStorageRef).then((downloadURL) => {
+        set(push(ref(db, "onebyonemsg")), {
+          whosendid: data.userData.userInfo.uid,
+          whosendname: data.userData.userInfo.displayName,
+          whoreceivedid: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+              ?
+              data.activeChatUser.activeUser.receiverid 
+              :
+              data.activeChatUser.activeUser.senderid
+            ,
+            whoreceivedname: data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid 
+              ?
+              data.activeChatUser.activeUser.receivername 
+              :
+              data.activeChatUser.activeUser.sendername
+            , 
+          audio: downloadURL,
+          date: `${new Date().getFullYear()}-${
+            new Date().getMonth() + 1
+          }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+        }).then(() => {
+          setAudioUrl("");
+        });
+      });
+    });
   };
 
   //Chat image send operation
@@ -328,10 +361,14 @@ let handleEmoji = (e) => {
                                       <img src={item.onebyoneimg} alt='img'/>
                                     </div>
                                     :
-                                    <p
-                                        dangerouslySetInnerHTML={{
-                                        __html: item.like,
-                                        }} className='msg_like_emoji'></p>
+                                      item.audio
+                                      ?
+                                      <audio controls src={item.audio}></audio>
+                                      :
+                                      <p
+                                          dangerouslySetInnerHTML={{
+                                          __html: item.like,
+                                          }} className='msg_like_emoji'></p>
                                 }
                                 
                             </div>
@@ -352,10 +389,14 @@ let handleEmoji = (e) => {
                                     <img src={item.onebyoneimg} alt='img'/>
                                   </div>
                                   :
-                                  <p
-                                    dangerouslySetInnerHTML={{
-                                    __html: item.like,
-                                    }} className='msg_like_emoji'></p>
+                                    item.audio
+                                    ?
+                                    <audio controls src={item.audio}></audio>
+                                    :
+                                    <p
+                                      dangerouslySetInnerHTML={{
+                                      __html: item.like,
+                                      }} className='msg_like_emoji'></p>
                                 }
                             </div>
                         </div>
@@ -363,23 +404,28 @@ let handleEmoji = (e) => {
                 ))}
             </ScrollToBottom>
             <div className='box_footer'>
+              {
+                !audiourl &&
                 <div className='voice_box'>
                     <div className='voice_plus_icon'onClick={handlemediabox}>
                         <BsPlusCircleFill/>
                     </div>
-                        {mediabox &&
-                        <div className='voice_modal'>
-                            <ul>
-                                <li>Voice</li>
-                                <li onClick={handleCameraClick}>Camera</li>
-                                <li>
-                                    File
-                                    <input multiple onChange={handleChatImg} type='file' className='msg_send_file'/>
-                                </li>
-                            </ul>   
-                        </div>
-                        }
+                        {
+                          mediabox &&
+                          <div className='voice_modal'>
+                              <ul>
+                                  <li>Voice</li>
+                                  <li onClick={handleCameraClick}>Camera</li>
+                                  <li>
+                                      File
+                                      <input multiple onChange={handleChatImg} type='file' className='msg_send_file'/>
+                                  </li>
+                              </ul>   
+                          </div>
+                          }
                 </div>
+              }
+                {!audiourl &&
                 <AudioRecorder 
                         onRecordingComplete={addAudioElement}
                         audioTrackConstraints={{
@@ -389,29 +435,54 @@ let handleEmoji = (e) => {
                         downloadOnSavePress={false}
                         downloadFileExtension="mp3"
                     />
-                <div className='media_box'>
-                    <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
-                    <div className='msg_emoji'>
-                        <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
-                        {showemoji &&
-                            <div className='msg_emoji_box'>
-                                <EmojiPicker onEmojiClick={(e)=>handleEmoji(e)}/>
+                }
+                    { !audiourl &&
+                      <>
+                        <div className='media_box'>
+                            <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
+                            <div className='msg_emoji'>
+                                <BsEmojiSmile onClick={()=>setShowemoji(!showemoji)}/>
+                                {showemoji &&
+                                    <div className='msg_emoji_box'>
+                                        <EmojiPicker onEmojiClick={(e)=>handleEmoji(e)}/>
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
-                </div>
-                <div className='send_btn'>
-                    {msg != "" 
-                      ?
-                      <div onClick={handleSendMsg} className='send_icon'>
-                          <RiSendPlane2Fill/>
-                      </div>
-                      :
-                      <div onClick={handleSendLike} className='like_icon'>
-                          <AiFillLike/>
-                      </div>
+                        </div>
+                        <div className='send_btn'>
+                            {msg != "" 
+                              ?
+                              <div onClick={handleSendMsg} className='send_icon'>
+                                  <RiSendPlane2Fill/>
+                              </div>
+                              :
+                              <div onClick={handleSendLike} className='like_icon'>
+                                  <AiFillLike/>
+                              </div>
+                            }
+                        </div>
+                      </>
                     }
-                </div>
+                    {audiourl && (
+                      <div className="voice_send_wrapper">
+                        <audio controls src={audiourl}></audio>
+                        <div className='voice_btn_wrapper'>
+                            <button
+                              className=""
+                              onClick={() => setAudioUrl("")}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              onClick={handleAudioUpload}
+                              className=""
+                            >
+                              Send
+                            </button>
+                        </div>
+                      </div>
+                    )}
+
             </div>
         </div>
     </>
