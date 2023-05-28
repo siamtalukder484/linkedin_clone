@@ -436,7 +436,7 @@ let handleEmoji = (e) => {
                         downloadFileExtension="mp3"
                     />
                 }
-                    { !audiourl &&
+                    {!audiourl &&
                       <>
                         <div className='media_box'>
                             <input onKeyUp={handleKeyPress} onChange={(e)=>setMsg(e.target.value)} value={msg} className='input_box'/>
@@ -482,7 +482,6 @@ let handleEmoji = (e) => {
                         </div>
                       </div>
                     )}
-
             </div>
         </div>
     </>
