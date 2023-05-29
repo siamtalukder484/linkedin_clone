@@ -16,6 +16,10 @@ import Friends from "./pages/user/Friends";
 import BlockUser from "./pages/user/BlockUser";
 import MyModal from "./components/MyModal";
 import Message from "./pages/message/Message";
+import GroupPost from "./pages/group/GroupPost";
+import MyGroup from "./pages/group/MyGroup";
+import JoinedGroup from "./pages/group/JoinedGroup";
+import PendingGroup from "./pages/group/PendingGroup";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -27,15 +31,20 @@ const router = createBrowserRouter(createRoutesFromElements(
               <Route path="home" element={<Home/>}></Route>
               <Route path="video" element={<Video/>}></Route>
               <Route path="shop" element={<Shop/>}></Route>
-              <Route path="group" element={<Group/>}></Route>
+              <Route path="group" element={<Group/>}>
+                  <Route path="group-post" element={<GroupPost/>}></Route>
+                  <Route path="my-group" element={<MyGroup/>}></Route>
+                  <Route path="joined-group" element={<JoinedGroup/>}></Route>
+                  <Route path="pending-group" element={<PendingGroup/>}></Route>
+              </Route>
               <Route path="suggestuser" element={<SuggestUser/>}></Route>
               <Route path="friendrequest" element={<FriendRequest/>}></Route>
               <Route path="friends" element={<Friends/>}></Route>
               <Route path="block" element={<BlockUser/>}></Route>
               <Route path="modal" element={<MyModal/>}></Route>
           </Route>
-              <Route path="profile" element={<Profile/>}></Route>
-              <Route path="message" element={<Message/>}></Route>
+          <Route path="profile" element={<Profile/>}></Route>
+          <Route path="message" element={<Message/>}></Route>
       </Route>
     </Route>
 ))
