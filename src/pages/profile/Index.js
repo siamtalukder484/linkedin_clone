@@ -7,7 +7,7 @@ import "./style.css"
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
-import { getDatabase,ref as dbref, onValue,remove,set, push} from "firebase/database";
+import { getDatabase,ref as dbref, onValue,remove,set, push,update} from "firebase/database";
 import { getAuth, updateProfile } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import { activeUser } from '../../slices/userSlices';
@@ -135,9 +135,16 @@ const Profile = () => {
                   toast("Profile Picture Upload Successfully..");
                   dispatch(activeUser(auth.currentUser))
                   localStorage.setItem("userInfo",JSON.stringify(auth.currentUser))
+
+                  // update(ref(db, 'users/'+ data.userData.userInfo.uid),{
+                  //   profilephoto: downloadURL
+                  // });
+
                 })
               });
+              
         }).then(()=>{
+          
           setLoader(false)
         });       
       }
@@ -294,9 +301,9 @@ let handlecoveropen = () =>{
                                   ?
                                   <Images src={data.userData.userInfo.photoURL} className='profile_img'/>
                                   :
-                                  <Images src="assets/images/profile_avatar.png" className='profile_img'/>
+                                  <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/profile_photo%2Fprofile_avatar.png?alt=media&token=708a01aa-5a98-4b38-9a4a-deec271372e4&_gl=1*1q3gar5*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUzMjY1Ny4zNi4xLjE2ODU1MzI3MzEuMC4wLjA." className='profile_img'/>
                                 ) : (
-                                  <Images src="assets/images/profile_avatar.png" className='profile_img'/>
+                                  <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/profile_photo%2Fprofile_avatar.png?alt=media&token=708a01aa-5a98-4b38-9a4a-deec271372e4&_gl=1*1q3gar5*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUzMjY1Ny4zNi4xLjE2ODU1MzI3MzEuMC4wLjA." className='profile_img'/>
                                   
                               )
                             }

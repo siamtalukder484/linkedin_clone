@@ -115,6 +115,7 @@ const [anchorEl, setAnchorEl] = useState(null);
   let handleEmoji = (e) => {
     setPost(post + e.emoji)
   }
+  
   let handleUpdatePost = () =>{
     update(ref(db, 'post/'+ postid),{
         ...item,
