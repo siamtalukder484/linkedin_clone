@@ -21,7 +21,6 @@ import EmojiPicker from 'emoji-picker-react';
 
 const PostCard = ({posttext,creatorname, creatorid,postdate,postid,item}) => {
 
-   
 
     let [showemoji, setShowemoji] = useState(false);
     let [post, setPost] = useState(posttext)
@@ -142,13 +141,13 @@ const [anchorEl, setAnchorEl] = useState(null);
         />
         <Flex className="profile_post_item">
             <Flex className="post_head">
-                <NavLink to="/profile">
+                <NavLink to={'/profile/'+creatorid}>
                     <div className='post_owner_img'>
                         <Images src={data.userData.userInfo.photoURL}/>
                     </div>
                 </NavLink>
                 <div>
-                    <NavLink to="/profile">
+                    <NavLink to={'/profile/'+creatorid}>
                         <h4>{creatorname}</h4>
                     </NavLink>
                     <span className='post_date'>{postdate}</span>

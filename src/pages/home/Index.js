@@ -47,7 +47,7 @@ const Index = () => {
               post.length > 0
               ?
               post.map(item=>(
-                <PostCard postid={item.id} postdate={item.date} creatorname={item.whopostname} posttext={item.posttext}/>
+                <PostCard postid={item.id} postdate={item.date} creatorid={item.whopostid} creatorname={item.whopostname} posttext={item.posttext}/>
               ))
               :
               <h3>No Post Available..</h3>

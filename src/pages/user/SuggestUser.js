@@ -6,6 +6,7 @@ import Images from '../../components/Images';
 import { ToastContainer, toast } from 'react-toastify';
 import Title from '../../components/Title';
 import Alert from '@mui/material/Alert';
+import { NavLink } from 'react-router-dom';
 
 const SuggestUser = () => {
     let data = useSelector(state => state)
@@ -56,6 +57,7 @@ const SuggestUser = () => {
             setUserlist(arr)
         });
     },[])
+    console.log(userlist);
 
     let handleFriendRequest = (info) =>{
         set(ref(db, 'friendrequest/'+info.id), {
@@ -111,11 +113,15 @@ const SuggestUser = () => {
                 userlist.map(item=>(
                     <div className='suggest_user_item'>
                         <div className='suggest_user'>
-                            <div className='img_holder'>
-                                <Images/>
-                            </div>
+                            <NavLink to={'/profile/'+item.id}>
+                                <div className='img_holder'>
+                                    <Images/>
+                                </div>
+                            </NavLink>
                             <div className='suggest_user_info'>
-                                <h2>{item.displayName}</h2>
+                                <NavLink to={'/profile/'+item.id}>
+                                    <h2>{item.displayName}</h2>
+                                </NavLink>
                                 <p>{item.email}</p>
                             </div>
                         </div>

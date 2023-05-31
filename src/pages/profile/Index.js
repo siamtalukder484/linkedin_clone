@@ -276,7 +276,6 @@ let handlecoveropen = () =>{
                   </Flex>
                 </div>
             </Flex>
-            
             <Modal
                   open={open}
                   onClose={handleClose}
