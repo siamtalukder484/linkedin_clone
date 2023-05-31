@@ -6,6 +6,7 @@ import {BsFillCameraFill,BsGlobeAmericas} from "react-icons/bs";
 import { useSelector,useDispatch } from 'react-redux';
 import { getDatabase, ref, onValue, set, push,remove} from "firebase/database";
 import PostCard from './PostCard';
+import { activeUser } from '../../slices/activeChatSlice';
 
 const UserProfile = () => {
   
@@ -13,9 +14,11 @@ const UserProfile = () => {
   let data = useSelector(state => state)
   let [userlist,setUserlist] = useState([])
   let db = getDatabase()
+  let dispatch = useDispatch();
   let [friends, setfriends] = useState([])
   let [post, setPost] = useState([])
   let [biotext, setBiotext] = useState([])
+  let [guestuserName, setguestuserName] = useState("")
 
     useEffect(()=>{
       const usersRef = ref(db, 'users');
@@ -71,12 +74,22 @@ const UserProfile = () => {
     });
   },[])
 
+  useEffect(()=>{
+    userlist.map(item=>(
+      setguestuserName(item.displayName)
+    ))
+  })
+
+  let handleMessageBox = () => {
+    dispatch(activeUser({senderid: data.userData.userInfo.uid,receiverid: id, sendername: data.userData.userInfo.displayName,receivername:guestuserName, status:"singlemsg"}))
+}
+
 
   return (
     <>
     <Flex className="container">
         <Flex className="cover_photo">
-            <Images src="assets/images/profile_cover.jpg"/>
+            <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/cover_photo%2Fprofile_cover.jpg?alt=media&token=3ddad611-c652-400b-9984-855d2de82416&_gl=1*1jav6c3*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUyOTAzMS4zNS4xLjE2ODU1MjkxMjEuMC4wLjA."/>
         </Flex>
         <Flex className="profile_photo_wrapper">
             <div className='photo_and_name_wrapper'>
@@ -84,14 +97,15 @@ const UserProfile = () => {
                   <Images src="assets/images/profile_avatar.png"/>
               </Flex>
               <Flex className="profile_owner_name">
-                {userlist.map(item=>(
+                {/* {userlist.map(item=>(
                   <h2>{item.displayName}</h2>
-                ))}
+                ))} */}
+                <h2>{guestuserName}</h2>
                   <h4>{friends.length} Friends</h4>
               </Flex>
             </div>
             <div>
-              <a href='#' className='profile_dashboard'>Message</a>
+              <a onClick={handleMessageBox} className='profile_dashboard'>Message</a>
             </div>
         </Flex>
         <Flex className="profile_body">

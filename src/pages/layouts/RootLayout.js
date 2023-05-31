@@ -83,7 +83,7 @@ const RootLayout = () => {
         <Flex className={topstate ? "layout_main fixed":"layout_main"}>
             <Flex className="nav_logo">
                 <Link to="home">
-                    <Images src="./assets/images/logo.png"/>
+                    <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/logo%2Flogo.png?alt=media&token=e9eb73ee-6fbb-4b96-8346-aa8b441e3509&_gl=1*1kocr65*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUyOTAzMS4zNS4xLjE2ODU1Mjk0MzAuMC4wLjA."/>
                 </Link>
                 <Flex className="root_search_holder">
                     <Input type="text" placeholder="Search Here..." className="root_search"/>

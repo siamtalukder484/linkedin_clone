@@ -7,6 +7,7 @@ import Title from '../../components/Title';
 import { ToastContainer, toast } from 'react-toastify';
 import Alert from '@mui/material/Alert';
 import { activeUser } from '../../slices/activeChatSlice';
+import { NavLink } from 'react-router-dom';
 
 
 const Friends = () => {
@@ -27,6 +28,7 @@ const Friends = () => {
         setfriends(arr)
     });
   },[])
+  console.log(friends);
   let hundleBlock = (item) =>{
     data.userData.userInfo.uid == item.senderid 
     ?
@@ -67,15 +69,32 @@ let handleMessageBox = (item) => {
           friends.map(item=>(
           <div className='suggest_user_item'>
               <div className='suggest_user'>
-                  <div className='img_holder'>
-                      <Images/>
-                  </div>
+                    {
+                       data.userData.userInfo.uid == item.senderid
+                       ?
+                       <NavLink to={'/profile/'+item.receiverid}>
+                            <div className='img_holder'>
+                                <Images/>
+                            </div>
+                        </NavLink>
+                       : 
+                       <NavLink to={'/profile/'+item.senderid}>
+                            <div className='img_holder'>
+                                <Images/>
+                            </div>
+                        </NavLink>
+                    }
+                    
                   <div className='suggest_user_info'>
                         {data.userData.userInfo.uid == item.senderid 
                         ? 
-                            <h2>{item.receivername}</h2>
+                            <NavLink to={'/profile/'+item.receiverid}>
+                                <h2>{item.receivername}</h2>
+                            </NavLink>
                         :
-                            <h2>{item.sendername}</h2>
+                            <NavLink to={'/profile/'+item.senderid}>
+                                <h2>{item.sendername}</h2>
+                            </NavLink>
                         }
                       <p>{item.date}</p>
                   </div>

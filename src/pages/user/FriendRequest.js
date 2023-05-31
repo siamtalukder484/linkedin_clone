@@ -6,6 +6,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import Title from '../../components/Title';
 import Alert from '@mui/material/Alert';
+import { NavLink } from 'react-router-dom';
 
 const FriendRequest = () => {
     const db = getDatabase();
@@ -64,11 +65,15 @@ const FriendRequest = () => {
             frequest.map(item=>(
                 <div className='suggest_user_item'>
                     <div className='suggest_user'>
-                        <div className='img_holder'>
-                            <Images/>
-                        </div>
+                        <NavLink to={'/profile/'+item.senderid}>
+                            <div className='img_holder'>
+                                <Images/>
+                            </div>
+                        </NavLink>
                         <div className='suggest_user_info'>
-                            <h2>{item.sendername}</h2>
+                            <NavLink to={'/profile/'+item.senderid}>
+                                <h2>{item.sendername}</h2>
+                            </NavLink>
                             <p>{item.senderemail}</p>
                         </div>
                     </div>
