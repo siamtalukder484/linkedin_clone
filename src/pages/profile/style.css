@@ -408,3 +408,8 @@
 .see_more_btn:hover{
     border-bottom: 1px solid #086FA4;
 }
+.creator_name a{
+    color: #000;
+    display: block;
+    padding-bottom: 2px;
+}

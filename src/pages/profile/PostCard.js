@@ -147,7 +147,7 @@ const [anchorEl, setAnchorEl] = useState(null);
                         <Images src={data.userData.userInfo.photoURL}/>
                     </div>
                 </NavLink>
-                <div>
+                <div className='creator_name'>
                     <NavLink to={'/profile/'+creatorid}>
                         <h4>{creatorname}</h4>
                     </NavLink>
