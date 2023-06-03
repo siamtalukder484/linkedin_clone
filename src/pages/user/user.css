@@ -24,13 +24,20 @@
 .img_holder{
     width: 70px;
     height: 70px;
-    background-color: red;
+    background-color: #086FA4;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     overflow: hidden;
+    color: #fff;
+}
+.img_holder h3{
+    text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    text-transform: uppercase;
 }
 .img_holder img{
     width: 100%;

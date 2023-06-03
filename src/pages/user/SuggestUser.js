@@ -57,7 +57,7 @@ const SuggestUser = () => {
             setUserlist(arr)
         });
     },[])
-    console.log(userlist);
+
 
     let handleFriendRequest = (info) =>{
         set(ref(db, 'friendrequest/'+info.id), {
@@ -115,7 +115,8 @@ const SuggestUser = () => {
                         <div className='suggest_user'>
                             <NavLink to={'/profile/'+item.id}>
                                 <div className='img_holder'>
-                                    <Images/>
+                                    {/* <Images/> */}
+                                    <h3>{item.displayName[0]}</h3>
                                 </div>
                             </NavLink>
                             <div className='suggest_user_info'>
