@@ -4,6 +4,7 @@
     align-items: center;
     flex-direction: column;
     height: 100vh;
+    gap: 50px;
   }
   .error_main h1{
     font-size: 80px;
