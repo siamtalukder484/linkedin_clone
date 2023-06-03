@@ -21,12 +21,14 @@ import MyGroup from "./pages/group/MyGroup";
 import JoinedGroup from "./pages/group/JoinedGroup";
 import PendingGroup from "./pages/group/PendingGroup";
 import UserProfile from "./pages/profile/UserProfile";
+import Error404 from "./pages/error/Error404";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route>
       <Route path="/" element={<Login/>}></Route>
       <Route path="/registration" element={<Registration/>}></Route>
+      <Route path="*" element={<Error404/>}></Route>
       <Route element={<RootLayout/>}>
           <Route element={<HomeLayout/>}>
               <Route path="home" element={<Home/>}></Route>
