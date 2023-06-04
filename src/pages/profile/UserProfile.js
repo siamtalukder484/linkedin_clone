@@ -94,12 +94,10 @@ const UserProfile = () => {
         <Flex className="profile_photo_wrapper">
             <div className='photo_and_name_wrapper'>
               <Flex className="profile_photo_holder">
-                  <Images src="assets/images/profile_avatar.png"/>
+                    <h3>{guestuserName[0]}</h3>
+                  {/* <Images src="assets/images/profile_avatar.png"/> */}
               </Flex>
               <Flex className="profile_owner_name">
-                {/* {userlist.map(item=>(
-                  <h2>{item.displayName}</h2>
-                ))} */}
                 <h2>{guestuserName}</h2>
                   <h4>{friends.length} Friends</h4>
               </Flex>

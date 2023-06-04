@@ -31,13 +31,21 @@
 .user_img_box{
     width: 35px;
     height: 35px;
-    background-color: blue;
+    background-color: #086FA4;
     border-radius: 50%;
     overflow: hidden;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user_img_box h3{
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 20px;
 }
 .user_img_box img{
     width: 100%;

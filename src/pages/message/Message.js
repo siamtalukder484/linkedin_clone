@@ -318,7 +318,16 @@ let handleEmoji = (e) => {
             <div className='box_head'>
                 <div className='user_info'>
                     <div className='user_img_box'>
-                        <img/>
+                        {data.userData.userInfo.photoURL 
+                          ?
+                          <img src={data.userData.userInfo.photoURL}/>
+                          :
+                            data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid
+                            ?
+                            <h3>{data.activeChatUser.activeUser.receivername[0]}</h3>
+                            :
+                            <h3>{data.activeChatUser.activeUser.sendername[0]}</h3>
+                        }
                     </div>
                     <div className='user_name'>
                         {data.userData.userInfo.uid == data.activeChatUser.activeUser.senderid
