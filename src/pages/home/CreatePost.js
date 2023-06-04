@@ -95,7 +95,12 @@ const CreatePost = () => {
             <div className='post_input_group'>
                 <NavLink to="/profile">
                     <div className='post_owner_img'>
+                        {data.userData.userInfo.photoURL 
+                        ?
                         <Images src={data.userData.userInfo.photoURL}/>
+                        :
+                        <h3>{data.userData.userInfo.displayName[0]}</h3>
+                        }
                     </div>
                 </NavLink>
                 <div onClick={handleOpen} className='post_input_box'>

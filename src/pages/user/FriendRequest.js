@@ -67,7 +67,16 @@ const FriendRequest = () => {
                     <div className='suggest_user'>
                         <NavLink to={'/profile/'+item.senderid}>
                             <div className='img_holder'>
-                                <Images/>
+                                {data.userData.userInfo
+                                ?
+                                    data.userData.userInfo.photoURL
+                                    ?
+                                    <Images src={data.userData.userInfo.photoURL}/>
+                                    :
+                                    <h3>{item.sendername[0]}</h3>
+                                :
+                                <h3>{item.sendername[0]}</h3>
+                                }
                             </div>
                         </NavLink>
                         <div className='suggest_user_info'>

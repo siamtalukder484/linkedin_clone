@@ -234,6 +234,15 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     overflow: hidden;
+    background-color: #086FA4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.left_sidebar_navimg h3{
+    color: #fff;
+    font-size: 24px;
+    text-transform: uppercase;
 }
 .left_sidebar_navimg img{
     width: 100%;

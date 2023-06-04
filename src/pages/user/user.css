@@ -31,9 +31,10 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     overflow: hidden;
-    color: #fff;
+    
 }
 .img_holder h3{
+    color: #fff;
     text-align: center;
     line-height: 70px;
     font-size: 30px;

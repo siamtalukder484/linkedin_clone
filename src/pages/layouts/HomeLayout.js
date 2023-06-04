@@ -44,9 +44,9 @@ const HomeLayout = () => {
                               ?
                               <Images src={data.userData.userInfo.photoURL}/>
                               :
-                              <Images src="assets/images/profile_avatar.png"/>    
+                              <h3>{data.userData.userInfo.displayName[0]}</h3>  
                             :
-                            <Images src="assets/images/profile_avatar.png"/>
+                            <h3>{data.userData.userInfo.displayName[0]}</h3>
                             }
                           </div>
                           <h4>

@@ -144,7 +144,12 @@ const [anchorEl, setAnchorEl] = useState(null);
             <Flex className="post_head">
                 <NavLink to={'/profile/'+creatorid}>
                     <div className='post_owner_img'>
+                        {data.userData.userInfo.photoURL 
+                        ?
                         <Images src={data.userData.userInfo.photoURL}/>
+                        :
+                        <h3>{creatorname[0]}</h3>  
+                        }
                     </div>
                 </NavLink>
                 <div className='creator_name'>

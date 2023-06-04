@@ -120,9 +120,9 @@ const RootLayout = () => {
                         ?
                         <Images src={data.userData.userInfo.photoURL}/>
                         :
-                        <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/profile_photo%2Fprofile_avatar.png?alt=media&token=708a01aa-5a98-4b38-9a4a-deec271372e4&_gl=1*1q3gar5*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUzMjY1Ny4zNi4xLjE2ODU1MzI3MzEuMC4wLjA."/>    
+                        <h3>{data.userData.userInfo.displayName[0]}</h3>
                     :
-                    <Images src="https://firebasestorage.googleapis.com/v0/b/linkedin-clone-92170.appspot.com/o/profile_photo%2Fprofile_avatar.png?alt=media&token=708a01aa-5a98-4b38-9a4a-deec271372e4&_gl=1*1q3gar5*_ga*Mzg4MDcwNjM2LjE2ODA2NzU4NTg.*_ga_CW55HF8NVT*MTY4NTUzMjY1Ny4zNi4xLjE2ODU1MzI3MzEuMC4wLjA."/>
+                    <h3>{data.userData.userInfo.displayName[0]}</h3>
                     }
                 </Flex>
             </Flex>

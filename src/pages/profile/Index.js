@@ -204,9 +204,9 @@ let handlecoveropen = () =>{
                           ?
                           <Images src={data.userData.userInfo.photoURL}/>
                           :
-                          <Images src="assets/images/profile_avatar.png"/>    
+                          <h3>{data.userData.userInfo.displayName[0]}</h3>
                       :
-                      <Images src="assets/images/profile_avatar.png"/>
+                      <h3>{data.userData.userInfo.displayName[0]}</h3>
                       }
                       <Flex onClick={handleOpen} className="profile_img_icon">
                           <BsFillCameraFill/>
