@@ -267,7 +267,16 @@ const [anchorEl, setAnchorEl] = useState(null);
                             <div className='post_creator'>
                                 <NavLink to="/profile">
                                     <div className='post_owner_img'>
-                                        <Images src={data.userData.userInfo.photoURL}/>
+                                        {data.userData.userInfo
+                                        ?
+                                            data.userData.userInfo.photoURL
+                                            ?
+                                            <Images src={data.userData.userInfo.photoURL}/>
+                                            :
+                                            <h3>{data.userData.userInfo.displayName[0]}</h3>
+                                        :
+                                        <h3>{data.userData.userInfo.displayName[0]}</h3>
+                                        }
                                     </div>
                                 </NavLink>
                                 <div className='creator_name'>
