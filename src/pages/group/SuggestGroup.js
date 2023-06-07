@@ -31,6 +31,7 @@ const SuggestGroup = () => {
             grouptitle: item.grouptitle,
             whojoinid: data.userData.userInfo.uid,
             whojoinname: data.userData.userInfo.displayName,
+            whojoinemail: data.userData.userInfo.email,
             adminid: item.whocreateid,
             adminname: item.whocreatename,
             date: item.date,
@@ -52,7 +53,7 @@ const SuggestGroup = () => {
             pauseOnHover
             theme="dark"
         />
-        <Title className="suggest_user_title" title="My Group"/>
+        <Title className="suggest_user_title" title="Suggest Group"/>
         <div className='suggestuser_wrapper'>
             {suggestgrouplist.map(item=>(
                 <div className='suggest_user_item'>

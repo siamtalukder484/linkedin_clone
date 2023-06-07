@@ -22,6 +22,9 @@ const MyGroup = () => {
   const db = getDatabase();
   let data= useSelector(state => state)
   let [mygrouplist, setMygrouplist] = useState([])
+  let [groupname, setgroupname] = useState()
+  let [grlist, setGrlist] = useState([])
+  let [gmemberlist, setGmemberlist] = useState([])
 
   const [open, setOpen] = React.useState(false);
 //   const handleOpen = () => setOpen(true);
@@ -39,10 +42,50 @@ const MyGroup = () => {
     p: 0,
     borderRadius: 2,
   };
+
 const handleOpen = (item) => {
     setOpen(true)
-    console.log(item);
-}
+    setgroupname(item.groupname);
+        const starCountRef = dbref(db, 'grouprequest');
+        onValue(starCountRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(grdata=>{
+                if(grdata.val().groupid == item.id){
+                    arr.push({...grdata.val(),deleteid:grdata.key})  
+                }
+            })
+            setGrlist(arr)
+        });
+
+        const starCountRef2 = dbref(db, 'groupmembers');
+        onValue(starCountRef2, (snapshot) => {
+            let arr = []
+            snapshot.forEach(groupmember=>{
+                if(groupmember.val().groupid == item.id){
+                    arr.push({...groupmember.val(),deleteid:groupmember.key})  
+                }
+            })
+            setGmemberlist(arr)
+        });
+        console.log(gmemberlist);
+    };
+
+    let hundleGroupReqDelete = (item) =>{
+        remove(dbref(db, 'grouprequest/'+ item.deleteid)).then(()=>{
+            toast("Request removed..");
+        });
+    };
+    let hundleGroupReqAccept = (item) =>{
+        set(push(dbref(db, 'groupmembers')), {
+            ...item,
+            date:`${new Date().getDate()}-${new Date().getMonth()+1}-${new Date().getFullYear()}`
+          }).then(()=>{
+            remove(dbref(db, 'grouprequest/'+ item.deleteid)).then(()=>{
+                toast("Member Added Successfully..");
+            });
+          });
+    }
+
 
   // my group list operation
   useEffect(()=>{
@@ -144,20 +187,57 @@ const handleOpen = (item) => {
                     
           <Box sx={style}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <h1 className='groupmodal_name'>{groupname}</h1>
                 <Tabs className='tabs_wrapper' style={{justifyContent:"center"}} value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Pending Request" {...a11yProps(0)} />
                     <Tab label="Member" {...a11yProps(1)} />
                     <Tab label="Notification" {...a11yProps(2)} />
                 </Tabs>
                 <TabPanel value={value} index={0}>
-                    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                        <h1>One</h1>
-                    </List>
+                    <div className='group_pending_wrapper'>
+                       {grlist.length > 0 ? grlist.map(item=>(
+                            <div className='group_pending_main'> 
+                                <div className='member_info'>
+                                    <div className='member_img_holder'>
+                                        <img/>
+                                    </div>
+                                    <div className='member_details_holder'>
+                                        <h3>{item.whojoinname}</h3>
+                                        <p>{item.whojoinemail}</p>
+                                    </div>
+                                </div>
+                                <div className='member_actions'>
+                                    <button onClick={()=>hundleGroupReqAccept(item)}>Accept</button>
+                                    <button onClick={()=>hundleGroupReqDelete(item)} className='delete'>Delete</button>
+                                </div>
+                        </div>
+                       )):
+                            <h3>No Pending Request Available</h3>
+                       }
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                        <h1>Two</h1>
-                    </List>
+                    <div className='group_pending_wrapper'>
+                       {gmemberlist.length > 0 ? gmemberlist.map(item=>(
+                            <div className='group_pending_main'> 
+                                <div className='member_info'>
+                                    <div className='member_img_holder'>
+                                        <img/>
+                                    </div>
+                                    <div className='member_details_holder'>
+                                        <h3>{item.whojoinname}</h3>
+                                        <p>{item.whojoinemail}</p>
+                                    </div>
+                                </div>
+                                <div className='member_actions'>
+                                    
+                                    <button className='delete'>Block</button>
+                                </div>
+                        </div>
+                       )):
+                            <h3>No Pending Request Available</h3>
+                       }
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>

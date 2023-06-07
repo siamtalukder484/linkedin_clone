@@ -99,7 +99,7 @@ const RootLayout = () => {
                 <NavLink to="shop">
                     <BsShopWindow/>
                 </NavLink>
-                <NavLink to="group">
+                <NavLink to="group-post">
                     <HiUserGroup/>
                 </NavLink>
             </Flex>

@@ -65,3 +65,59 @@
 .tabs_wrapper .MuiTabs-flexContainer{
     justify-content: center;
 }
+.group_pending_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.groupmodal_name{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+    font-size: 30px;
+}
+.member_actions {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+}
+.group_pending_main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ebe8e3db;
+    border-radius: 5px;
+    padding: 10px;
+}
+.group_pending_main .member_info{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.member_img_holder{
+    width: 50px;
+    height: 50px;
+    background-color: #086FA4;
+    border-radius: 50%;
+}
+.member_actions button{
+    background-color: #086FA4;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.member_actions .delete{
+    background-color: red;
+}
+.member_details_holder h3{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+}
+.member_details_holder p{
+    font-size: 16px;
+    margin-top: 7px;
+}

@@ -35,7 +35,7 @@ const router = createBrowserRouter(createRoutesFromElements(
               <Route path="home" element={<Home/>}></Route>
               <Route path="video" element={<Video/>}></Route>
               <Route path="shop" element={<Shop/>}></Route>
-              <Route path="group" element={<Group/>}>
+              <Route element={<Group/>}>
                   <Route path="group-post" index element={<GroupPost/>}></Route>
                   <Route path="my-group" element={<MyGroup/>}></Route>
                   <Route path="joined-group" element={<JoinedGroup/>}></Route>
