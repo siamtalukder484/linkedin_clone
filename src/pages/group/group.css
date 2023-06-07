@@ -40,7 +40,7 @@
 }
 .group_nav a{
     padding: 8px 12px;
-    background-color: #b7babc;
+    background-color: #e0e1e2cf;
     color: #000;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -51,4 +51,17 @@
 .group_nav .active{
     background-color: #086FA4;
     color: #fff;
+}
+.add_btn.group{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: unset;
+    height: 30px;
+    width: 30px;
+    color: #fff;
+    border-radius: 50%;
+}
+.tabs_wrapper .MuiTabs-flexContainer{
+    justify-content: center;
 }

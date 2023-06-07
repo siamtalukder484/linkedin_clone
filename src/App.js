@@ -20,6 +20,7 @@ import GroupPost from "./pages/group/GroupPost";
 import MyGroup from "./pages/group/MyGroup";
 import JoinedGroup from "./pages/group/JoinedGroup";
 import PendingGroup from "./pages/group/PendingGroup";
+import SuggestGroup from "./pages/group/SuggestGroup";
 import UserProfile from "./pages/profile/UserProfile";
 import Error404 from "./pages/error/Error404";
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter(createRoutesFromElements(
                   <Route path="my-group" element={<MyGroup/>}></Route>
                   <Route path="joined-group" element={<JoinedGroup/>}></Route>
                   <Route path="pending-group" element={<PendingGroup/>}></Route>
+                  <Route path="suggest-group" element={<SuggestGroup/>}></Route>
               </Route>
               <Route path="suggestuser" element={<SuggestUser/>}></Route>
               <Route path="friendrequest" element={<FriendRequest/>}></Route>

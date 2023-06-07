@@ -12,10 +12,12 @@ import Images from '../../components/Images';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 
 const Group = () => {
 
   const db = getDatabase();
+  let navigate = useNavigate()
   let data= useSelector(state => state)
   let [groupName ,setGroupName] = useState({})
   let [groupTitle ,setGroupTitle] = useState({})
@@ -59,6 +61,7 @@ const Group = () => {
       setGroupName("")
       setGroupTitle("")
       setOpen(false)
+      navigate("my-group")
     })
   }
 
@@ -72,6 +75,9 @@ const Group = () => {
       <div className='group_nav'>
         <NavLink to="group-post">
             Post
+        </NavLink>
+        <NavLink to="suggest-group">
+          Suggest Group
         </NavLink>
         <NavLink to="my-group">
             My Group
