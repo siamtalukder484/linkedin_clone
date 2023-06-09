@@ -67,7 +67,6 @@ const handleOpen = (item) => {
             })
             setGmemberlist(arr)
         });
-        console.log(gmemberlist);
     };
 
     let hundleGroupReqDelete = (item) =>{

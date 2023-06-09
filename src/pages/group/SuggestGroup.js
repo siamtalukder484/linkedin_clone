@@ -10,6 +10,8 @@ const SuggestGroup = () => {
     const db = getDatabase();
     let data= useSelector(state => state)
     let [suggestgrouplist, setSuggestgrouplist] = useState([])
+    let [joinedgroup,setJoinedGroup] = useState([])
+    let [grouprequest,setGroupreqest] = useState([])
 
     useEffect(()=>{
         const starCountRef = dbref(db, 'group');
@@ -37,6 +39,32 @@ const SuggestGroup = () => {
             date: item.date,
         })
       }
+
+      useEffect(()=>{
+        const usersRef = dbref(db, 'groupmembers');
+        onValue(usersRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                if(item.val().whojoinid == data.userData.userInfo.uid){
+                    arr.push(item.val().whojoinid + item.val().groupid)
+                }
+            })
+            setJoinedGroup(arr)
+        });
+    },[])
+
+    useEffect(()=>{
+        const usersRef = dbref(db, 'grouprequest');
+        onValue(usersRef, (snapshot) => {
+            let arr = []
+            snapshot.forEach(item=>{
+                if(item.val().whojoinid == data.userData.userInfo.uid ){
+                    arr.push(item.val().whojoinid + item.val().groupid)
+                }
+            })
+            setGroupreqest(arr)
+        });
+    },[])
 
 
   return (
@@ -70,7 +98,17 @@ const SuggestGroup = () => {
                             <p>{item.grouptitle}</p>
                         </div>
                     </div>
-                        <button onClick={()=>handleJoinGroup(item)} className='add_btn friend'>Join</button>
+                    {
+                        joinedgroup.includes(data.userData.userInfo.uid + item.groupid) 
+                        ?
+                        <button className='add_btn friend'>Joined</button>
+                        :
+                            grouprequest.includes(data.userData.userInfo.uid + item.groupid ) 
+                            ? 
+                            <button className='add_btn friend'>Pending</button>
+                            :
+                            <button onClick={()=>handleJoinGroup(item)} className='add_btn friend'>Join</button>
+                    }
                 </div>
             ))
             }
