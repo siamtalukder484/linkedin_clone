@@ -23,6 +23,7 @@ import PendingGroup from "./pages/group/PendingGroup";
 import SuggestGroup from "./pages/group/SuggestGroup";
 import UserProfile from "./pages/profile/UserProfile";
 import Error404 from "./pages/error/Error404";
+import Demo from "./pages/error/Demo";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -51,6 +52,7 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route path="profile" element={<Profile/>}></Route>
           <Route path="profile/:id" element={<UserProfile/>}></Route>
           <Route path="message" element={<Message/>}></Route>
+          <Route path="demo" element={<Demo/>}></Route>
       </Route>
     </Route>
 ))
