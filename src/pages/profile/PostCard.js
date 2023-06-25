@@ -82,6 +82,7 @@ const [anchorEl, setAnchorEl] = useState(null);
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   //post Delete Part
   let handlePostDelete = () => {
     remove(ref(db, 'post/'+ postid)).then(()=>{
@@ -107,6 +108,7 @@ const [anchorEl, setAnchorEl] = useState(null);
     p: 0,
     borderRadius: 2,
   };
+
   let handleforgotexitbtn = () => {
     setOpen2(false)
     setShowemoji(false)
@@ -116,6 +118,7 @@ const [anchorEl, setAnchorEl] = useState(null);
     setPost(post + e.emoji)
   }
   
+  //post update operation
   let handleUpdatePost = () =>{
     update(ref(db, 'post/'+ postid),{
         ...item,
