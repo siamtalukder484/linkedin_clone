@@ -182,7 +182,7 @@ const [anchorEl, setAnchorEl] = useState(null);
                     'aria-labelledby': 'basic-button',
                     }}
                 >
-                    <p className='post_action_item' onClick={handlePostEditBtn}>Edid</p>
+                    <p className='post_action_item' onClick={handlePostEditBtn}>Edit</p>
                     <p className='post_action_item' onClick={handlePostDelete}>Delete</p>
                 </Menu>
                 :
