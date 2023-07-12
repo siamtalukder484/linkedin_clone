@@ -240,7 +240,7 @@ const handleOpen = (item) => {
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            <h1>Three</h1>
+                    <h3>No Notification</h3>
                     </List>
                 </TabPanel>
             </Box>
