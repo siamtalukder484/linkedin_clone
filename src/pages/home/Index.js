@@ -29,7 +29,7 @@ const Index = () => {
         onValue(starCountRef, (snapshot) => {
             let arr = []
             snapshot.forEach(item=>{
-              if(item.val().whopostid != data.userData.userInfo.uid){
+              if(item.val().whopostid !=  data.userData.userInfo && data.userData.userInfo.uid){
                 arr.push({...item.val(),id:item.key})
               }
             })

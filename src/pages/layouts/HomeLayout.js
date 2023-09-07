@@ -46,7 +46,7 @@ const HomeLayout = () => {
                               :
                               <h3>{data.userData.userInfo.displayName[0]}</h3>  
                             :
-                            <h3>{data.userData.userInfo.displayName[0]}</h3>
+                            <h3>{data.userData.userInfo && data.userData.userInfo.displayName[0]}</h3>
                             }
                           </div>
                           <h4>

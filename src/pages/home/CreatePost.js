@@ -95,17 +95,18 @@ const CreatePost = () => {
             <div className='post_input_group'>
                 <NavLink to="/profile">
                     <div className='post_owner_img'>
-                        {data.userData.userInfo.photoURL 
+                        {data.userData.userInfo &&
+                        data.userData.userInfo.photoURL 
                         ?
                         <Images src={data.userData.userInfo.photoURL}/>
                         :
-                        <h3>{data.userData.userInfo.displayName[0]}</h3>
+                        <h3>{data.userData.userInfo && data.userData.userInfo.displayName[0]}</h3>
                         }
                     </div>
                 </NavLink>
                 <div onClick={handleOpen} className='post_input_box'>
                     <span className='post_input_placeholder'>
-                        What's on your mind, {data.userData.userInfo.displayName}?
+                        What's on your mind, {data.userData.userInfo && data.userData.userInfo.displayName}?
                     </span>
                 </div>
             </div>
@@ -150,12 +151,12 @@ const CreatePost = () => {
                                             :
                                             <h3>{data.userData.userInfo.displayName[0]}</h3>
                                            : 
-                                           <h3>{data.userData.userInfo.displayName[0]}</h3>
+                                           <h3>{data.userData.userInfo && data.userData.userInfo.displayName[0]}</h3>
                                         }
                                     </div>
                                 </NavLink>
                                 <div className='creator_name'>
-                                    <h3>{data.userData.userInfo.displayName}</h3>
+                                    <h3>{data.userData.userInfo && data.userData.userInfo.displayName}</h3>
                                 </div>
                             </div>
                             <div className='textarea_main'>

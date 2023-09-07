@@ -36,6 +36,10 @@ const RootLayout = () => {
           navigate("/")
         }
       },[])
+
+   
+
+      console.log(data.userData.userInfo);
     let handleProfileClick = () =>{
         navigate("profile")
     }
@@ -118,11 +122,13 @@ const RootLayout = () => {
                     ?
                         data.userData.userInfo.photoURL
                         ?
+
+                        // <Images src="hello"/>
                         <Images src={data.userData.userInfo.photoURL}/>
                         :
                         <h3>{data.userData.userInfo.displayName[0]}</h3>
                     :
-                    <h3>{data.userData.userInfo.displayName[0]}</h3>
+                    <h3>{data.userData.userInfo && data.userData.userInfo.displayName[0]}</h3>
                     }
                 </Flex>
             </Flex>
