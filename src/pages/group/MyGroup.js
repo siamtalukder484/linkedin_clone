@@ -155,7 +155,7 @@ const handleOpen = (item) => {
         />
         <Title className="suggest_user_title" title="My Group"/>
         <div className='suggestuser_wrapper'>
-            {mygrouplist.map(item=>(
+            {mygrouplist.length > 0 ? mygrouplist.map(item=>(
                 <div className='suggest_user_item'>
                     <div className='suggest_user'>
                         <NavLink to="#">
@@ -175,6 +175,8 @@ const handleOpen = (item) => {
                         </button>
                 </div>
             ))
+            :
+            <h3>Not Available</h3>
             }
         </div>
         <Modal

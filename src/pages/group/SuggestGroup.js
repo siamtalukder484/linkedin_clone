@@ -83,7 +83,7 @@ const SuggestGroup = () => {
         />
         <Title className="suggest_user_title" title="Suggest Group"/>
         <div className='suggestuser_wrapper'>
-            {suggestgrouplist.map(item=>(
+            {suggestgrouplist.length > 0 ? suggestgrouplist.map(item=>(
                 <div className='suggest_user_item'>
                     <div className='suggest_user'>
                         <NavLink to="#">
@@ -111,6 +111,8 @@ const SuggestGroup = () => {
                     }
                 </div>
             ))
+            :
+            <h3>Not Available</h3>
             }
         </div>
         

@@ -1,8 +1,13 @@
 import React from 'react'
+import CreatePost from '../home/CreatePost'
+import PostCart from '../profile/PostCard'
 
 const GroupPost = () => {
   return (
-    <div>GroupPost</div>
+    <div className='home_wrapper'>
+      <CreatePost/>
+      {/* <PostCart/> */}
+    </div>
   )
 }
 
