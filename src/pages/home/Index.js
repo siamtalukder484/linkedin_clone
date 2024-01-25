@@ -11,7 +11,7 @@ import PostCard from '../profile/PostCard';
 
 const Index = () => {
 
-  let data= useSelector(state => state)
+  let data = useSelector(state => state)
   let dispatch = useDispatch()
   let navigate = useNavigate()
   const auth = getAuth();
